@@ -1,0 +1,5497 @@
+{
+  "ClassDefinition": {
+    "InterchangeObject": {
+      "Symbol": "InterchangeObject",
+      "Name": "InterchangeObject",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010100",
+      "Description": "",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "Component": {
+      "Symbol": "Component",
+      "Name": "Component",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010200",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "Segment": {
+      "Symbol": "Segment",
+      "Name": "Segment",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010300",
+      "Description": "",
+      "ParentClass": "Component",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "Event": {
+      "Symbol": "Event",
+      "Name": "Event",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010600",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "SourceReference": {
+      "Symbol": "SourceReference",
+      "Name": "SourceReference",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011000",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "TextClip": {
+      "Symbol": "TextClip",
+      "Name": "TextClip",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011200",
+      "Description": "",
+      "ParentClass": "SourceReference",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "TimecodeStream": {
+      "Symbol": "TimecodeStream",
+      "Name": "TimecodeStream",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011500",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "DefinitionObject": {
+      "Symbol": "DefinitionObject",
+      "Name": "DefinitionObject",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011a00",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "DescriptiveFramework": {
+      "Symbol": "DescriptiveFramework",
+      "Name": "DescriptiveFramework",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010401.00000000",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "DescriptiveObject": {
+      "Symbol": "DescriptiveObject",
+      "Name": "DescriptiveObject",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010400.00000000",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "EssenceDescriptor": {
+      "Symbol": "EssenceDescriptor",
+      "Name": "EssenceDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012400",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "FileDescriptor": {
+      "Symbol": "FileDescriptor",
+      "Name": "FileDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012500",
+      "Description": "",
+      "ParentClass": "EssenceDescriptor",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "PictureDescriptor": {
+      "Symbol": "PictureDescriptor",
+      "Name": "PictureDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012700",
+      "Description": "",
+      "ParentClass": "FileDescriptor",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "PhysicalDescriptor": {
+      "Symbol": "PhysicalDescriptor",
+      "Name": "PhysicalDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014900",
+      "Description": "",
+      "ParentClass": "EssenceDescriptor",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "Locator": {
+      "Symbol": "Locator",
+      "Name": "Locator",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013100",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "Package": {
+      "Symbol": "Package",
+      "Name": "Package",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013400",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "Track": {
+      "Symbol": "Track",
+      "Name": "Track",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013800",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "Parameter": {
+      "Symbol": "Parameter",
+      "Name": "Parameter",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013c00",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "SubDescriptor": {
+      "Symbol": "SubDescriptor",
+      "Name": "SubDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01015900",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "false",
+      "Type": "ClassDefinition"
+    },
+    "Transition": {
+      "Symbol": "Transition",
+      "Name": "Transition",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011700",
+      "Description": "",
+      "ParentClass": "Component",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "EdgeCode": {
+      "Symbol": "EdgeCode",
+      "Name": "EdgeCode",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010400",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "EssenceGroup": {
+      "Symbol": "EssenceGroup",
+      "Name": "EssenceGroup",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010500",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "CommentMarker": {
+      "Symbol": "CommentMarker",
+      "Name": "CommentMarker",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010800",
+      "Description": "",
+      "ParentClass": "Event",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "GPITrigger": {
+      "Symbol": "GPITrigger",
+      "Name": "GPITrigger",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010700",
+      "Description": "",
+      "ParentClass": "Event",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "DescriptiveMarker": {
+      "Symbol": "DescriptiveMarker",
+      "Name": "DescriptiveMarker",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014100",
+      "Description": "",
+      "ParentClass": "CommentMarker",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "Filler": {
+      "Symbol": "Filler",
+      "Name": "Filler",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010900",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "NestedScope": {
+      "Symbol": "NestedScope",
+      "Name": "NestedScope",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010b00",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "OperationGroup": {
+      "Symbol": "OperationGroup",
+      "Name": "OperationGroup",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010a00",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "Pulldown": {
+      "Symbol": "Pulldown",
+      "Name": "Pulldown",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010c00",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "ScopeReference": {
+      "Symbol": "ScopeReference",
+      "Name": "ScopeReference",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010d00",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "Selector": {
+      "Symbol": "Selector",
+      "Name": "Selector",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010e00",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "Sequence": {
+      "Symbol": "Sequence",
+      "Name": "Sequence",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01010f00",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "SourceClip": {
+      "Symbol": "SourceClip",
+      "Name": "SourceClip",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011100",
+      "Description": "",
+      "ParentClass": "SourceReference",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "DescriptiveClip": {
+      "Symbol": "DescriptiveClip",
+      "Name": "DescriptiveClip",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014500",
+      "Description": "",
+      "ParentClass": "SourceClip",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "HTMLClip": {
+      "Symbol": "HTMLClip",
+      "Name": "HTMLClip",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011300",
+      "Description": "",
+      "ParentClass": "TextClip",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "Timecode": {
+      "Symbol": "Timecode",
+      "Name": "Timecode",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011400",
+      "Description": "",
+      "ParentClass": "Segment",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "TimecodeStream12M": {
+      "Symbol": "TimecodeStream12M",
+      "Name": "TimecodeStream12M",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011600",
+      "Description": "",
+      "ParentClass": "TimecodeStream",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "ContentStorage": {
+      "Symbol": "ContentStorage",
+      "Name": "ContentStorage",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011800",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "ControlPoint": {
+      "Symbol": "ControlPoint",
+      "Name": "ControlPoint",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011900",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "CodecDefinition": {
+      "Symbol": "CodecDefinition",
+      "Name": "CodecDefinition",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011f00",
+      "Description": "",
+      "ParentClass": "DefinitionObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "ContainerDefinition": {
+      "Symbol": "ContainerDefinition",
+      "Name": "ContainerDefinition",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012000",
+      "Description": "",
+      "ParentClass": "DefinitionObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "DataDefinition": {
+      "Symbol": "DataDefinition",
+      "Name": "DataDefinition",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011b00",
+      "Description": "",
+      "ParentClass": "DefinitionObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "InterpolationDefinition": {
+      "Symbol": "InterpolationDefinition",
+      "Name": "InterpolationDefinition",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012100",
+      "Description": "",
+      "ParentClass": "DefinitionObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "KLVDataDefinition": {
+      "Symbol": "KLVDataDefinition",
+      "Name": "KLVDataDefinition",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014d00",
+      "Description": "",
+      "ParentClass": "DefinitionObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "OperationDefinition": {
+      "Symbol": "OperationDefinition",
+      "Name": "OperationDefinition",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011c00",
+      "Description": "",
+      "ParentClass": "DefinitionObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "ParameterDefinition": {
+      "Symbol": "ParameterDefinition",
+      "Name": "ParameterDefinition",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011d00",
+      "Description": "",
+      "ParentClass": "DefinitionObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "PluginDefinition": {
+      "Symbol": "PluginDefinition",
+      "Name": "PluginDefinition",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01011e00",
+      "Description": "",
+      "ParentClass": "DefinitionObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "TaggedValueDefinition": {
+      "Symbol": "TaggedValueDefinition",
+      "Name": "TaggedValueDefinition",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014c00",
+      "Description": "",
+      "ParentClass": "DefinitionObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "Dictionary": {
+      "Symbol": "Dictionary",
+      "Name": "Dictionary",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012200",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "EssenceData": {
+      "Symbol": "EssenceData",
+      "Name": "EssenceData",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012300",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "AIFCDescriptor": {
+      "Symbol": "AIFCDescriptor",
+      "Name": "AIFCDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012600",
+      "Description": "",
+      "ParentClass": "FileDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "DataEssenceDescriptor": {
+      "Symbol": "DataEssenceDescriptor",
+      "Name": "DataEssenceDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014300",
+      "Description": "",
+      "ParentClass": "FileDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "CDCIDescriptor": {
+      "Symbol": "CDCIDescriptor",
+      "Name": "CDCIDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012800",
+      "Description": "",
+      "ParentClass": "PictureDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "MPEGVideoDescriptor": {
+      "Symbol": "MPEGVideoDescriptor",
+      "Name": "MPEGVideoDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01015100",
+      "Description": "",
+      "ParentClass": "CDCIDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "RGBADescriptor": {
+      "Symbol": "RGBADescriptor",
+      "Name": "RGBADescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012900",
+      "Description": "",
+      "ParentClass": "PictureDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "HTMLDescriptor": {
+      "Symbol": "HTMLDescriptor",
+      "Name": "HTMLDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012a00",
+      "Description": "",
+      "ParentClass": "FileDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "MultipleDescriptor": {
+      "Symbol": "MultipleDescriptor",
+      "Name": "MultipleDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014400",
+      "Description": "",
+      "ParentClass": "FileDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "SoundDescriptor": {
+      "Symbol": "SoundDescriptor",
+      "Name": "SoundDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014200",
+      "Description": "",
+      "ParentClass": "FileDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "WAVEPCMDescriptor": {
+      "Symbol": "WAVEPCMDescriptor",
+      "Name": "WAVEPCMDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014800",
+      "Description": "",
+      "ParentClass": "SoundDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "AES3PCMDescriptor": {
+      "Symbol": "AES3PCMDescriptor",
+      "Name": "AES3PCMDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014700",
+      "Description": "",
+      "ParentClass": "WAVEPCMDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "TIFFDescriptor": {
+      "Symbol": "TIFFDescriptor",
+      "Name": "TIFFDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012b00",
+      "Description": "",
+      "ParentClass": "FileDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "WAVEDescriptor": {
+      "Symbol": "WAVEDescriptor",
+      "Name": "WAVEDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012c00",
+      "Description": "",
+      "ParentClass": "FileDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "FilmDescriptor": {
+      "Symbol": "FilmDescriptor",
+      "Name": "FilmDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012d00",
+      "Description": "",
+      "ParentClass": "EssenceDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "AuxiliaryDescriptor": {
+      "Symbol": "AuxiliaryDescriptor",
+      "Name": "AuxiliaryDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014e00",
+      "Description": "",
+      "ParentClass": "PhysicalDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "ImportDescriptor": {
+      "Symbol": "ImportDescriptor",
+      "Name": "ImportDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014a00",
+      "Description": "",
+      "ParentClass": "PhysicalDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "BWFImportDescriptor": {
+      "Symbol": "BWFImportDescriptor",
+      "Name": "BWFImportDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01015000",
+      "Description": "",
+      "ParentClass": "ImportDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "RecordingDescriptor": {
+      "Symbol": "RecordingDescriptor",
+      "Name": "RecordingDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014b00",
+      "Description": "",
+      "ParentClass": "PhysicalDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "TapeDescriptor": {
+      "Symbol": "TapeDescriptor",
+      "Name": "TapeDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012e00",
+      "Description": "",
+      "ParentClass": "EssenceDescriptor",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "Preface": {
+      "Symbol": "Preface",
+      "Name": "Preface",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01012f00",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "Identification": {
+      "Symbol": "Identification",
+      "Name": "Identification",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013000",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "KLVData": {
+      "Symbol": "KLVData",
+      "Name": "KLVData",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014000",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "NetworkLocator": {
+      "Symbol": "NetworkLocator",
+      "Name": "NetworkLocator",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013200",
+      "Description": "",
+      "ParentClass": "Locator",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "TextLocator": {
+      "Symbol": "TextLocator",
+      "Name": "TextLocator",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013300",
+      "Description": "",
+      "ParentClass": "Locator",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "CompositionPackage": {
+      "Symbol": "CompositionPackage",
+      "Name": "CompositionPackage",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013500",
+      "Description": "",
+      "ParentClass": "Package",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "MaterialPackage": {
+      "Symbol": "MaterialPackage",
+      "Name": "MaterialPackage",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013600",
+      "Description": "",
+      "ParentClass": "Package",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "SourcePackage": {
+      "Symbol": "SourcePackage",
+      "Name": "SourcePackage",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013700",
+      "Description": "",
+      "ParentClass": "Package",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "EventTrack": {
+      "Symbol": "EventTrack",
+      "Name": "EventTrack",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013900",
+      "Description": "",
+      "ParentClass": "Track",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "StaticTrack": {
+      "Symbol": "StaticTrack",
+      "Name": "StaticTrack",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013a00",
+      "Description": "",
+      "ParentClass": "Track",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "TimelineTrack": {
+      "Symbol": "TimelineTrack",
+      "Name": "TimelineTrack",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013b00",
+      "Description": "",
+      "ParentClass": "Track",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "ConstantValue": {
+      "Symbol": "ConstantValue",
+      "Name": "ConstantValue",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013d00",
+      "Description": "",
+      "ParentClass": "Parameter",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "VaryingValue": {
+      "Symbol": "VaryingValue",
+      "Name": "VaryingValue",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013e00",
+      "Description": "",
+      "ParentClass": "Parameter",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "RIFFChunk": {
+      "Symbol": "RIFFChunk",
+      "Name": "RIFFChunk",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01014f00",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    },
+    "TaggedValue": {
+      "Symbol": "TaggedValue",
+      "Name": "TaggedValue",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01013f00",
+      "Description": "",
+      "ParentClass": "InterchangeObject",
+      "IsConcrete": "true",
+      "Type": "ClassDefinition"
+    }
+  },
+  "PropertyDefinition": {
+    "ObjectClass": {
+      "Symbol": "ObjectClass",
+      "Name": "ObjectClass",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.01010000",
+      "Description": "",
+      "MemberOf": "InterchangeObject",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "257"
+    },
+    "LinkedGenerationID": {
+      "Symbol": "LinkedGenerationID",
+      "Name": "LinkedGenerationID",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200701.08000000",
+      "Description": "",
+      "MemberOf": "InterchangeObject",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "258"
+    },
+    "ComponentAttributes": {
+      "Symbol": "ComponentAttributes",
+      "Name": "ComponentAttributes",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.03010210.08000000",
+      "Description": "",
+      "MemberOf": "Component",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "517"
+    },
+    "ComponentLength": {
+      "Symbol": "ComponentLength",
+      "Name": "ComponentLength",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020201.01030000",
+      "Description": "",
+      "MemberOf": "Component",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "514"
+    },
+    "ComponentKLVData": {
+      "Symbol": "ComponentKLVData",
+      "Name": "ComponentKLVData",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03010210.04000000",
+      "Description": "",
+      "MemberOf": "Component",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "515"
+    },
+    "ComponentUserComments": {
+      "Symbol": "ComponentUserComments",
+      "Name": "ComponentUserComments",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.03020102.16000000",
+      "Description": "",
+      "MemberOf": "Component",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "516"
+    },
+    "ComponentDataDefinition": {
+      "Symbol": "ComponentDataDefinition",
+      "Name": "ComponentDataDefinition",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04070100.00000000",
+      "Description": "",
+      "MemberOf": "Component",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "513"
+    },
+    "EventComment": {
+      "Symbol": "EventComment",
+      "Name": "EventComment",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05300404.01000000",
+      "Description": "",
+      "MemberOf": "Event",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "1538"
+    },
+    "EventPosition": {
+      "Symbol": "EventPosition",
+      "Name": "EventPosition",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020103.03030000",
+      "Description": "",
+      "MemberOf": "Event",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "1537"
+    },
+    "SourcePackageID": {
+      "Symbol": "SourcePackageID",
+      "Name": "SourcePackageID",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010103.01000000",
+      "Description": "",
+      "MemberOf": "SourceReference",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "4353"
+    },
+    "SourceTrackID": {
+      "Symbol": "SourceTrackID",
+      "Name": "SourceTrackID",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010103.02000000",
+      "Description": "",
+      "MemberOf": "SourceReference",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "4354"
+    },
+    "ChannelIDs": {
+      "Symbol": "ChannelIDs",
+      "Name": "ChannelIDs",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.06010103.07000000",
+      "Description": "",
+      "MemberOf": "SourceReference",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "4355"
+    },
+    "MonoSourceTrackIDs": {
+      "Symbol": "MonoSourceTrackIDs",
+      "Name": "MonoSourceTrackIDs",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.06010103.08000000",
+      "Description": "",
+      "MemberOf": "SourceReference",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "4356"
+    },
+    "TimecodeStreamSampleRate": {
+      "Symbol": "TimecodeStreamSampleRate",
+      "Name": "TimecodeStreamSampleRate",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04040101.02010000",
+      "Description": "",
+      "MemberOf": "TimecodeStream",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "5633"
+    },
+    "TimecodeSource": {
+      "Symbol": "TimecodeSource",
+      "Name": "TimecodeSource",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04040201.00000000",
+      "Description": "",
+      "MemberOf": "TimecodeStream",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "5635"
+    },
+    "TimecodeStreamData": {
+      "Symbol": "TimecodeStreamData",
+      "Name": "TimecodeStreamData",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04070300.00000000",
+      "Description": "",
+      "MemberOf": "TimecodeStream",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "5634"
+    },
+    "DefinitionObjectIdentification": {
+      "Symbol": "DefinitionObjectIdentification",
+      "Name": "DefinitionObjectIdentification",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.01011503.00000000",
+      "Description": "",
+      "MemberOf": "DefinitionObject",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "6913"
+    },
+    "DefinitionObjectName": {
+      "Symbol": "DefinitionObjectName",
+      "Name": "DefinitionObjectName",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.01070102.03010000",
+      "Description": "",
+      "MemberOf": "DefinitionObject",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "6914"
+    },
+    "DefinitionObjectDescription": {
+      "Symbol": "DefinitionObjectDescription",
+      "Name": "DefinitionObjectDescription",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03020301.02010000",
+      "Description": "",
+      "MemberOf": "DefinitionObject",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "6915"
+    },
+    "SubDescriptors": {
+      "Symbol": "SubDescriptors",
+      "Name": "SubDescriptors",
+      "Identification": "urn:smpte:ul:060e2b34.01010109.06010104.06100000",
+      "Description": "",
+      "MemberOf": "EssenceDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12034"
+    },
+    "Locators": {
+      "Symbol": "Locators",
+      "Name": "Locators",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.06030000",
+      "Description": "",
+      "MemberOf": "EssenceDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12033"
+    },
+    "ContainerFormat": {
+      "Symbol": "ContainerFormat",
+      "Name": "ContainerFormat",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.01020000",
+      "Description": "",
+      "MemberOf": "FileDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12292"
+    },
+    "SampleRate": {
+      "Symbol": "SampleRate",
+      "Name": "SampleRate",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04060101.00000000",
+      "Description": "",
+      "MemberOf": "FileDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "12289"
+    },
+    "Codec": {
+      "Symbol": "Codec",
+      "Name": "Codec",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.01030000",
+      "Description": "",
+      "MemberOf": "FileDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12293"
+    },
+    "EssenceLength": {
+      "Symbol": "EssenceLength",
+      "Name": "EssenceLength",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04060102.00000000",
+      "Description": "",
+      "MemberOf": "FileDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "12290"
+    },
+    "LinkedTrackID": {
+      "Symbol": "LinkedTrackID",
+      "Name": "LinkedTrackID",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.06010103.05000000",
+      "Description": "",
+      "MemberOf": "FileDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12294"
+    },
+    "StoredF2Offset": {
+      "Symbol": "StoredF2Offset",
+      "Name": "StoredF2Offset",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010302.08000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12822"
+    },
+    "StoredWidth": {
+      "Symbol": "StoredWidth",
+      "Name": "StoredWidth",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010502.02000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "12803"
+    },
+    "DisplayYOffset": {
+      "Symbol": "DisplayYOffset",
+      "Name": "DisplayYOffset",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010501.0e000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12811"
+    },
+    "CodingEquations": {
+      "Symbol": "CodingEquations",
+      "Name": "CodingEquations",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010201.01030100",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12826"
+    },
+    "SampledYOffset": {
+      "Symbol": "SampledYOffset",
+      "Name": "SampledYOffset",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010501.0a000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12807"
+    },
+    "FrameLayout": {
+      "Symbol": "FrameLayout",
+      "Name": "FrameLayout",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010301.04000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "12812"
+    },
+    "PictureCompression": {
+      "Symbol": "PictureCompression",
+      "Name": "PictureCompression",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010601.00000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12801"
+    },
+    "ColorPrimaries": {
+      "Symbol": "ColorPrimaries",
+      "Name": "ColorPrimaries",
+      "Identification": "urn:smpte:ul:060e2b34.01010109.04010201.01060100",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12825"
+    },
+    "StoredHeight": {
+      "Symbol": "StoredHeight",
+      "Name": "StoredHeight",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010502.01000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "12802"
+    },
+    "DisplayF2Offset": {
+      "Symbol": "DisplayF2Offset",
+      "Name": "DisplayF2Offset",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010302.07000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12823"
+    },
+    "DisplayXOffset": {
+      "Symbol": "DisplayXOffset",
+      "Name": "DisplayXOffset",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010501.0d000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12810"
+    },
+    "TransferCharacteristic": {
+      "Symbol": "TransferCharacteristic",
+      "Name": "TransferCharacteristic",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010201.01010200",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12816"
+    },
+    "ImageAspectRatio": {
+      "Symbol": "ImageAspectRatio",
+      "Name": "ImageAspectRatio",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010101.01000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "12814"
+    },
+    "SampledXOffset": {
+      "Symbol": "SampledXOffset",
+      "Name": "SampledXOffset",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010501.09000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12806"
+    },
+    "ImageStartOffset": {
+      "Symbol": "ImageStartOffset",
+      "Name": "ImageStartOffset",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04180102.00000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12819"
+    },
+    "ImageEndOffset": {
+      "Symbol": "ImageEndOffset",
+      "Name": "ImageEndOffset",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04180103.00000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12820"
+    },
+    "ImageAlignmentFactor": {
+      "Symbol": "ImageAlignmentFactor",
+      "Name": "ImageAlignmentFactor",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04180101.00000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12817"
+    },
+    "AlphaTransparency": {
+      "Symbol": "AlphaTransparency",
+      "Name": "AlphaTransparency",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200102.00000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12815"
+    },
+    "DisplayWidth": {
+      "Symbol": "DisplayWidth",
+      "Name": "DisplayWidth",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010501.0c000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12809"
+    },
+    "FieldDominance": {
+      "Symbol": "FieldDominance",
+      "Name": "FieldDominance",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010301.06000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12818"
+    },
+    "SampledWidth": {
+      "Symbol": "SampledWidth",
+      "Name": "SampledWidth",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010501.08000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12805"
+    },
+    "SampledHeight": {
+      "Symbol": "SampledHeight",
+      "Name": "SampledHeight",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010501.07000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12804"
+    },
+    "ActiveFormatDescriptor": {
+      "Symbol": "ActiveFormatDescriptor",
+      "Name": "ActiveFormatDescriptor",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010302.09000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12824"
+    },
+    "SignalStandard": {
+      "Symbol": "SignalStandard",
+      "Name": "SignalStandard",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04050113.00000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12821"
+    },
+    "DisplayHeight": {
+      "Symbol": "DisplayHeight",
+      "Name": "DisplayHeight",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010501.0b000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "12808"
+    },
+    "VideoLineMap": {
+      "Symbol": "VideoLineMap",
+      "Name": "VideoLineMap",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010302.05000000",
+      "Description": "",
+      "MemberOf": "PictureDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "12813"
+    },
+    "PackageID": {
+      "Symbol": "PackageID",
+      "Name": "PackageID",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.01011510.00000000",
+      "Description": "",
+      "MemberOf": "Package",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "17409"
+    },
+    "PackageUserComments": {
+      "Symbol": "PackageUserComments",
+      "Name": "PackageUserComments",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03020102.0c000000",
+      "Description": "",
+      "MemberOf": "Package",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "17414"
+    },
+    "PackageLastModified": {
+      "Symbol": "PackageLastModified",
+      "Name": "PackageLastModified",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020110.02050000",
+      "Description": "",
+      "MemberOf": "Package",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "17412"
+    },
+    "PackageKLVData": {
+      "Symbol": "PackageKLVData",
+      "Name": "PackageKLVData",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03010210.03000000",
+      "Description": "",
+      "MemberOf": "Package",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "17415"
+    },
+    "PackageName": {
+      "Symbol": "PackageName",
+      "Name": "PackageName",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.01030302.01000000",
+      "Description": "",
+      "MemberOf": "Package",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "17410"
+    },
+    "PackageAttributes": {
+      "Symbol": "PackageAttributes",
+      "Name": "PackageAttributes",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.03010210.07000000",
+      "Description": "",
+      "MemberOf": "Package",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "17417"
+    },
+    "PackageUsage": {
+      "Symbol": "PackageUsage",
+      "Name": "PackageUsage",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.05010108.00000000",
+      "Description": "",
+      "MemberOf": "Package",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "17416"
+    },
+    "PackageTracks": {
+      "Symbol": "PackageTracks",
+      "Name": "PackageTracks",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.06050000",
+      "Description": "",
+      "MemberOf": "Package",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "17411"
+    },
+    "CreationTime": {
+      "Symbol": "CreationTime",
+      "Name": "CreationTime",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020110.01030000",
+      "Description": "",
+      "MemberOf": "Package",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "17413"
+    },
+    "TrackSegment": {
+      "Symbol": "TrackSegment",
+      "Name": "TrackSegment",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.02040000",
+      "Description": "",
+      "MemberOf": "Track",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "18435"
+    },
+    "TrackName": {
+      "Symbol": "TrackName",
+      "Name": "TrackName",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.01070102.01000000",
+      "Description": "",
+      "MemberOf": "Track",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "18434"
+    },
+    "EssenceTrackNumber": {
+      "Symbol": "EssenceTrackNumber",
+      "Name": "EssenceTrackNumber",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.01040103.00000000",
+      "Description": "",
+      "MemberOf": "Track",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "18436"
+    },
+    "TrackID": {
+      "Symbol": "TrackID",
+      "Name": "TrackID",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.01070101.00000000",
+      "Description": "",
+      "MemberOf": "Track",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "18433"
+    },
+    "ParameterDefinitionReference": {
+      "Symbol": "ParameterDefinitionReference",
+      "Name": "ParameterDefinitionReference",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.01040000",
+      "Description": "",
+      "MemberOf": "Parameter",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "19457"
+    },
+    "CutPoint": {
+      "Symbol": "CutPoint",
+      "Name": "CutPoint",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020103.01060000",
+      "Description": "",
+      "MemberOf": "Transition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "6146"
+    },
+    "TransitionOperation": {
+      "Symbol": "TransitionOperation",
+      "Name": "TransitionOperation",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.02050000",
+      "Description": "",
+      "MemberOf": "Transition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "6145"
+    },
+    "EdgeCodeFilmFormat": {
+      "Symbol": "EdgeCodeFilmFormat",
+      "Name": "EdgeCodeFilmFormat",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100103.01090000",
+      "Description": "",
+      "MemberOf": "EdgeCode",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "1026"
+    },
+    "EdgeCodeStart": {
+      "Symbol": "EdgeCodeStart",
+      "Name": "EdgeCodeStart",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.01040901.00000000",
+      "Description": "",
+      "MemberOf": "EdgeCode",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "1025"
+    },
+    "EdgeCodeFormat": {
+      "Symbol": "EdgeCodeFormat",
+      "Name": "EdgeCodeFormat",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04100103.01020000",
+      "Description": "",
+      "MemberOf": "EdgeCode",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "1027"
+    },
+    "EdgeCodeHeader": {
+      "Symbol": "EdgeCodeHeader",
+      "Name": "EdgeCodeHeader",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.01030201.02000000",
+      "Description": "",
+      "MemberOf": "EdgeCode",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "1028"
+    },
+    "StillFrame": {
+      "Symbol": "StillFrame",
+      "Name": "StillFrame",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.02080000",
+      "Description": "",
+      "MemberOf": "EssenceGroup",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "1282"
+    },
+    "Choices": {
+      "Symbol": "Choices",
+      "Name": "Choices",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.06010000",
+      "Description": "",
+      "MemberOf": "EssenceGroup",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "1281"
+    },
+    "AnnotationSource": {
+      "Symbol": "AnnotationSource",
+      "Name": "AnnotationSource",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.020a0000",
+      "Description": "",
+      "MemberOf": "CommentMarker",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "2305"
+    },
+    "ActiveState": {
+      "Symbol": "ActiveState",
+      "Name": "ActiveState",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.05300401.00000000",
+      "Description": "",
+      "MemberOf": "GPITrigger",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "2049"
+    },
+    "DescriptiveFrameworkObject": {
+      "Symbol": "DescriptiveFrameworkObject",
+      "Name": "DescriptiveFrameworkObject",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.06010104.020c0000",
+      "Description": "",
+      "MemberOf": "DescriptiveMarker",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "24833"
+    },
+    "DescribedTrackIDs": {
+      "Symbol": "DescribedTrackIDs",
+      "Name": "DescribedTrackIDs",
+      "Identification": "urn:smpte:ul:060e2b34.01010104.01070105.00000000",
+      "Description": "",
+      "MemberOf": "DescriptiveMarker",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "24834"
+    },
+    "NestedScopeTracks": {
+      "Symbol": "NestedScopeTracks",
+      "Name": "NestedScopeTracks",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.06070000",
+      "Description": "",
+      "MemberOf": "NestedScope",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "3073"
+    },
+    "Parameters": {
+      "Symbol": "Parameters",
+      "Name": "Parameters",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.060a0000",
+      "Description": "",
+      "MemberOf": "OperationGroup",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "2819"
+    },
+    "Operation": {
+      "Symbol": "Operation",
+      "Name": "Operation",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05300506.00000000",
+      "Description": "",
+      "MemberOf": "OperationGroup",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "2817"
+    },
+    "BypassOverride": {
+      "Symbol": "BypassOverride",
+      "Name": "BypassOverride",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.0530050c.00000000",
+      "Description": "",
+      "MemberOf": "OperationGroup",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "2820"
+    },
+    "InputSegments": {
+      "Symbol": "InputSegments",
+      "Name": "InputSegments",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.06020000",
+      "Description": "",
+      "MemberOf": "OperationGroup",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "2818"
+    },
+    "Rendering": {
+      "Symbol": "Rendering",
+      "Name": "Rendering",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.02060000",
+      "Description": "",
+      "MemberOf": "OperationGroup",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "2821"
+    },
+    "PhaseFrame": {
+      "Symbol": "PhaseFrame",
+      "Name": "PhaseFrame",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05401001.03000000",
+      "Description": "",
+      "MemberOf": "Pulldown",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "3332"
+    },
+    "PulldownKind": {
+      "Symbol": "PulldownKind",
+      "Name": "PulldownKind",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05401001.02000000",
+      "Description": "",
+      "MemberOf": "Pulldown",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "3330"
+    },
+    "PulldownDirection": {
+      "Symbol": "PulldownDirection",
+      "Name": "PulldownDirection",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05401001.01000000",
+      "Description": "",
+      "MemberOf": "Pulldown",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "3331"
+    },
+    "InputSegment": {
+      "Symbol": "InputSegment",
+      "Name": "InputSegment",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.02070000",
+      "Description": "",
+      "MemberOf": "Pulldown",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "3329"
+    },
+    "RelativeTrack": {
+      "Symbol": "RelativeTrack",
+      "Name": "RelativeTrack",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010103.04000000",
+      "Description": "",
+      "MemberOf": "ScopeReference",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "3586"
+    },
+    "RelativeScope": {
+      "Symbol": "RelativeScope",
+      "Name": "RelativeScope",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010103.03000000",
+      "Description": "",
+      "MemberOf": "ScopeReference",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "3585"
+    },
+    "SelectedSegment": {
+      "Symbol": "SelectedSegment",
+      "Name": "SelectedSegment",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.02090000",
+      "Description": "",
+      "MemberOf": "Selector",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "3841"
+    },
+    "AlternateSegments": {
+      "Symbol": "AlternateSegments",
+      "Name": "AlternateSegments",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.06080000",
+      "Description": "",
+      "MemberOf": "Selector",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "3842"
+    },
+    "ComponentObjects": {
+      "Symbol": "ComponentObjects",
+      "Name": "ComponentObjects",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.06090000",
+      "Description": "",
+      "MemberOf": "Sequence",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "4097"
+    },
+    "FadeOutType": {
+      "Symbol": "FadeOutType",
+      "Name": "FadeOutType",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.05300502.00000000",
+      "Description": "",
+      "MemberOf": "SourceClip",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "4613"
+    },
+    "FadeInType": {
+      "Symbol": "FadeInType",
+      "Name": "FadeInType",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.05300501.00000000",
+      "Description": "",
+      "MemberOf": "SourceClip",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "4611"
+    },
+    "FadeOutLength": {
+      "Symbol": "FadeOutLength",
+      "Name": "FadeOutLength",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020201.01050300",
+      "Description": "",
+      "MemberOf": "SourceClip",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "4612"
+    },
+    "FadeInLength": {
+      "Symbol": "FadeInLength",
+      "Name": "FadeInLength",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020201.01050200",
+      "Description": "",
+      "MemberOf": "SourceClip",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "4610"
+    },
+    "StartPosition": {
+      "Symbol": "StartPosition",
+      "Name": "StartPosition",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020103.01040000",
+      "Description": "",
+      "MemberOf": "SourceClip",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "4609"
+    },
+    "DescriptiveClipDescribedTrackIDs": {
+      "Symbol": "DescriptiveClipDescribedTrackIDs",
+      "Name": "DescriptiveClipDescribedTrackIDs",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.01070106.00000000",
+      "Description": "",
+      "MemberOf": "DescriptiveClip",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "24835"
+    },
+    "EndAnchor": {
+      "Symbol": "EndAnchor",
+      "Name": "EndAnchor",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05300602.01000000",
+      "Description": "",
+      "MemberOf": "HTMLClip",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "5122"
+    },
+    "BeginAnchor": {
+      "Symbol": "BeginAnchor",
+      "Name": "BeginAnchor",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05300601.01000000",
+      "Description": "",
+      "MemberOf": "HTMLClip",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "5121"
+    },
+    "StartTimecode": {
+      "Symbol": "StartTimecode",
+      "Name": "StartTimecode",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020103.01050000",
+      "Description": "",
+      "MemberOf": "Timecode",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "5377"
+    },
+    "FramesPerSecond": {
+      "Symbol": "FramesPerSecond",
+      "Name": "FramesPerSecond",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04040101.02060000",
+      "Description": "",
+      "MemberOf": "Timecode",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "5378"
+    },
+    "DropFrame": {
+      "Symbol": "DropFrame",
+      "Name": "DropFrame",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04040101.05000000",
+      "Description": "",
+      "MemberOf": "Timecode",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "5379"
+    },
+    "IncludeSync": {
+      "Symbol": "IncludeSync",
+      "Name": "IncludeSync",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04040101.04000000",
+      "Description": "",
+      "MemberOf": "TimecodeStream12M",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "5889"
+    },
+    "EssenceDataObjects": {
+      "Symbol": "EssenceDataObjects",
+      "Name": "EssenceDataObjects",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.05020000",
+      "Description": "",
+      "MemberOf": "ContentStorage",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "6402"
+    },
+    "Packages": {
+      "Symbol": "Packages",
+      "Name": "Packages",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.05010000",
+      "Description": "",
+      "MemberOf": "ContentStorage",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "6401"
+    },
+    "EditHint": {
+      "Symbol": "EditHint",
+      "Name": "EditHint",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05300508.00000000",
+      "Description": "",
+      "MemberOf": "ControlPoint",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "6660"
+    },
+    "ControlPointTime": {
+      "Symbol": "ControlPointTime",
+      "Name": "ControlPointTime",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020103.10020100",
+      "Description": "",
+      "MemberOf": "ControlPoint",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "6659"
+    },
+    "ControlPointValue": {
+      "Symbol": "ControlPointValue",
+      "Name": "ControlPointValue",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.0530050d.00000000",
+      "Description": "",
+      "MemberOf": "ControlPoint",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "6658"
+    },
+    "CodecDataDefinitions": {
+      "Symbol": "CodecDataDefinitions",
+      "Name": "CodecDataDefinitions",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.03010000",
+      "Description": "",
+      "MemberOf": "CodecDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "8962"
+    },
+    "FileDescriptorClass": {
+      "Symbol": "FileDescriptorClass",
+      "Name": "FileDescriptorClass",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.01070000",
+      "Description": "",
+      "MemberOf": "CodecDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "8961"
+    },
+    "EssenceIsIdentified": {
+      "Symbol": "EssenceIsIdentified",
+      "Name": "EssenceIsIdentified",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.03010201.03000000",
+      "Description": "",
+      "MemberOf": "ContainerDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "9217"
+    },
+    "KLVDataType": {
+      "Symbol": "KLVDataType",
+      "Name": "KLVDataType",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.06010104.01090000",
+      "Description": "",
+      "MemberOf": "KLVDataDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "19730"
+    },
+    "IsTimeWarp": {
+      "Symbol": "IsTimeWarp",
+      "Name": "IsTimeWarp",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.05300503.00000000",
+      "Description": "",
+      "MemberOf": "OperationDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "7682"
+    },
+    "Bypass": {
+      "Symbol": "Bypass",
+      "Name": "Bypass",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.05300505.00000000",
+      "Description": "",
+      "MemberOf": "OperationDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "7688"
+    },
+    "OperationInputCount": {
+      "Symbol": "OperationInputCount",
+      "Name": "OperationInputCount",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.05300504.00000000",
+      "Description": "",
+      "MemberOf": "OperationDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "7687"
+    },
+    "OperationDataDefinition": {
+      "Symbol": "OperationDataDefinition",
+      "Name": "OperationDataDefinition",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05300509.00000000",
+      "Description": "",
+      "MemberOf": "OperationDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "7681"
+    },
+    "OperationCategory": {
+      "Symbol": "OperationCategory",
+      "Name": "OperationCategory",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.0530050a.00000000",
+      "Description": "",
+      "MemberOf": "OperationDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "7686"
+    },
+    "OperationParametersDefined": {
+      "Symbol": "OperationParametersDefined",
+      "Name": "OperationParametersDefined",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.03020000",
+      "Description": "",
+      "MemberOf": "OperationDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "7689"
+    },
+    "DegradeTo": {
+      "Symbol": "DegradeTo",
+      "Name": "DegradeTo",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.04010000",
+      "Description": "",
+      "MemberOf": "OperationDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "7683"
+    },
+    "ParameterDisplayUnits": {
+      "Symbol": "ParameterDisplayUnits",
+      "Name": "ParameterDisplayUnits",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.0530050b.01000000",
+      "Description": "",
+      "MemberOf": "ParameterDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "7939"
+    },
+    "ParameterType": {
+      "Symbol": "ParameterType",
+      "Name": "ParameterType",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.01060000",
+      "Description": "",
+      "MemberOf": "ParameterDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "7937"
+    },
+    "DeviceManufacturerName": {
+      "Symbol": "DeviceManufacturerName",
+      "Name": "DeviceManufacturerName",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.010a0101.01010000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8710"
+    },
+    "PluginVersion": {
+      "Symbol": "PluginVersion",
+      "Name": "PluginVersion",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03030301.03000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "8708"
+    },
+    "PluginVersionString": {
+      "Symbol": "PluginVersionString",
+      "Name": "PluginVersionString",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03030301.02010000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8709"
+    },
+    "ManufacturerID": {
+      "Symbol": "ManufacturerID",
+      "Name": "ManufacturerID",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.010a0101.03000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8712"
+    },
+    "SoftwareOnly": {
+      "Symbol": "SoftwareOnly",
+      "Name": "SoftwareOnly",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.0520090b.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8722"
+    },
+    "MaxPluginAPI": {
+      "Symbol": "MaxPluginAPI",
+      "Name": "MaxPluginAPI",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.0520090a.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8721"
+    },
+    "MinPluginAPI": {
+      "Symbol": "MinPluginAPI",
+      "Name": "MinPluginAPI",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200909.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8720"
+    },
+    "PluginAPI": {
+      "Symbol": "PluginAPI",
+      "Name": "PluginAPI",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200908.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8719"
+    },
+    "ManufacturerInfo": {
+      "Symbol": "ManufacturerInfo",
+      "Name": "ManufacturerInfo",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.020b0000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8711"
+    },
+    "ImplementedClass": {
+      "Symbol": "ImplementedClass",
+      "Name": "ImplementedClass",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.0520090f.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8726"
+    },
+    "Authentication": {
+      "Symbol": "Authentication",
+      "Name": "Authentication",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.0520090e.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8725"
+    },
+    "PluginLocators": {
+      "Symbol": "PluginLocators",
+      "Name": "PluginLocators",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.0520090d.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8724"
+    },
+    "Accelerator": {
+      "Symbol": "Accelerator",
+      "Name": "Accelerator",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.0520090c.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8723"
+    },
+    "MinPlatformVersion": {
+      "Symbol": "MinPlatformVersion",
+      "Name": "MinPlatformVersion",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200903.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8714"
+    },
+    "PluginPlatform": {
+      "Symbol": "PluginPlatform",
+      "Name": "PluginPlatform",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200902.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8713"
+    },
+    "PluginCategory": {
+      "Symbol": "PluginCategory",
+      "Name": "PluginCategory",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200901.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "8707"
+    },
+    "MaxEngineVersion": {
+      "Symbol": "MaxEngineVersion",
+      "Name": "MaxEngineVersion",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200907.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8718"
+    },
+    "MinEngineVersion": {
+      "Symbol": "MinEngineVersion",
+      "Name": "MinEngineVersion",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200906.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8717"
+    },
+    "Engine": {
+      "Symbol": "Engine",
+      "Name": "Engine",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200905.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8716"
+    },
+    "MaxPlatformVersion": {
+      "Symbol": "MaxPlatformVersion",
+      "Name": "MaxPlatformVersion",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200904.00000000",
+      "Description": "",
+      "MemberOf": "PluginDefinition",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "8715"
+    },
+    "KLVDataDefinitions": {
+      "Symbol": "KLVDataDefinitions",
+      "Name": "KLVDataDefinitions",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.06010104.050a0000",
+      "Description": "",
+      "MemberOf": "Dictionary",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "9738"
+    },
+    "TaggedValueDefinitions": {
+      "Symbol": "TaggedValueDefinitions",
+      "Name": "TaggedValueDefinitions",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.06010104.050b0000",
+      "Description": "",
+      "MemberOf": "Dictionary",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "9739"
+    },
+    "InterpolationDefinitions": {
+      "Symbol": "InterpolationDefinitions",
+      "Name": "InterpolationDefinitions",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.05090000",
+      "Description": "",
+      "MemberOf": "Dictionary",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "9737"
+    },
+    "ContainerDefinitions": {
+      "Symbol": "ContainerDefinitions",
+      "Name": "ContainerDefinitions",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.05080000",
+      "Description": "",
+      "MemberOf": "Dictionary",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "9736"
+    },
+    "PluginDefinitions": {
+      "Symbol": "PluginDefinitions",
+      "Name": "PluginDefinitions",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.05060000",
+      "Description": "",
+      "MemberOf": "Dictionary",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "9734"
+    },
+    "CodecDefinitions": {
+      "Symbol": "CodecDefinitions",
+      "Name": "CodecDefinitions",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.05070000",
+      "Description": "",
+      "MemberOf": "Dictionary",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "9735"
+    },
+    "ParameterDefinitions": {
+      "Symbol": "ParameterDefinitions",
+      "Name": "ParameterDefinitions",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.05040000",
+      "Description": "",
+      "MemberOf": "Dictionary",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "9732"
+    },
+    "DataDefinitions": {
+      "Symbol": "DataDefinitions",
+      "Name": "DataDefinitions",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.05050000",
+      "Description": "",
+      "MemberOf": "Dictionary",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "9733"
+    },
+    "OperationDefinitions": {
+      "Symbol": "OperationDefinitions",
+      "Name": "OperationDefinitions",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.05030000",
+      "Description": "",
+      "MemberOf": "Dictionary",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "9731"
+    },
+    "LinkedPackageID": {
+      "Symbol": "LinkedPackageID",
+      "Name": "LinkedPackageID",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010106.01000000",
+      "Description": "",
+      "MemberOf": "EssenceData",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "9985"
+    },
+    "SampleIndex": {
+      "Symbol": "SampleIndex",
+      "Name": "SampleIndex",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010102.01000000",
+      "Description": "",
+      "MemberOf": "EssenceData",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "11009"
+    },
+    "EssenceStream": {
+      "Symbol": "EssenceStream",
+      "Name": "EssenceStream",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04070200.00000000",
+      "Description": "",
+      "MemberOf": "EssenceData",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "9986"
+    },
+    "AIFCSummary": {
+      "Symbol": "AIFCSummary",
+      "Name": "AIFCSummary",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03030302.02000000",
+      "Description": "",
+      "MemberOf": "AIFCDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "12545"
+    },
+    "DataEssenceCoding": {
+      "Symbol": "DataEssenceCoding",
+      "Name": "DataEssenceCoding",
+      "Identification": "urn:smpte:ul:060e2b34.01010103.04030302.00000000",
+      "Description": "",
+      "MemberOf": "DataEssenceDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15873"
+    },
+    "AlphaSampleDepth": {
+      "Symbol": "AlphaSampleDepth",
+      "Name": "AlphaSampleDepth",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010503.07000000",
+      "Description": "",
+      "MemberOf": "CDCIDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13065"
+    },
+    "ColorSiting": {
+      "Symbol": "ColorSiting",
+      "Name": "ColorSiting",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010501.06000000",
+      "Description": "",
+      "MemberOf": "CDCIDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13059"
+    },
+    "ReversedByteOrder": {
+      "Symbol": "ReversedByteOrder",
+      "Name": "ReversedByteOrder",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.03010201.0a000000",
+      "Description": "",
+      "MemberOf": "CDCIDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13067"
+    },
+    "WhiteRefLevel": {
+      "Symbol": "WhiteRefLevel",
+      "Name": "WhiteRefLevel",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010503.04000000",
+      "Description": "",
+      "MemberOf": "CDCIDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13061"
+    },
+    "HorizontalSubsampling": {
+      "Symbol": "HorizontalSubsampling",
+      "Name": "HorizontalSubsampling",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010501.05000000",
+      "Description": "",
+      "MemberOf": "CDCIDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "13058"
+    },
+    "PaddingBits": {
+      "Symbol": "PaddingBits",
+      "Name": "PaddingBits",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04180104.00000000",
+      "Description": "",
+      "MemberOf": "CDCIDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13063"
+    },
+    "ColorRange": {
+      "Symbol": "ColorRange",
+      "Name": "ColorRange",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010503.05000000",
+      "Description": "",
+      "MemberOf": "CDCIDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13062"
+    },
+    "BlackRefLevel": {
+      "Symbol": "BlackRefLevel",
+      "Name": "BlackRefLevel",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010503.03000000",
+      "Description": "",
+      "MemberOf": "CDCIDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13060"
+    },
+    "VerticalSubsampling": {
+      "Symbol": "VerticalSubsampling",
+      "Name": "VerticalSubsampling",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010501.10000000",
+      "Description": "",
+      "MemberOf": "CDCIDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13064"
+    },
+    "ComponentDepth": {
+      "Symbol": "ComponentDepth",
+      "Name": "ComponentDepth",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010503.0a000000",
+      "Description": "",
+      "MemberOf": "CDCIDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "13057"
+    },
+    "IdenticalGOP": {
+      "Symbol": "IdenticalGOP",
+      "Name": "IdenticalGOP",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010602.01070000",
+      "Description": "",
+      "MemberOf": "MPEGVideoDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "0"
+    },
+    "ClosedGOP": {
+      "Symbol": "ClosedGOP",
+      "Name": "ClosedGOP",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010602.01060000",
+      "Description": "",
+      "MemberOf": "MPEGVideoDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "0"
+    },
+    "LowDelay": {
+      "Symbol": "LowDelay",
+      "Name": "LowDelay",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010602.01050000",
+      "Description": "",
+      "MemberOf": "MPEGVideoDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "0"
+    },
+    "CodedContentScanning": {
+      "Symbol": "CodedContentScanning",
+      "Name": "CodedContentScanning",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010602.01040000",
+      "Description": "",
+      "MemberOf": "MPEGVideoDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "0"
+    },
+    "ConstantBPictureCount": {
+      "Symbol": "ConstantBPictureCount",
+      "Name": "ConstantBPictureCount",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010602.01030000",
+      "Description": "",
+      "MemberOf": "MPEGVideoDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "0"
+    },
+    "SingleSequence": {
+      "Symbol": "SingleSequence",
+      "Name": "SingleSequence",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010602.01020000",
+      "Description": "",
+      "MemberOf": "MPEGVideoDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "0"
+    },
+    "ProfileAndLevel": {
+      "Symbol": "ProfileAndLevel",
+      "Name": "ProfileAndLevel",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010602.010a0000",
+      "Description": "",
+      "MemberOf": "MPEGVideoDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "0"
+    },
+    "BitRate": {
+      "Symbol": "BitRate",
+      "Name": "BitRate",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010602.010b0000",
+      "Description": "",
+      "MemberOf": "MPEGVideoDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "0"
+    },
+    "MaxGOP": {
+      "Symbol": "MaxGOP",
+      "Name": "MaxGOP",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010602.01080000",
+      "Description": "",
+      "MemberOf": "MPEGVideoDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "0"
+    },
+    "MaxBPictureCount": {
+      "Symbol": "MaxBPictureCount",
+      "Name": "MaxBPictureCount",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010602.01090000",
+      "Description": "",
+      "MemberOf": "MPEGVideoDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "0"
+    },
+    "PixelLayout": {
+      "Symbol": "PixelLayout",
+      "Name": "PixelLayout",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010503.06000000",
+      "Description": "",
+      "MemberOf": "RGBADescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "13313"
+    },
+    "ScanningDirection": {
+      "Symbol": "ScanningDirection",
+      "Name": "ScanningDirection",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010404.01000000",
+      "Description": "",
+      "MemberOf": "RGBADescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13317"
+    },
+    "ComponentMaxRef": {
+      "Symbol": "ComponentMaxRef",
+      "Name": "ComponentMaxRef",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010503.0b000000",
+      "Description": "",
+      "MemberOf": "RGBADescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13318"
+    },
+    "ComponentMinRef": {
+      "Symbol": "ComponentMinRef",
+      "Name": "ComponentMinRef",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010503.0c000000",
+      "Description": "",
+      "MemberOf": "RGBADescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13319"
+    },
+    "AlphaMaxRef": {
+      "Symbol": "AlphaMaxRef",
+      "Name": "AlphaMaxRef",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010503.0d000000",
+      "Description": "",
+      "MemberOf": "RGBADescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13320"
+    },
+    "AlphaMinRef": {
+      "Symbol": "AlphaMinRef",
+      "Name": "AlphaMinRef",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04010503.0e000000",
+      "Description": "",
+      "MemberOf": "RGBADescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13321"
+    },
+    "PaletteLayout": {
+      "Symbol": "PaletteLayout",
+      "Name": "PaletteLayout",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010503.09000000",
+      "Description": "",
+      "MemberOf": "RGBADescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13316"
+    },
+    "Palette": {
+      "Symbol": "Palette",
+      "Name": "Palette",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010503.08000000",
+      "Description": "",
+      "MemberOf": "RGBADescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "13315"
+    },
+    "FileDescriptors": {
+      "Symbol": "FileDescriptors",
+      "Name": "FileDescriptors",
+      "Identification": "urn:smpte:ul:060e2b34.01010104.06010104.060b0000",
+      "Description": "",
+      "MemberOf": "MultipleDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "16129"
+    },
+    "DialNorm": {
+      "Symbol": "DialNorm",
+      "Name": "DialNorm",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020701.00000000",
+      "Description": "",
+      "MemberOf": "SoundDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15628"
+    },
+    "SoundCompression": {
+      "Symbol": "SoundCompression",
+      "Name": "SoundCompression",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04020402.00000000",
+      "Description": "",
+      "MemberOf": "SoundDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15622"
+    },
+    "Locked": {
+      "Symbol": "Locked",
+      "Name": "Locked",
+      "Identification": "urn:smpte:ul:060e2b34.01010104.04020301.04000000",
+      "Description": "",
+      "MemberOf": "SoundDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15618"
+    },
+    "QuantizationBits": {
+      "Symbol": "QuantizationBits",
+      "Name": "QuantizationBits",
+      "Identification": "urn:smpte:ul:060e2b34.01010104.04020303.04000000",
+      "Description": "",
+      "MemberOf": "SoundDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15617"
+    },
+    "AudioSampleRate": {
+      "Symbol": "AudioSampleRate",
+      "Name": "AudioSampleRate",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020301.01010000",
+      "Description": "",
+      "MemberOf": "SoundDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15619"
+    },
+    "ChannelCount": {
+      "Symbol": "ChannelCount",
+      "Name": "ChannelCount",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020101.04000000",
+      "Description": "",
+      "MemberOf": "SoundDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15623"
+    },
+    "ElectrospatialFormulation": {
+      "Symbol": "ElectrospatialFormulation",
+      "Name": "ElectrospatialFormulation",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04020101.01000000",
+      "Description": "",
+      "MemberOf": "SoundDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15621"
+    },
+    "AudioReferenceLevel": {
+      "Symbol": "AudioReferenceLevel",
+      "Name": "AudioReferenceLevel",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04020101.03000000",
+      "Description": "",
+      "MemberOf": "SoundDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15620"
+    },
+    "PeakEnvelopeFormat": {
+      "Symbol": "PeakEnvelopeFormat",
+      "Name": "PeakEnvelopeFormat",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04020301.07000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15658"
+    },
+    "PeakEnvelopeBlockSize": {
+      "Symbol": "PeakEnvelopeBlockSize",
+      "Name": "PeakEnvelopeBlockSize",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04020301.09000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15660"
+    },
+    "PeakFrames": {
+      "Symbol": "PeakFrames",
+      "Name": "PeakFrames",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04020301.0b000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15662"
+    },
+    "AverageBytesPerSecond": {
+      "Symbol": "AverageBytesPerSecond",
+      "Name": "AverageBytesPerSecond",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020303.05000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15625"
+    },
+    "PeakEnvelopeTimestamp": {
+      "Symbol": "PeakEnvelopeTimestamp",
+      "Name": "PeakEnvelopeTimestamp",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04020301.0d000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15664"
+    },
+    "BlockAlign": {
+      "Symbol": "BlockAlign",
+      "Name": "BlockAlign",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020302.01000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15626"
+    },
+    "ChannelAssignment": {
+      "Symbol": "ChannelAssignment",
+      "Name": "ChannelAssignment",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.04020101.05000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15666"
+    },
+    "PeakEnvelopeVersion": {
+      "Symbol": "PeakEnvelopeVersion",
+      "Name": "PeakEnvelopeVersion",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04020301.06000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15657"
+    },
+    "PointsPerPeakValue": {
+      "Symbol": "PointsPerPeakValue",
+      "Name": "PointsPerPeakValue",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04020301.08000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15659"
+    },
+    "PeakChannels": {
+      "Symbol": "PeakChannels",
+      "Name": "PeakChannels",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04020301.0a000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15661"
+    },
+    "PeakOfPeaksPosition": {
+      "Symbol": "PeakOfPeaksPosition",
+      "Name": "PeakOfPeaksPosition",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04020301.0c000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15663"
+    },
+    "SequenceOffset": {
+      "Symbol": "SequenceOffset",
+      "Name": "SequenceOffset",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020302.02000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15627"
+    },
+    "PeakEnvelopeData": {
+      "Symbol": "PeakEnvelopeData",
+      "Name": "PeakEnvelopeData",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04020301.0e000000",
+      "Description": "",
+      "MemberOf": "WAVEPCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15665"
+    },
+    "AuxBitsMode": {
+      "Symbol": "AuxBitsMode",
+      "Name": "AuxBitsMode",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020501.01000000",
+      "Description": "",
+      "MemberOf": "AES3PCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15624"
+    },
+    "ChannelStatusMode": {
+      "Symbol": "ChannelStatusMode",
+      "Name": "ChannelStatusMode",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020501.02000000",
+      "Description": "",
+      "MemberOf": "AES3PCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15632"
+    },
+    "FixedChannelStatusData": {
+      "Symbol": "FixedChannelStatusData",
+      "Name": "FixedChannelStatusData",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020501.03000000",
+      "Description": "",
+      "MemberOf": "AES3PCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15633"
+    },
+    "UserDataMode": {
+      "Symbol": "UserDataMode",
+      "Name": "UserDataMode",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020501.04000000",
+      "Description": "",
+      "MemberOf": "AES3PCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15634"
+    },
+    "FixedUserData": {
+      "Symbol": "FixedUserData",
+      "Name": "FixedUserData",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020501.05000000",
+      "Description": "",
+      "MemberOf": "AES3PCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15635"
+    },
+    "Emphasis": {
+      "Symbol": "Emphasis",
+      "Name": "Emphasis",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020501.06000000",
+      "Description": "",
+      "MemberOf": "AES3PCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15629"
+    },
+    "BlockStartOffset": {
+      "Symbol": "BlockStartOffset",
+      "Name": "BlockStartOffset",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020302.03000000",
+      "Description": "",
+      "MemberOf": "AES3PCMDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15631"
+    },
+    "IsContiguous": {
+      "Symbol": "IsContiguous",
+      "Name": "IsContiguous",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.06080201.00000000",
+      "Description": "",
+      "MemberOf": "TIFFDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "14082"
+    },
+    "LeadingLines": {
+      "Symbol": "LeadingLines",
+      "Name": "LeadingLines",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010302.03000000",
+      "Description": "",
+      "MemberOf": "TIFFDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14083"
+    },
+    "IsUniform": {
+      "Symbol": "IsUniform",
+      "Name": "IsUniform",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05020103.01010000",
+      "Description": "",
+      "MemberOf": "TIFFDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "14081"
+    },
+    "TrailingLines": {
+      "Symbol": "TrailingLines",
+      "Name": "TrailingLines",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.04010302.04000000",
+      "Description": "",
+      "MemberOf": "TIFFDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14084"
+    },
+    "TIFFSummary": {
+      "Symbol": "TIFFSummary",
+      "Name": "TIFFSummary",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03030302.03000000",
+      "Description": "",
+      "MemberOf": "TIFFDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "14086"
+    },
+    "JPEGTableID": {
+      "Symbol": "JPEGTableID",
+      "Name": "JPEGTableID",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05020103.01020000",
+      "Description": "",
+      "MemberOf": "TIFFDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14085"
+    },
+    "WAVESummary": {
+      "Symbol": "WAVESummary",
+      "Name": "WAVESummary",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03030302.01000000",
+      "Description": "",
+      "MemberOf": "WAVEDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "14337"
+    },
+    "FilmFormat": {
+      "Symbol": "FilmFormat",
+      "Name": "FilmFormat",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100103.01080000",
+      "Description": "",
+      "MemberOf": "FilmDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14593"
+    },
+    "FilmBatchNumber": {
+      "Symbol": "FilmBatchNumber",
+      "Name": "FilmBatchNumber",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100103.01070100",
+      "Description": "",
+      "MemberOf": "FilmDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14600"
+    },
+    "FilmStockManufacturer": {
+      "Symbol": "FilmStockManufacturer",
+      "Name": "FilmStockManufacturer",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100103.01060100",
+      "Description": "",
+      "MemberOf": "FilmDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14597"
+    },
+    "FilmStockKind": {
+      "Symbol": "FilmStockKind",
+      "Name": "FilmStockKind",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100103.01050100",
+      "Description": "",
+      "MemberOf": "FilmDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14598"
+    },
+    "FilmFormatName": {
+      "Symbol": "FilmFormatName",
+      "Name": "FilmFormatName",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100103.01040100",
+      "Description": "",
+      "MemberOf": "FilmDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14599"
+    },
+    "FilmAspectRatio": {
+      "Symbol": "FilmAspectRatio",
+      "Name": "FilmAspectRatio",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100103.02030000",
+      "Description": "",
+      "MemberOf": "FilmDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14596"
+    },
+    "FrameRate": {
+      "Symbol": "FrameRate",
+      "Name": "FrameRate",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010802.03000000",
+      "Description": "",
+      "MemberOf": "FilmDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14594"
+    },
+    "PerforationsPerFrame": {
+      "Symbol": "PerforationsPerFrame",
+      "Name": "PerforationsPerFrame",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100103.01030000",
+      "Description": "",
+      "MemberOf": "FilmDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14595"
+    },
+    "MIMEType": {
+      "Symbol": "MIMEType",
+      "Name": "MIMEType",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.04090201.00000000",
+      "Description": "",
+      "MemberOf": "AuxiliaryDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "19985"
+    },
+    "CharSet": {
+      "Symbol": "CharSet",
+      "Name": "CharSet",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04090300.00000000",
+      "Description": "",
+      "MemberOf": "AuxiliaryDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "19986"
+    },
+    "QltyBasicData": {
+      "Symbol": "QltyBasicData",
+      "Name": "QltyBasicData",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020502.02010000",
+      "Description": "",
+      "MemberOf": "BWFImportDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15650"
+    },
+    "QltyStartOfModulation": {
+      "Symbol": "QltyStartOfModulation",
+      "Name": "QltyStartOfModulation",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020502.03010000",
+      "Description": "",
+      "MemberOf": "BWFImportDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15651"
+    },
+    "BextCodingHistory": {
+      "Symbol": "BextCodingHistory",
+      "Name": "BextCodingHistory",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020502.01010000",
+      "Description": "",
+      "MemberOf": "BWFImportDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15649"
+    },
+    "QltyQualityParameter": {
+      "Symbol": "QltyQualityParameter",
+      "Name": "QltyQualityParameter",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020502.06010000",
+      "Description": "",
+      "MemberOf": "BWFImportDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15654"
+    },
+    "QltyOperatorComment": {
+      "Symbol": "QltyOperatorComment",
+      "Name": "QltyOperatorComment",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020502.07010000",
+      "Description": "",
+      "MemberOf": "BWFImportDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15655"
+    },
+    "QltyQualityEvent": {
+      "Symbol": "QltyQualityEvent",
+      "Name": "QltyQualityEvent",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020502.04010000",
+      "Description": "",
+      "MemberOf": "BWFImportDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15652"
+    },
+    "QltyEndOfModulation": {
+      "Symbol": "QltyEndOfModulation",
+      "Name": "QltyEndOfModulation",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020502.05010000",
+      "Description": "",
+      "MemberOf": "BWFImportDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15653"
+    },
+    "QltyFileSecurityWave": {
+      "Symbol": "QltyFileSecurityWave",
+      "Name": "QltyFileSecurityWave",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020302.06000000",
+      "Description": "",
+      "MemberOf": "BWFImportDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15638"
+    },
+    "UnknownBWFChunks": {
+      "Symbol": "UnknownBWFChunks",
+      "Name": "UnknownBWFChunks",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.06010104.060f0000",
+      "Description": "",
+      "MemberOf": "BWFImportDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15667"
+    },
+    "QltyFileSecurityReport": {
+      "Symbol": "QltyFileSecurityReport",
+      "Name": "QltyFileSecurityReport",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020302.05000000",
+      "Description": "",
+      "MemberOf": "BWFImportDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15637"
+    },
+    "QltyCueSheet": {
+      "Symbol": "QltyCueSheet",
+      "Name": "QltyCueSheet",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.04020502.08010000",
+      "Description": "",
+      "MemberOf": "BWFImportDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15656"
+    },
+    "TapeFormat": {
+      "Symbol": "TapeFormat",
+      "Name": "TapeFormat",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.0d010101.01010100",
+      "Description": "",
+      "MemberOf": "TapeDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14851"
+    },
+    "VideoSignal": {
+      "Symbol": "VideoSignal",
+      "Name": "VideoSignal",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04010401.01000000",
+      "Description": "",
+      "MemberOf": "TapeDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14850"
+    },
+    "TapeBatchNumber": {
+      "Symbol": "TapeBatchNumber",
+      "Name": "TapeBatchNumber",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100101.06010000",
+      "Description": "",
+      "MemberOf": "TapeDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14855"
+    },
+    "TapeStock": {
+      "Symbol": "TapeStock",
+      "Name": "TapeStock",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100101.05010000",
+      "Description": "",
+      "MemberOf": "TapeDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14856"
+    },
+    "TapeManufacturer": {
+      "Symbol": "TapeManufacturer",
+      "Name": "TapeManufacturer",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100101.04010000",
+      "Description": "",
+      "MemberOf": "TapeDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14853"
+    },
+    "TapeCapacity": {
+      "Symbol": "TapeCapacity",
+      "Name": "TapeCapacity",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100101.03000000",
+      "Description": "",
+      "MemberOf": "TapeDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14852"
+    },
+    "TapeFormulation": {
+      "Symbol": "TapeFormulation",
+      "Name": "TapeFormulation",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100101.02010000",
+      "Description": "",
+      "MemberOf": "TapeDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14854"
+    },
+    "TapeFormFactor": {
+      "Symbol": "TapeFormFactor",
+      "Name": "TapeFormFactor",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.04100101.01010000",
+      "Description": "",
+      "MemberOf": "TapeDescriptor",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "14849"
+    },
+    "PrimaryPackage": {
+      "Symbol": "PrimaryPackage",
+      "Name": "PrimaryPackage",
+      "Identification": "urn:smpte:ul:060e2b34.01010104.06010104.01080000",
+      "Description": "",
+      "MemberOf": "Preface",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15112"
+    },
+    "ContentStorageObject": {
+      "Symbol": "ContentStorageObject",
+      "Name": "ContentStorageObject",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.02010000",
+      "Description": "",
+      "MemberOf": "Preface",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15107"
+    },
+    "EssenceContainers": {
+      "Symbol": "EssenceContainers",
+      "Name": "EssenceContainers",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.01020210.02010000",
+      "Description": "",
+      "MemberOf": "Preface",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15114"
+    },
+    "FormatVersion": {
+      "Symbol": "FormatVersion",
+      "Name": "FormatVersion",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03010201.05000000",
+      "Description": "",
+      "MemberOf": "Preface",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15109"
+    },
+    "IdentificationList": {
+      "Symbol": "IdentificationList",
+      "Name": "IdentificationList",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.06040000",
+      "Description": "",
+      "MemberOf": "Preface",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15110"
+    },
+    "OperationalPattern": {
+      "Symbol": "OperationalPattern",
+      "Name": "OperationalPattern",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.01020203.00000000",
+      "Description": "",
+      "MemberOf": "Preface",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15113"
+    },
+    "ObjectModelVersion": {
+      "Symbol": "ObjectModelVersion",
+      "Name": "ObjectModelVersion",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03010201.04000000",
+      "Description": "",
+      "MemberOf": "Preface",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15111"
+    },
+    "FileLastModified": {
+      "Symbol": "FileLastModified",
+      "Name": "FileLastModified",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020110.02040000",
+      "Description": "",
+      "MemberOf": "Preface",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15106"
+    },
+    "DescriptiveSchemes": {
+      "Symbol": "DescriptiveSchemes",
+      "Name": "DescriptiveSchemes",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.01020210.02020000",
+      "Description": "",
+      "MemberOf": "Preface",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15115"
+    },
+    "Dictionaries": {
+      "Symbol": "Dictionaries",
+      "Name": "Dictionaries",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.02020000",
+      "Description": "",
+      "MemberOf": "Preface",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15108"
+    },
+    "ByteOrder": {
+      "Symbol": "ByteOrder",
+      "Name": "ByteOrder",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.03010201.02000000",
+      "Description": "",
+      "MemberOf": "Preface",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15105"
+    },
+    "ApplicationPlatform": {
+      "Symbol": "ApplicationPlatform",
+      "Name": "ApplicationPlatform",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200701.06010000",
+      "Description": "",
+      "MemberOf": "Identification",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15368"
+    },
+    "ApplicationProductID": {
+      "Symbol": "ApplicationProductID",
+      "Name": "ApplicationProductID",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200701.07000000",
+      "Description": "",
+      "MemberOf": "Identification",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15365"
+    },
+    "ApplicationVersionString": {
+      "Symbol": "ApplicationVersionString",
+      "Name": "ApplicationVersionString",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200701.05010000",
+      "Description": "",
+      "MemberOf": "Identification",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15364"
+    },
+    "ApplicationVersion": {
+      "Symbol": "ApplicationVersion",
+      "Name": "ApplicationVersion",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200701.04000000",
+      "Description": "",
+      "MemberOf": "Identification",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15363"
+    },
+    "ApplicationName": {
+      "Symbol": "ApplicationName",
+      "Name": "ApplicationName",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200701.03010000",
+      "Description": "",
+      "MemberOf": "Identification",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15362"
+    },
+    "ApplicationSupplierName": {
+      "Symbol": "ApplicationSupplierName",
+      "Name": "ApplicationSupplierName",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200701.02010000",
+      "Description": "",
+      "MemberOf": "Identification",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15361"
+    },
+    "GenerationID": {
+      "Symbol": "GenerationID",
+      "Name": "GenerationID",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200701.01000000",
+      "Description": "",
+      "MemberOf": "Identification",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15369"
+    },
+    "FileModificationDate": {
+      "Symbol": "FileModificationDate",
+      "Name": "FileModificationDate",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020110.02030000",
+      "Description": "",
+      "MemberOf": "Identification",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "15366"
+    },
+    "ToolkitVersion": {
+      "Symbol": "ToolkitVersion",
+      "Name": "ToolkitVersion",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05200701.0a000000",
+      "Description": "",
+      "MemberOf": "Identification",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "15367"
+    },
+    "KLVDataValue": {
+      "Symbol": "KLVDataValue",
+      "Name": "KLVDataValue",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03010210.02000000",
+      "Description": "",
+      "MemberOf": "KLVData",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "20737"
+    },
+    "URL": {
+      "Symbol": "URL",
+      "Name": "URL",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.01020101.01000000",
+      "Description": "",
+      "MemberOf": "NetworkLocator",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "16385"
+    },
+    "LocationName": {
+      "Symbol": "LocationName",
+      "Name": "LocationName",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.01040102.01000000",
+      "Description": "",
+      "MemberOf": "TextLocator",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "16641"
+    },
+    "DefaultFadeEditUnit": {
+      "Symbol": "DefaultFadeEditUnit",
+      "Name": "DefaultFadeEditUnit",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05300403.00000000",
+      "Description": "",
+      "MemberOf": "CompositionPackage",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "17667"
+    },
+    "CompositionRendering": {
+      "Symbol": "CompositionRendering",
+      "Name": "CompositionRendering",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.06010104.010a0000",
+      "Description": "",
+      "MemberOf": "CompositionPackage",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "17668"
+    },
+    "DefaultFadeLength": {
+      "Symbol": "DefaultFadeLength",
+      "Name": "DefaultFadeLength",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020201.01050100",
+      "Description": "",
+      "MemberOf": "CompositionPackage",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "17665"
+    },
+    "DefaultFadeType": {
+      "Symbol": "DefaultFadeType",
+      "Name": "DefaultFadeType",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.05300201.00000000",
+      "Description": "",
+      "MemberOf": "CompositionPackage",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "17666"
+    },
+    "EssenceDescription": {
+      "Symbol": "EssenceDescription",
+      "Name": "EssenceDescription",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.02030000",
+      "Description": "",
+      "MemberOf": "SourcePackage",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "18177"
+    },
+    "EventTrackEditRate": {
+      "Symbol": "EventTrackEditRate",
+      "Name": "EventTrackEditRate",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05300402.00000000",
+      "Description": "",
+      "MemberOf": "EventTrack",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "18689"
+    },
+    "EventTrackOrigin": {
+      "Symbol": "EventTrackOrigin",
+      "Name": "EventTrackOrigin",
+      "Identification": "urn:smpte:ul:060e2b34.01010105.07020103.010b0000",
+      "Description": "",
+      "MemberOf": "EventTrack",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "18690"
+    },
+    "UserPosition": {
+      "Symbol": "UserPosition",
+      "Name": "UserPosition",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.07020103.010d0000",
+      "Description": "",
+      "MemberOf": "TimelineTrack",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "19205"
+    },
+    "EditRate": {
+      "Symbol": "EditRate",
+      "Name": "EditRate",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05300405.00000000",
+      "Description": "",
+      "MemberOf": "TimelineTrack",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "19201"
+    },
+    "MarkIn": {
+      "Symbol": "MarkIn",
+      "Name": "MarkIn",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.07020103.010c0000",
+      "Description": "",
+      "MemberOf": "TimelineTrack",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "19203"
+    },
+    "MarkOut": {
+      "Symbol": "MarkOut",
+      "Name": "MarkOut",
+      "Identification": "urn:smpte:ul:060e2b34.01010107.07020103.02030000",
+      "Description": "",
+      "MemberOf": "TimelineTrack",
+      "Type": "PropertyDefinition",
+      "IsOptional": "true",
+      "LocalIdentification": "19204"
+    },
+    "Origin": {
+      "Symbol": "Origin",
+      "Name": "Origin",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.07020103.01030000",
+      "Description": "",
+      "MemberOf": "TimelineTrack",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "19202"
+    },
+    "Value": {
+      "Symbol": "Value",
+      "Name": "Value",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.05300507.00000000",
+      "Description": "",
+      "MemberOf": "ConstantValue",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "19713"
+    },
+    "PointList": {
+      "Symbol": "PointList",
+      "Name": "PointList",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.06060000",
+      "Description": "",
+      "MemberOf": "VaryingValue",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "19970"
+    },
+    "Interpolation": {
+      "Symbol": "Interpolation",
+      "Name": "Interpolation",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.06010104.01050000",
+      "Description": "",
+      "MemberOf": "VaryingValue",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "19969"
+    },
+    "ChunkID": {
+      "Symbol": "ChunkID",
+      "Name": "ChunkID",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04060802.00000000",
+      "Description": "",
+      "MemberOf": "RIFFChunk",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "20225"
+    },
+    "ChunkLength": {
+      "Symbol": "ChunkLength",
+      "Name": "ChunkLength",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04060903.00000000",
+      "Description": "",
+      "MemberOf": "RIFFChunk",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "20226"
+    },
+    "ChunkData": {
+      "Symbol": "ChunkData",
+      "Name": "ChunkData",
+      "Identification": "urn:smpte:ul:060e2b34.01010108.04070400.00000000",
+      "Description": "",
+      "MemberOf": "RIFFChunk",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "20227"
+    },
+    "IndirectValue": {
+      "Symbol": "IndirectValue",
+      "Name": "IndirectValue",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03020102.0a010000",
+      "Description": "",
+      "MemberOf": "TaggedValue",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "20483"
+    },
+    "Tag": {
+      "Symbol": "Tag",
+      "Name": "Tag",
+      "Identification": "urn:smpte:ul:060e2b34.01010102.03020102.09010000",
+      "Description": "",
+      "MemberOf": "TaggedValue",
+      "Type": "PropertyDefinition",
+      "IsOptional": "false",
+      "LocalIdentification": "20481"
+    }
+  },
+  "TypeDefinition": {
+    "Int8": {
+      "Symbol": "Int8",
+      "Name": "Int8",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01010500.00000000",
+      "Description": "",
+      "Size": "1",
+      "IsSigned": "true",
+      "Type": "TypeDefinitionInteger"
+    },
+    "UInt8": {
+      "Symbol": "UInt8",
+      "Name": "UInt8",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01010100.00000000",
+      "Description": "",
+      "Size": "1",
+      "IsSigned": "false",
+      "Type": "TypeDefinitionInteger"
+    },
+    "Int16": {
+      "Symbol": "Int16",
+      "Name": "Int16",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01010600.00000000",
+      "Description": "",
+      "Size": "2",
+      "IsSigned": "true",
+      "Type": "TypeDefinitionInteger"
+    },
+    "UInt16": {
+      "Symbol": "UInt16",
+      "Name": "UInt16",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01010200.00000000",
+      "Description": "",
+      "Size": "2",
+      "IsSigned": "false",
+      "Type": "TypeDefinitionInteger"
+    },
+    "Int32": {
+      "Symbol": "Int32",
+      "Name": "Int32",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01010700.00000000",
+      "Description": "",
+      "Size": "4",
+      "IsSigned": "true",
+      "Type": "TypeDefinitionInteger"
+    },
+    "UInt32": {
+      "Symbol": "UInt32",
+      "Name": "UInt32",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01010300.00000000",
+      "Description": "",
+      "Size": "4",
+      "IsSigned": "false",
+      "Type": "TypeDefinitionInteger"
+    },
+    "Int64": {
+      "Symbol": "Int64",
+      "Name": "Int64",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01010800.00000000",
+      "Description": "",
+      "Size": "8",
+      "IsSigned": "true",
+      "Type": "TypeDefinitionInteger"
+    },
+    "FilmType": {
+      "Symbol": "FilmType",
+      "Name": "FilmType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.0201010d.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "FtNull",
+          "Ft35MM",
+          "Ft16MM",
+          "Ft8MM",
+          "Ft65MM"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "EdgeType": {
+      "Symbol": "EdgeType",
+      "Name": "EdgeType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.0201010c.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "Null",
+          "Keycode",
+          "Edgenum4",
+          "Edgenum5",
+          "HeaderSize"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "8"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "TCSource": {
+      "Symbol": "TCSource",
+      "Name": "TCSource",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010109.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "TimecodeLTC",
+          "TimecodeVITC"
+        ],
+        "Value": [
+          "0",
+          "1"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "LayoutType": {
+      "Symbol": "LayoutType",
+      "Name": "LayoutType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010108.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "FullFrame",
+          "SeparateFields",
+          "OneField",
+          "MixedFields",
+          "SegmentedFrame"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "PulldownKindType": {
+      "Symbol": "PulldownKindType",
+      "Name": "PulldownKindType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.0201010b.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "TwoThreePD",
+          "PALPD",
+          "OneToOneNTSC",
+          "OneToOnePAL",
+          "VideoTapNTSC",
+          "OneToOneHDSixty",
+          "TwentyFourToSixtyPD",
+          "TwoToOnePD"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "PulldownDirectionType": {
+      "Symbol": "PulldownDirectionType",
+      "Name": "PulldownDirectionType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.0201010a.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "TapeToFilmSpeed",
+          "FilmToTapeSpeed"
+        ],
+        "Value": [
+          "0",
+          "1"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "ColorSitingType": {
+      "Symbol": "ColorSitingType",
+      "Name": "ColorSitingType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010105.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "CoSiting",
+          "HorizontalMidpoint",
+          "ThreeTap",
+          "Quincunx",
+          "Rec601",
+          "LineAlternating",
+          "VerticalMidpoint",
+          "UnknownSiting"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "255"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "TapeCaseType": {
+      "Symbol": "TapeCaseType",
+      "Name": "TapeCaseType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010104.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "Null",
+          "ThreeFourthInchVideoTape",
+          "VHSVideoTape",
+          "_8mmVideoTape",
+          "BetacamVideoTape",
+          "CompactCassette",
+          "DATCartridge",
+          "NagraAudioTape"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "FadeType": {
+      "Symbol": "FadeType",
+      "Name": "FadeType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010107.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "None",
+          "LinearAmp",
+          "LinearPower"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "EditHintType": {
+      "Symbol": "EditHintType",
+      "Name": "EditHintType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010106.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "NoEditHint",
+          "Proportional",
+          "RelativeLeft",
+          "RelativeRight",
+          "RelativeFixed"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "VideoSignalType": {
+      "Symbol": "VideoSignalType",
+      "Name": "VideoSignalType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010103.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "Null",
+          "NTSCSignal",
+          "PALSignal",
+          "SECAMSignal"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "TapeFormatType": {
+      "Symbol": "TapeFormatType",
+      "Name": "TapeFormatType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010102.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "TapeFormatNull",
+          "BetacamFormat",
+          "BetacamSPFormat",
+          "VHSFormat",
+          "SVHSFormat",
+          "_8mmFormat",
+          "Hi8Format"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "ContentScanningType": {
+      "Symbol": "ContentScanningType",
+      "Name": "ContentScanningType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.0201012a.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "NotKnown",
+          "Progressive",
+          "Interlace",
+          "Mixed"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "ScanningDirectionType": {
+      "Symbol": "ScanningDirectionType",
+      "Name": "ScanningDirectionType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010128.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "LeftToRightTopToBottom",
+          "RightToLeftTopToBottom",
+          "LeftToRightBottomToTop",
+          "RightToLeftBottomToTop",
+          "TopToBottomLeftToRight",
+          "TopToBottomRightToLeft",
+          "BottomToTopLeftToRight",
+          "BottomToTopRightToLeft"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "SignalStandardType": {
+      "Symbol": "SignalStandardType",
+      "Name": "SignalStandardType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010127.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "None",
+          "ITU601",
+          "ITU1358",
+          "SMPTE347",
+          "SMPTE274",
+          "SMPTE296",
+          "SMPTE349",
+          "SMPTE428_1"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "AuxBitsModeType": {
+      "Symbol": "AuxBitsModeType",
+      "Name": "AuxBitsModeType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010124.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "NotDefined",
+          "MainAudioSampleData",
+          "SingleCoordinationSignal",
+          "UserDefined",
+          "Reserved0",
+          "Reserved1",
+          "Reserved2",
+          "Reserved3"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "EmphasisType": {
+      "Symbol": "EmphasisType",
+      "Name": "EmphasisType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010123.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "Unknown",
+          "Reserved0",
+          "Reserved1",
+          "Reserved2",
+          "None",
+          "Reserved3",
+          "Emphasis15and50",
+          "ITU"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "ElectroSpatialFormulation": {
+      "Symbol": "ElectroSpatialFormulation",
+      "Name": "ElectroSpatialFormulation",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010122.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "Default",
+          "TwoChannelMode",
+          "SingleChannelMode",
+          "PrimarySecondaryMode",
+          "StereophonicMode",
+          "SingleChannelDoubleSamplingFrequencyMode",
+          "StereoLeftChannelDoubleSamplingFrequencyMode",
+          "StereoRightChannelDoubleSamplingFrequencyMode",
+          "MultiChannelMode"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "7",
+          "8",
+          "9",
+          "15"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "FieldNumber": {
+      "Symbol": "FieldNumber",
+      "Name": "FieldNumber",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010121.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "Unspecified",
+          "One",
+          "Two"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "AlphaTransparencyType": {
+      "Symbol": "AlphaTransparencyType",
+      "Name": "AlphaTransparencyType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010120.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "MinValueTransparent",
+          "MaxValueTransparent"
+        ],
+        "Value": [
+          "0",
+          "1"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "Boolean": {
+      "Symbol": "Boolean",
+      "Name": "Boolean",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01040100.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "False",
+          "True"
+        ],
+        "Value": [
+          "0",
+          "1"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "ProductReleaseType": {
+      "Symbol": "ProductReleaseType",
+      "Name": "ProductReleaseType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010101.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "Unknown",
+          "Released",
+          "Debug",
+          "Patched",
+          "Beta",
+          "PrivateBuild"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "UserDataModeType": {
+      "Symbol": "UserDataModeType",
+      "Name": "UserDataModeType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010126.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "NotDefined",
+          "_192BitBlockStructure",
+          "AES18",
+          "UserDefined",
+          "IEC",
+          "Metadata",
+          "Reserved0",
+          "Reserved1",
+          "Reserved2",
+          "Reserved3",
+          "Reserved4",
+          "Reserved5",
+          "Reserved6",
+          "Reserved7",
+          "Reserved8",
+          "Reserved9"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "ChannelStatusModeType": {
+      "Symbol": "ChannelStatusModeType",
+      "Name": "ChannelStatusModeType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02010125.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "None",
+          "Minimum",
+          "Standard",
+          "Fixed",
+          "Stream",
+          "Essence"
+        ],
+        "Value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "RGBAComponentKind": {
+      "Symbol": "RGBAComponentKind",
+      "Name": "RGBAComponentKind",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.0201010e.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Elements": {
+        "Name": [
+          "Red",
+          "Green",
+          "Blue",
+          "Alpha",
+          "RedLSBs",
+          "GreenLSBs",
+          "BlueLSBs",
+          "AlphaLSBs",
+          "Fill",
+          "Palette",
+          "ColorDifferenceU",
+          "ColorDifferenceV",
+          "Composite",
+          "NonCoSitedLuma",
+          "Luma",
+          "Depth",
+          "ColorDifferenceULSBs",
+          "ColorDifferenceVLSBs",
+          "CompositeLSBs",
+          "NonCoSitedLumaLSBs",
+          "LumaLSBs",
+          "DepthLSBs",
+          "ColorX",
+          "ColorY",
+          "ColorZ",
+          "None",
+          "Null"
+        ],
+        "Value": [
+          "82",
+          "71",
+          "66",
+          "65",
+          "114",
+          "103",
+          "98",
+          "91",
+          "70",
+          "80",
+          "85",
+          "86",
+          "87",
+          "88",
+          "89",
+          "90",
+          "117",
+          "118",
+          "119",
+          "120",
+          "121",
+          "122",
+          "216",
+          "217",
+          "218",
+          "48",
+          "0"
+        ]
+      },
+      "Type": "TypeDefinitionEnumeration"
+    },
+    "Character": {
+      "Symbol": "Character",
+      "Name": "Character",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01100100.00000000",
+      "Description": "",
+      "Type": "TypeDefinitionCharacter"
+    },
+    "UTF16String": {
+      "Symbol": "UTF16String",
+      "Name": "UTF16String",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01100200.00000000",
+      "Description": "",
+      "ElementType": "Character",
+      "Type": "TypeDefinitionString"
+    },
+    "CodingEquations": {
+      "Symbol": "CodingEquations",
+      "Name": "CodingEquationsType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02020106.00000000",
+      "Description": "",
+      "Type": "TypeDefinitionExtendibleEnumeration"
+    },
+    "Usage": {
+      "Symbol": "Usage",
+      "Name": "UsageType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02020104.00000000",
+      "Description": "",
+      "Type": "TypeDefinitionExtendibleEnumeration"
+    },
+    "ColorPrimaries": {
+      "Symbol": "ColorPrimaries",
+      "Name": "ColorPrimariesType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02020105.00000000",
+      "Description": "",
+      "Type": "TypeDefinitionExtendibleEnumeration"
+    },
+    "TransferCharacteristic": {
+      "Symbol": "TransferCharacteristic",
+      "Name": "TransferCharacteristicType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02020102.00000000",
+      "Description": "",
+      "Type": "TypeDefinitionExtendibleEnumeration"
+    },
+    "PluginCategory": {
+      "Symbol": "PluginCategory",
+      "Name": "PluginCategoryType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02020103.00000000",
+      "Description": "",
+      "Type": "TypeDefinitionExtendibleEnumeration"
+    },
+    "OperationCategory": {
+      "Symbol": "OperationCategory",
+      "Name": "OperationCategoryType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.02020101.00000000",
+      "Description": "",
+      "Type": "TypeDefinitionExtendibleEnumeration"
+    },
+    "Indirect": {
+      "Symbol": "Indirect",
+      "Name": "Indirect",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04100300.00000000",
+      "Description": "",
+      "Type": "TypeDefinitionIndirect"
+    },
+    "Opaque": {
+      "Symbol": "Opaque",
+      "Name": "Opaque",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04100400.00000000",
+      "Description": "",
+      "Type": "TypeDefinitionOpaque"
+    },
+    "Stream": {
+      "Symbol": "Stream",
+      "Name": "Stream",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04100200.00000000",
+      "Description": "",
+      "Type": "TypeDefinitionStream"
+    },
+    "RGBALayout": {
+      "Symbol": "RGBALayout",
+      "Name": "RGBALayout",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04020100.00000000",
+      "Description": "",
+      "ElementCount": "8",
+      "ElementType": "RGBAComponent",
+      "Type": "TypeDefinitionFixedArray"
+    },
+    "UInt8Array8": {
+      "Symbol": "UInt8Array8",
+      "Name": "UInt8Array8",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04010800.00000000",
+      "Description": "",
+      "ElementCount": "8",
+      "ElementType": "UInt8",
+      "Type": "TypeDefinitionFixedArray"
+    },
+    "UInt8Array12": {
+      "Symbol": "UInt8Array12",
+      "Name": "UInt8Array12",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04010200.00000000",
+      "Description": "",
+      "ElementCount": "12",
+      "ElementType": "UInt8",
+      "Type": "TypeDefinitionFixedArray"
+    },
+    "ProductVersionType": {
+      "Symbol": "ProductVersionType",
+      "Name": "ProductVersionType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.03010200.00000000",
+      "Description": "",
+      "Members": {
+        "Name": [
+          "major",
+          "minor",
+          "tertiary",
+          "patchLevel",
+          "type"
+        ],
+        "Type": [
+          "UInt16",
+          "UInt16",
+          "UInt16",
+          "UInt16",
+          "ProductReleaseType"
+        ]
+      },
+      "Type": "TypeDefinitionRecord"
+    },
+    "VersionType": {
+      "Symbol": "VersionType",
+      "Name": "VersionType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.03010300.00000000",
+      "Description": "",
+      "Members": {
+        "Name": [
+          "major",
+          "minor"
+        ],
+        "Type": [
+          "Int8",
+          "Int8"
+        ]
+      },
+      "Type": "TypeDefinitionRecord"
+    },
+    "TimeStamp": {
+      "Symbol": "TimeStamp",
+      "Name": "TimeStamp",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.03010700.00000000",
+      "Description": "",
+      "Members": {
+        "Name": [
+          "date",
+          "time"
+        ],
+        "Type": [
+          "DateStruct",
+          "TimeStruct"
+        ]
+      },
+      "Type": "TypeDefinitionRecord"
+    },
+    "AUID": {
+      "Symbol": "AUID",
+      "Name": "AUID",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01030100.00000000",
+      "Description": "",
+      "Members": {
+        "Name": [
+          "data1",
+          "data2",
+          "data3",
+          "data4"
+        ],
+        "Type": [
+          "UInt32",
+          "UInt16",
+          "UInt16",
+          "UInt8Array8"
+        ]
+      },
+      "Type": "TypeDefinitionRecord"
+    },
+    "PackageIDType": {
+      "Symbol": "PackageIDType",
+      "Name": "PackageIDType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01030200.00000000",
+      "Description": "",
+      "Members": {
+        "Name": [
+          "SMPTELabel",
+          "length",
+          "instanceHigh",
+          "instanceMid",
+          "instanceLow",
+          "material"
+        ],
+        "Type": [
+          "UInt8Array12",
+          "UInt8",
+          "UInt8",
+          "UInt8",
+          "UInt8",
+          "AUID"
+        ]
+      },
+      "Type": "TypeDefinitionRecord"
+    },
+    "Rational": {
+      "Symbol": "Rational",
+      "Name": "Rational",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.03010100.00000000",
+      "Description": "",
+      "Members": {
+        "Name": [
+          "Numerator",
+          "Denominator"
+        ],
+        "Type": [
+          "Int32",
+          "Int32"
+        ]
+      },
+      "Type": "TypeDefinitionRecord"
+    },
+    "TimeStruct": {
+      "Symbol": "TimeStruct",
+      "Name": "TimeStruct",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.03010600.00000000",
+      "Description": "",
+      "Members": {
+        "Name": [
+          "hour",
+          "minute",
+          "second",
+          "fraction"
+        ],
+        "Type": [
+          "UInt8",
+          "UInt8",
+          "UInt8",
+          "UInt8"
+        ]
+      },
+      "Type": "TypeDefinitionRecord"
+    },
+    "RGBAComponent": {
+      "Symbol": "RGBAComponent",
+      "Name": "RGBAComponent",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.03010400.00000000",
+      "Description": "",
+      "Members": {
+        "Name": [
+          "Code",
+          "ComponentSize"
+        ],
+        "Type": [
+          "RGBAComponentKind",
+          "UInt8"
+        ]
+      },
+      "Type": "TypeDefinitionRecord"
+    },
+    "DateStruct": {
+      "Symbol": "DateStruct",
+      "Name": "DateStruct",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.03010500.00000000",
+      "Description": "",
+      "Members": {
+        "Name": [
+          "year",
+          "month",
+          "day"
+        ],
+        "Type": [
+          "Int16",
+          "UInt8",
+          "UInt8"
+        ]
+      },
+      "Type": "TypeDefinitionRecord"
+    },
+    "InterpolationDefinitionWeakReference": {
+      "Symbol": "InterpolationDefinitionWeakReference",
+      "Name": "InterpolationDefinitionWeakReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05010500.00000000",
+      "Description": "",
+      "ReferencedType": "InterpolationDefinition",
+      "TargetSet": {
+        "MetaDefRef": [
+          "Preface",
+          "Dictionaries",
+          "InterpolationDefinitions"
+        ]
+      },
+      "Type": "TypeDefinitionWeakObjectReference"
+    },
+    "ContainerDefinitionWeakReference": {
+      "Symbol": "ContainerDefinitionWeakReference",
+      "Name": "ContainerDefinitionWeakReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05010200.00000000",
+      "Description": "",
+      "ReferencedType": "ContainerDefinition",
+      "TargetSet": {
+        "MetaDefRef": [
+          "Preface",
+          "Dictionaries",
+          "ContainerDefinitions"
+        ]
+      },
+      "Type": "TypeDefinitionWeakObjectReference"
+    },
+    "DataDefinitionWeakReference": {
+      "Symbol": "DataDefinitionWeakReference",
+      "Name": "DataDefinitionWeakReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05010300.00000000",
+      "Description": "",
+      "ReferencedType": "DataDefinition",
+      "TargetSet": {
+        "MetaDefRef": [
+          "Preface",
+          "Dictionaries",
+          "DataDefinitions"
+        ]
+      },
+      "Type": "TypeDefinitionWeakObjectReference"
+    },
+    "OperationDefinitionWeakReference": {
+      "Symbol": "OperationDefinitionWeakReference",
+      "Name": "OperationDefinitionWeakReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05010700.00000000",
+      "Description": "",
+      "ReferencedType": "OperationDefinition",
+      "TargetSet": {
+        "MetaDefRef": [
+          "Preface",
+          "Dictionaries",
+          "OperationDefinitions"
+        ]
+      },
+      "Type": "TypeDefinitionWeakObjectReference"
+    },
+    "CodecDefinitionWeakReference": {
+      "Symbol": "CodecDefinitionWeakReference",
+      "Name": "CodecDefinitionWeakReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05010b00.00000000",
+      "Description": "",
+      "ReferencedType": "CodecDefinition",
+      "TargetSet": {
+        "MetaDefRef": [
+          "Preface",
+          "Dictionaries",
+          "CodecDefinitions"
+        ]
+      },
+      "Type": "TypeDefinitionWeakObjectReference"
+    },
+    "ParameterDefinitionWeakReference": {
+      "Symbol": "ParameterDefinitionWeakReference",
+      "Name": "ParameterDefinitionWeakReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05010800.00000000",
+      "Description": "",
+      "ReferencedType": "ParameterDefinition",
+      "TargetSet": {
+        "MetaDefRef": [
+          "Preface",
+          "Dictionaries",
+          "ParameterDefinitions"
+        ]
+      },
+      "Type": "TypeDefinitionWeakObjectReference"
+    },
+    "DictionaryStrongReference": {
+      "Symbol": "DictionaryStrongReference",
+      "Name": "DictionaryStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020200.00000000",
+      "Description": "",
+      "ReferencedType": "Dictionary",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "SegmentStrongReference": {
+      "Symbol": "SegmentStrongReference",
+      "Name": "SegmentStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020600.00000000",
+      "Description": "",
+      "ReferencedType": "Segment",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "DescriptiveFrameworkStrongReference": {
+      "Symbol": "DescriptiveFrameworkStrongReference",
+      "Name": "DescriptiveFrameworkStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021f00.00000000",
+      "Description": "",
+      "ReferencedType": "DescriptiveFramework",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "EssenceDescriptorStrongReference": {
+      "Symbol": "EssenceDescriptorStrongReference",
+      "Name": "EssenceDescriptorStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020300.00000000",
+      "Description": "",
+      "ReferencedType": "EssenceDescriptor",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "NetworkLocatorStrongReference": {
+      "Symbol": "NetworkLocatorStrongReference",
+      "Name": "NetworkLocatorStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020400.00000000",
+      "Description": "",
+      "ReferencedType": "NetworkLocator",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "SourceReferenceStrongReference": {
+      "Symbol": "SourceReferenceStrongReference",
+      "Name": "SourceReferenceStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020800.00000000",
+      "Description": "",
+      "ReferencedType": "SourceReference",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "ContentStorageStrongReference": {
+      "Symbol": "ContentStorageStrongReference",
+      "Name": "ContentStorageStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020100.00000000",
+      "Description": "",
+      "ReferencedType": "ContentStorage",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "OperationGroupStrongReference": {
+      "Symbol": "OperationGroupStrongReference",
+      "Name": "OperationGroupStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020500.00000000",
+      "Description": "",
+      "ReferencedType": "OperationGroup",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "PackageStrongReference": {
+      "Symbol": "PackageStrongReference",
+      "Name": "PackageStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021300.00000000",
+      "Description": "",
+      "ReferencedType": "Package",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "KLVDataDefinitionStrongReference": {
+      "Symbol": "KLVDataDefinitionStrongReference",
+      "Name": "KLVDataDefinitionStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05022000.00000000",
+      "Description": "",
+      "ReferencedType": "KLVDataDefinition",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "ParameterDefinitionStrongReference": {
+      "Symbol": "ParameterDefinitionStrongReference",
+      "Name": "ParameterDefinitionStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021700.00000000",
+      "Description": "",
+      "ReferencedType": "ParameterDefinition",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "CodecDefinitionStrongReference": {
+      "Symbol": "CodecDefinitionStrongReference",
+      "Name": "CodecDefinitionStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020a00.00000000",
+      "Description": "",
+      "ReferencedType": "CodecDefinition",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "DataDefinitionStrongReference": {
+      "Symbol": "DataDefinitionStrongReference",
+      "Name": "DataDefinitionStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020e00.00000000",
+      "Description": "",
+      "ReferencedType": "DataDefinition",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "LocatorStrongReference": {
+      "Symbol": "LocatorStrongReference",
+      "Name": "LocatorStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021200.00000000",
+      "Description": "",
+      "ReferencedType": "Locator",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "ParameterStrongReference": {
+      "Symbol": "ParameterStrongReference",
+      "Name": "ParameterStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021600.00000000",
+      "Description": "",
+      "ReferencedType": "Parameter",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "TaggedValueDefinitionStrongReference": {
+      "Symbol": "TaggedValueDefinitionStrongReference",
+      "Name": "TaggedValueDefinitionStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05022100.00000000",
+      "Description": "",
+      "ReferencedType": "TaggedValueDefinition",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "ComponentStrongReference": {
+      "Symbol": "ComponentStrongReference",
+      "Name": "ComponentStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020b00.00000000",
+      "Description": "",
+      "ReferencedType": "Component",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "TaggedValueStrongReference": {
+      "Symbol": "TaggedValueStrongReference",
+      "Name": "TaggedValueStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021a00.00000000",
+      "Description": "",
+      "ReferencedType": "TaggedValue",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "EssenceDataStrongReference": {
+      "Symbol": "EssenceDataStrongReference",
+      "Name": "EssenceDataStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020f00.00000000",
+      "Description": "",
+      "ReferencedType": "EssenceData",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "RIFFChunkStrongReference": {
+      "Symbol": "RIFFChunkStrongReference",
+      "Name": "RIFFChunkStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021e00.00000000",
+      "Description": "",
+      "ReferencedType": "RIFFChunk",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "SubDescriptorStrongReference": {
+      "Symbol": "SubDescriptorStrongReference",
+      "Name": "SubDescriptorStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05022600.00000000",
+      "Description": "",
+      "ReferencedType": "SubDescriptor",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "InterpolationDefinitionStrongReference": {
+      "Symbol": "InterpolationDefinitionStrongReference",
+      "Name": "InterpolationDefinitionStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021100.00000000",
+      "Description": "",
+      "ReferencedType": "InterpolationDefinition",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "OperationDefinitionStrongReference": {
+      "Symbol": "OperationDefinitionStrongReference",
+      "Name": "OperationDefinitionStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021500.00000000",
+      "Description": "",
+      "ReferencedType": "OperationDefinition",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "FileDescriptorStrongReference": {
+      "Symbol": "FileDescriptorStrongReference",
+      "Name": "FileDescriptorStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021d00.00000000",
+      "Description": "",
+      "ReferencedType": "FileDescriptor",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "ContainerDefinitionStrongReference": {
+      "Symbol": "ContainerDefinitionStrongReference",
+      "Name": "ContainerDefinitionStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020c00.00000000",
+      "Description": "",
+      "ReferencedType": "ContainerDefinition",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "IdentificationStrongReference": {
+      "Symbol": "IdentificationStrongReference",
+      "Name": "IdentificationStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021000.00000000",
+      "Description": "",
+      "ReferencedType": "Identification",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "TrackStrongReference": {
+      "Symbol": "TrackStrongReference",
+      "Name": "TrackStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021400.00000000",
+      "Description": "",
+      "ReferencedType": "Track",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "PluginDefinitionStrongReference": {
+      "Symbol": "PluginDefinitionStrongReference",
+      "Name": "PluginDefinitionStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021800.00000000",
+      "Description": "",
+      "ReferencedType": "PluginDefinition",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "KLVDataStrongReference": {
+      "Symbol": "KLVDataStrongReference",
+      "Name": "KLVDataStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05021c00.00000000",
+      "Description": "",
+      "ReferencedType": "KLVData",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "ControlPointStrongReference": {
+      "Symbol": "ControlPointStrongReference",
+      "Name": "ControlPointStrongReference",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05020d00.00000000",
+      "Description": "",
+      "ReferencedType": "ControlPoint",
+      "Type": "TypeDefinitionStrongObjectReference"
+    },
+    "DataDefinitionStrongReferenceSet": {
+      "Symbol": "DataDefinitionStrongReferenceSet",
+      "Name": "DataDefinitionStrongReferenceSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05050400.00000000",
+      "Description": "",
+      "ElementType": "DataDefinitionStrongReference",
+      "Type": "TypeDefinitionSet"
+    },
+    "AUIDSet": {
+      "Symbol": "AUIDSet",
+      "Name": "AUIDSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04030100.00000000",
+      "Description": "",
+      "ElementType": "AUID",
+      "Type": "TypeDefinitionSet"
+    },
+    "OperationDefinitionStrongReferenceSet": {
+      "Symbol": "OperationDefinitionStrongReferenceSet",
+      "Name": "OperationDefinitionStrongReferenceSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05050800.00000000",
+      "Description": "",
+      "ElementType": "OperationDefinitionStrongReference",
+      "Type": "TypeDefinitionSet"
+    },
+    "EssenceDataStrongReferenceSet": {
+      "Symbol": "EssenceDataStrongReferenceSet",
+      "Name": "EssenceDataStrongReferenceSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05050500.00000000",
+      "Description": "",
+      "ElementType": "EssenceDataStrongReference",
+      "Type": "TypeDefinitionSet"
+    },
+    "KLVDataDefinitionStrongReferenceSet": {
+      "Symbol": "KLVDataDefinitionStrongReferenceSet",
+      "Name": "KLVDataDefinitionStrongReferenceSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05050d00.00000000",
+      "Description": "",
+      "ElementType": "KLVDataDefinitionStrongReference",
+      "Type": "TypeDefinitionSet"
+    },
+    "ParameterDefinitionStrongReferenceSet": {
+      "Symbol": "ParameterDefinitionStrongReferenceSet",
+      "Name": "ParameterDefinitionStrongReferenceSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05050900.00000000",
+      "Description": "",
+      "ElementType": "ParameterDefinitionStrongReference",
+      "Type": "TypeDefinitionSet"
+    },
+    "InterpolationDefinitionStrongReferenceSet": {
+      "Symbol": "InterpolationDefinitionStrongReferenceSet",
+      "Name": "InterpolationDefinitionStrongReferenceSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05050600.00000000",
+      "Description": "",
+      "ElementType": "InterpolationDefinitionStrongReference",
+      "Type": "TypeDefinitionSet"
+    },
+    "CodecDefinitionStrongReferenceSet": {
+      "Symbol": "CodecDefinitionStrongReferenceSet",
+      "Name": "CodecDefinitionStrongReferenceSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05050200.00000000",
+      "Description": "",
+      "ElementType": "CodecDefinitionStrongReference",
+      "Type": "TypeDefinitionSet"
+    },
+    "TaggedValueDefinitionStrongReferenceSet": {
+      "Symbol": "TaggedValueDefinitionStrongReferenceSet",
+      "Name": "TaggedValueDefinitionStrongReferenceSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05050e00.00000000",
+      "Description": "",
+      "ElementType": "TaggedValueDefinitionStrongReference",
+      "Type": "TypeDefinitionSet"
+    },
+    "ParameterDefinitionWeakReferenceSet": {
+      "Symbol": "ParameterDefinitionWeakReferenceSet",
+      "Name": "ParameterDefinitionWeakReferenceSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05030e00.00000000",
+      "Description": "",
+      "ElementType": "ParameterDefinitionWeakReference",
+      "Type": "TypeDefinitionSet"
+    },
+    "PluginDefinitionStrongReferenceSet": {
+      "Symbol": "PluginDefinitionStrongReferenceSet",
+      "Name": "PluginDefinitionStrongReferenceSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05050a00.00000000",
+      "Description": "",
+      "ElementType": "PluginDefinitionStrongReference",
+      "Type": "TypeDefinitionSet"
+    },
+    "PackageStrongReferenceSet": {
+      "Symbol": "PackageStrongReferenceSet",
+      "Name": "PackageStrongReferenceSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05050700.00000000",
+      "Description": "",
+      "ElementType": "PackageStrongReference",
+      "Type": "TypeDefinitionSet"
+    },
+    "UInt32Set": {
+      "Symbol": "UInt32Set",
+      "Name": "UInt32Set",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04030200.00000000",
+      "Description": "",
+      "ElementType": "UInt32",
+      "Type": "TypeDefinitionSet"
+    },
+    "ContainerDefinitionStrongReferenceSet": {
+      "Symbol": "ContainerDefinitionStrongReferenceSet",
+      "Name": "ContainerDefinitionStrongReferenceSet",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05050300.00000000",
+      "Description": "",
+      "ElementType": "ContainerDefinitionStrongReference",
+      "Type": "TypeDefinitionSet"
+    },
+    "SegmentStrongReferenceVector": {
+      "Symbol": "SegmentStrongReferenceVector",
+      "Name": "SegmentStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060600.00000000",
+      "Description": "",
+      "ElementType": "SegmentStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "UInt8Array": {
+      "Symbol": "UInt8Array",
+      "Name": "UInt8Array",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04010100.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "ControlPointStrongReferenceVector": {
+      "Symbol": "ControlPointStrongReferenceVector",
+      "Name": "ControlPointStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060200.00000000",
+      "Description": "",
+      "ElementType": "ControlPointStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "UTF16StringArray": {
+      "Symbol": "UTF16StringArray",
+      "Name": "UTF16StringArray",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04010500.00000000",
+      "Description": "",
+      "ElementType": "Character",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "SubDescriptorStrongReferenceVector": {
+      "Symbol": "SubDescriptorStrongReferenceVector",
+      "Name": "SubDescriptorStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060e00.00000000",
+      "Description": "",
+      "ElementType": "SubDescriptorStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "UInt32Array": {
+      "Symbol": "UInt32Array",
+      "Name": "UInt32Array",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04010900.00000000",
+      "Description": "",
+      "ElementType": "UInt32",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "ParameterStrongReferenceVector": {
+      "Symbol": "ParameterStrongReferenceVector",
+      "Name": "ParameterStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060a00.00000000",
+      "Description": "",
+      "ElementType": "ParameterStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "SourceReferenceStrongReferenceVector": {
+      "Symbol": "SourceReferenceStrongReferenceVector",
+      "Name": "SourceReferenceStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060700.00000000",
+      "Description": "",
+      "ElementType": "SourceReferenceStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "IdentificationStrongReferenceVector": {
+      "Symbol": "IdentificationStrongReferenceVector",
+      "Name": "IdentificationStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060300.00000000",
+      "Description": "",
+      "ElementType": "IdentificationStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "Int64Array": {
+      "Symbol": "Int64Array",
+      "Name": "Int64Array",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04010400.00000000",
+      "Description": "",
+      "ElementType": "Int64",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "DataDefinitionWeakReferenceVector": {
+      "Symbol": "DataDefinitionWeakReferenceVector",
+      "Name": "DataDefinitionWeakReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05040300.00000000",
+      "Description": "",
+      "ElementType": "DataDefinitionWeakReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "FileDescriptorStrongReferenceVector": {
+      "Symbol": "FileDescriptorStrongReferenceVector",
+      "Name": "FileDescriptorStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060b00.00000000",
+      "Description": "",
+      "ElementType": "FileDescriptorStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "Int32Array": {
+      "Symbol": "Int32Array",
+      "Name": "Int32Array",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04010300.00000000",
+      "Description": "",
+      "ElementType": "Int32",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "LocatorStrongReferenceVector": {
+      "Symbol": "LocatorStrongReferenceVector",
+      "Name": "LocatorStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060400.00000000",
+      "Description": "",
+      "ElementType": "LocatorStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "UserDataModeArray": {
+      "Symbol": "UserDataModeArray",
+      "Name": "UserDataModeArray",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04010b00.00000000",
+      "Description": "",
+      "ElementType": "UserDataModeType",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "RIFFChunkStrongReferenceVector": {
+      "Symbol": "RIFFChunkStrongReferenceVector",
+      "Name": "RIFFChunkStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060c00.00000000",
+      "Description": "",
+      "ElementType": "RIFFChunkStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "TaggedValueStrongReferenceVector": {
+      "Symbol": "TaggedValueStrongReferenceVector",
+      "Name": "TaggedValueStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060800.00000000",
+      "Description": "",
+      "ElementType": "TaggedValueStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "TrackStrongReferenceVector": {
+      "Symbol": "TrackStrongReferenceVector",
+      "Name": "TrackStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060500.00000000",
+      "Description": "",
+      "ElementType": "TrackStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "DataValue": {
+      "Symbol": "DataValue",
+      "Name": "DataValue",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04100100.00000000",
+      "Description": "",
+      "ElementType": "UInt8",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "AUIDArray": {
+      "Symbol": "AUIDArray",
+      "Name": "AUIDArray",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04010600.00000000",
+      "Description": "",
+      "ElementType": "AUID",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "OperationDefinitionWeakReferenceVector": {
+      "Symbol": "OperationDefinitionWeakReferenceVector",
+      "Name": "OperationDefinitionWeakReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05040100.00000000",
+      "Description": "",
+      "ElementType": "OperationDefinitionWeakReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "ComponentStrongReferenceVector": {
+      "Symbol": "ComponentStrongReferenceVector",
+      "Name": "ComponentStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060100.00000000",
+      "Description": "",
+      "ElementType": "ComponentStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "ChannelStatusModeArray": {
+      "Symbol": "ChannelStatusModeArray",
+      "Name": "ChannelStatusModeArray",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.04010a00.00000000",
+      "Description": "",
+      "ElementType": "ChannelStatusModeType",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "KLVDataStrongReferenceVector": {
+      "Symbol": "KLVDataStrongReferenceVector",
+      "Name": "KLVDataStrongReferenceVector",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.05060900.00000000",
+      "Description": "",
+      "ElementType": "KLVDataStrongReference",
+      "Type": "TypeDefinitionVariableArray"
+    },
+    "PhaseFrameType": {
+      "Symbol": "PhaseFrameType",
+      "Name": "PhaseFrameType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01012300.00000000",
+      "Description": "",
+      "RenamedType": "Int32",
+      "Type": "TypeDefinitionRename"
+    },
+    "LengthType": {
+      "Symbol": "LengthType",
+      "Name": "LengthType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01012002.00000000",
+      "Description": "",
+      "RenamedType": "Int64",
+      "Type": "TypeDefinitionRename"
+    },
+    "JPEGTableIDType": {
+      "Symbol": "JPEGTableIDType",
+      "Name": "JPEGTableIDType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01012003.00000000",
+      "Description": "",
+      "RenamedType": "Int32",
+      "Type": "TypeDefinitionRename"
+    },
+    "PositionType": {
+      "Symbol": "PositionType",
+      "Name": "PositionType",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01012001.00000000",
+      "Description": "",
+      "RenamedType": "Int64",
+      "Type": "TypeDefinitionRename"
+    }
+  },
+  "ExtendibleEnumerationElement": {
+    "ITU601": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020106.00000000",
+      "Name": "ITU601",
+      "Value": "urn:smpte:ul:060e2b34.04010101.04010101.02010000",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "CodingEquations"
+    },
+    "ITU709": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020102.00000000",
+      "Name": "ITU709",
+      "Value": "urn:smpte:ul:060e2b34.04010101.04010101.01020000",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "TransferCharacteristic"
+    },
+    "SMPTE240": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020102.00000000",
+      "Name": "SMPTE240",
+      "Value": "urn:smpte:ul:060e2b34.04010101.04010101.01030000",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "TransferCharacteristic"
+    },
+    "AdjustedClip": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020104.00000000",
+      "Name": "AdjustedClip",
+      "Value": "urn:smpte:ul:060e2b34.04010101.0d010102.01010600",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "Usage"
+    },
+    "LowerLevel": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020104.00000000",
+      "Name": "LowerLevel",
+      "Value": "urn:smpte:ul:060e2b34.04010101.0d010102.01010800",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "Usage"
+    },
+    "SubClip": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020104.00000000",
+      "Name": "SubClip",
+      "Value": "urn:smpte:ul:060e2b34.04010101.0d010102.01010500",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "Usage"
+    },
+    "Template": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020104.00000000",
+      "Name": "Template",
+      "Value": "urn:smpte:ul:060e2b34.04010101.0d010102.01010900",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "Usage"
+    },
+    "TopLevel": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020104.00000000",
+      "Name": "TopLevel",
+      "Value": "urn:smpte:ul:060e2b34.04010101.0d010102.01010700",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "Usage"
+    },
+    "ITU470_PAL": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020102.00000000",
+      "Name": "ITU470_PAL",
+      "Value": "urn:smpte:ul:060e2b34.04010101.04010101.01010000",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "TransferCharacteristic"
+    },
+    "SMPTE170": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020105.00000000",
+      "Name": "SMPTE170",
+      "Value": "urn:smpte:ul:060e2b34.04010106.04010101.03010000",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "ColorPrimaries"
+    },
+    "ITU1361": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020102.00000000",
+      "Name": "ITU1361",
+      "Value": "urn:smpte:ul:060e2b34.04010101.04010101.01050000",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "TransferCharacteristic"
+    },
+    "_274_296": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020102.00000000",
+      "Name": "_274_296",
+      "Value": "urn:smpte:ul:060e2b34.04010101.04010101.01040000",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "TransferCharacteristic"
+    },
+    "Linear": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020102.00000000",
+      "Name": "Linear",
+      "Value": "urn:smpte:ul:060e2b34.04010101.04010101.01060000",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "TransferCharacteristic"
+    },
+    "Codec": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020103.00000000",
+      "Name": "Codec",
+      "Value": "urn:smpte:ul:060e2b34.04010101.0d010102.01010300",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "PluginCategory"
+    },
+    "Effect": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020101.00000000",
+      "Name": "Effect",
+      "Value": "urn:smpte:ul:060e2b34.04010101.0d010102.01010100",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "OperationCategory"
+    },
+    "Interpolation": {
+      "ElementOf": "urn:smpte:ul:060e2b34.01040101.02020103.00000000",
+      "Name": "Interpolation",
+      "Value": "urn:smpte:ul:060e2b34.04010101.0d010102.01010400",
+      "Type": "ExtendibleEnumerationElement",
+      "ExtendibleTypeName": "PluginCategory"
+    }
+  }
+}

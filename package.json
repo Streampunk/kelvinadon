@@ -1,0 +1,27 @@
+{
+  "name": "kelvinadon",
+  "version": "0.0.1",
+  "description": "Streaming MXF library for Node.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Streampunk/kelvinadon.git"
+  },
+  "keywords": [
+    "MXF",
+    "streaming"
+  ],
+  "author": "Streampunk Media <furnace@streampunk.media> (http://www.streampunk.media)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Streampunk/kelvinadon/issues"
+  },
+  "homepage": "https://github.com/Streampunk/kelvinadon#readme",
+  "dependencies": {
+    "uuid": "^2.0.2",
+    "xml2js": "^0.4.16"
+  }
+}
