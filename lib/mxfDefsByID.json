@@ -1,0 +1,559 @@
+{
+  "060e2b34-0101-0105-0103-060300000000": {
+    "Symbol": "UID",
+    "Name": "UID",
+    "Identification": "urn:smpte:ul:060e2b34.01010105.01030603.00000000",
+    "Description": "",
+    "MemberOf": "LocalTagEntry",
+    "Type": "AUID",
+    "IsOptional": false,
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0105-0103-060200000000": {
+    "Symbol": "LocalTag",
+    "Name": "Local Tag",
+    "Identification": "urn:smpte:ul:060e2b34.01010105.01030602.00000000",
+    "Description": "",
+    "MemberOf": "LocalTagEntry",
+    "Type": "UInt16",
+    "IsOptional": false,
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0101-0f72-110201000000": {
+    "Symbol": "LocalTagEntry",
+    "Name": "LocalTagEntry",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.01000000",
+    "Description": "",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition",
+    "PackOrder": [
+      "LocalTag",
+      "UID"
+    ]
+  },
+  "060e2b34-0101-0105-0601-010715000000": {
+    "Symbol": "LocalTagEntryBatch",
+    "Name": "LocalTagEntry Batch",
+    "Identification": "urn:smpte:ul:060e2b34.01010105.06010107.15000000",
+    "Description": "",
+    "MemberOf": "PrimerPack",
+    "Type": "LocalTagEntryBatch",
+    "IsOptional": false,
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0101-0f72-110203000000": {
+    "Symbol": "LocalTagEntryBatch",
+    "Name": "LocalTagEntryBatch",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.03000000",
+    "Description": "",
+    "ElementType": "LocalTagEntryReference",
+    "MetaType": "TypeDefinitionSet"
+  },
+  "060e2b34-0101-0101-0f72-110202000000": {
+    "Symbol": "LocalTagEntryReference",
+    "Name": "LocalTagEntryReference",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.02000000",
+    "Description": "",
+    "ReferencedType": "LocalTagEntry",
+    "MetaType": "TypeDefinitionStrongObjectReference"
+  },
+  "060e2b34-0205-0101-0d01-020101050100": {
+    "Symbol": "PrimerPack",
+    "Name": "PrimerPack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01050100",
+    "Description": "",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition",
+    "PackOrder": [
+      "LocalTagEntryBatch"
+    ]
+  },
+  "060e2b34-0104-0101-0f72-110205000000": {
+    "Symbol": "RandomIndexItem",
+    "Name": "RandomIndexItem",
+    "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.05000000",
+    "Description": "",
+    "Members": {
+      "Name": [
+        "BodySID",
+        "ByteOffset"
+      ],
+      "Type": [
+        "UInt32",
+        "UInt64"
+      ]
+    },
+    "MetaType": "TypeDefinitionRecord"
+  },
+  "060e2b34-0104-0101-0f72-110204000000": {
+    "Symbol": "RandomIndexItemArray",
+    "Name": "RandomIndexItemArray",
+    "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.04000000",
+    "Description": "",
+    "ElementType": "RandonIndexItem",
+    "MetaType": "TypeDefinitionVariableArray"
+  },
+  "060e2b34-0101-0101-0f72-11020a000000": {
+    "Symbol": "PartitionIndex",
+    "Name": "PartitionIndex",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.0a000000",
+    "Description": "",
+    "MemberOf": "RandomIndexPack",
+    "Type": "RandomIndexItemArray",
+    "IsOptional": false,
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0406-100100000000": {
+    "Symbol": "Length",
+    "Name": "Length",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.04061001.00000000",
+    "Description": "",
+    "MemberOf": "RandomIndexPack",
+    "Type": "UInt32",
+    "IsOptional": false,
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0205-0101-0d01-020101110100": {
+    "Symbol": "RandomIndexPack",
+    "Name": "RandomIndexPack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01110100",
+    "Description": "",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0104-0101-0f72-110207000000": {
+    "Symbol": "IndexEntry",
+    "Name": "IndexEntry",
+    "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.07000000",
+    "Description": "",
+    "Members": {
+      "Name": [
+        "TemporalOffset",
+        "KeyFrameOffset",
+        "Flags",
+        "StreamOffset"
+      ],
+      "Type": [
+        "Int8",
+        "Int8",
+        "UInt8",
+        "UInt64"
+      ]
+    },
+    "MetaType": "TypeDefinitionRecord"
+  },
+  "060e2b34-0104-0101-0f72-110206000000": {
+    "Symbol": "IndexEntryArray",
+    "Name": "IndexEntryArray",
+    "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.06000000",
+    "Description": "",
+    "ElementType": "IndexEntry",
+    "MetaType": "TypeDefinitionVariableArray"
+  },
+  "060e2b34-0104-0101-0f72-110209000000": {
+    "Symbol": "DeltaEntry",
+    "Name": "DeltaEntry",
+    "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.09000000",
+    "Description": "",
+    "Members": {
+      "Name": [
+        "PosTableIndex",
+        "Slice",
+        "ElementDelta"
+      ],
+      "Type": [
+        "Int8",
+        "UInt8",
+        "UInt32"
+      ]
+    },
+    "MetaType": "TypeDefinitionRecord"
+  },
+  "060e2b34-0104-0101-0f72-110208000000": {
+    "Symbol": "DeltaEntryArray",
+    "Name": "DeltaEntryArray",
+    "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.08000000",
+    "Description": "",
+    "ElementType": "DeltaEntry",
+    "MetaType": "TypeDefinitionVariableArray"
+  },
+  "060e2b34-0101-010a-0406-020500000000": {
+    "Symbol": "VBEByteCount",
+    "Name": "VBEByteCount",
+    "Identification": "urn:smpte:ul:060e2b34.0101010a.04060205.00000000",
+    "Description": "",
+    "LocalIdentification": 16144,
+    "MemberOf": "IndexTableSegment",
+    "IsOptional": true,
+    "Type": "UInt64",
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-010a-0406-020400000000": {
+    "Symbol": "ExtStartOffset",
+    "Name": "ExtStartOffset",
+    "Identification": "urn:smpte:ul:060e2b34.0101010a.04060204.00000000",
+    "Description": "",
+    "LocalIdentification": 16143,
+    "MemberOf": "IndexTableSegment",
+    "IsOptional": true,
+    "Type": "UInt64",
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0105-0702-0103010a0000": {
+    "Symbol": "IndexStartPosition",
+    "Name": "Index Start Position",
+    "Identification": "urn:smpte:ul:060e2b34.01010105.07020103.010a0000",
+    "Description": "",
+    "LocalIdentification": 16140,
+    "MemberOf": "IndexTableSegment",
+    "IsOptional": false,
+    "Type": "PositionType",
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0105-0530-040600000000": {
+    "Symbol": "IndexEditRate",
+    "Name": "Index Edit Rate",
+    "Identification": "urn:smpte:ul:060e2b34.01010105.05300406.00000000",
+    "Description": "",
+    "LocalIdentification": 16139,
+    "MemberOf": "IndexTableSegment",
+    "IsOptional": false,
+    "Type": "Rational",
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0103-040400000000": {
+    "Symbol": "BodySID",
+    "Name": "BodySID",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.01030404.00000000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "UInt32",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0406-020100000000": {
+    "Symbol": "EditUnitByteCount",
+    "Name": "Edit Unit Byte Count",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.04060201.00000000",
+    "Description": "",
+    "LocalIdentification": 16133,
+    "MemberOf": "IndexTableSegment",
+    "IsOptional": false,
+    "Type": "UInt32",
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0105-0404-040205000000": {
+    "Symbol": "IndexEntryArray",
+    "Name": "Index Entry Array",
+    "Identification": "urn:smpte:ul:060e2b34.01010105.04040402.05000000",
+    "Description": "",
+    "LocalIdentification": 16138,
+    "MemberOf": "IndexTableSegment",
+    "IsOptional": true,
+    "Type": "IndexEntryArray",
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0103-040500000000": {
+    "Symbol": "IndexSID",
+    "Name": "IndexSID",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.01030405.00000000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "UInt32",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0404-040101000000": {
+    "Symbol": "SliceCount",
+    "Name": "Slice Count",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.04040401.01000000",
+    "Description": "",
+    "LocalIdentification": 16136,
+    "MemberOf": "IndexTableSegment",
+    "IsOptional": false,
+    "Type": "UInt8",
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0105-0404-040107000000": {
+    "Symbol": "PosTableCount",
+    "Name": "PosTableCount",
+    "Identification": "urn:smpte:ul:060e2b34.01010105.04040401.07000000",
+    "Description": "",
+    "LocalIdentification": 16142,
+    "MemberOf": "IndexTableSegment",
+    "IsOptional": true,
+    "Type": "UInt8",
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0105-0404-040106000000": {
+    "Symbol": "DeltaEntryArray",
+    "Name": "Delta Entry Array",
+    "Identification": "urn:smpte:ul:060e2b34.01010105.04040401.06000000",
+    "Description": "",
+    "LocalIdentification": 16137,
+    "MemberOf": "IndexTableSegment",
+    "IsOptional": true,
+    "Type": "DeltaEntryArray",
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0105-0702-020101020000": {
+    "Symbol": "IndexDuration",
+    "Name": "Index Duration",
+    "Identification": "urn:smpte:ul:060e2b34.01010105.07020201.01020000",
+    "Description": "",
+    "LocalIdentification": 16141,
+    "MemberOf": "IndexTableSegment",
+    "IsOptional": false,
+    "Type": "LengthType",
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0610-100501000000": {
+    "Symbol": "FooterPartition",
+    "Name": "FooterPartition",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.06101005.01000000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "UInt64",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0610-100301000000": {
+    "Symbol": "ThisPartition",
+    "Name": "ThisPartition",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.06101003.01000000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "UInt64",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0610-100201000000": {
+    "Symbol": "PreviousPartition",
+    "Name": "PreviousPartition",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.06101002.01000000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "UInt64",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0105-0102-021002010000": {
+    "Symbol": "EssenceContainers",
+    "Name": "EssenceContainers",
+    "Identification": "urn:smpte:ul:060e2b34.01010105.01020210.02010000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "AUIDSet",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0608-010201030000": {
+    "Symbol": "BodyOffset",
+    "Name": "BodyOffset",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.06080102.01030000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "UInt64",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0406-090100000000": {
+    "Symbol": "HeaderByteCount",
+    "Name": "HeaderByteCount",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.04060901.00000000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "UInt64",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0406-090200000000": {
+    "Symbol": "IndexByteCount",
+    "Name": "IndexByteCount",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.04060902.00000000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "UInt64",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0301-020109000000": {
+    "Symbol": "KAGSize",
+    "Name": "KAGSize",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.03010201.09000000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "UInt32",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0105-0102-020300000000": {
+    "Symbol": "OperationalPattern",
+    "Name": "Operational Pattern",
+    "Identification": "urn:smpte:ul:060e2b34.01010105.01020203.00000000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "AUID",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0301-020106000000": {
+    "Symbol": "MajorVersion",
+    "Name": "Major Version",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.03010201.06000000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "UInt16",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0104-0301-020107000000": {
+    "Symbol": "MinorVersion",
+    "Name": "Minor Version",
+    "Identification": "urn:smpte:ul:060e2b34.01010104.03010201.07000000",
+    "Description": "",
+    "MemberOf": "PartitionPack",
+    "IsOptional": false,
+    "Type": "UInt16",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0205-0101-0d01-020101000000": {
+    "Symbol": "PartitionPack",
+    "Name": "PartitionPack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01000000",
+    "Description": "",
+    "IsConcrete": false,
+    "MetaType": "ClassDefinition",
+    "PackOrder": [
+      "MajorVersion",
+      "MinorVersion",
+      "KAGSize",
+      "ThisPartition",
+      "PreviousPartition",
+      "FooterPartition",
+      "HeaderByteCount",
+      "IndexByteCount",
+      "IndexSID",
+      "BodyOffset",
+      "BodySID",
+      "OperationalPattern",
+      "EssenceContainers"
+    ]
+  },
+  "060e2b34-0205-0101-0d01-020101020100": {
+    "Symbol": "HeaderOpenIncompletePartitionPack",
+    "Name": "Header Open Incomplete Partition Pack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01020100",
+    "Description": "",
+    "ParentClass": "PartitionPack",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0205-0101-0d01-020101020200": {
+    "Symbol": "HeaderClosedIncompletePartitionPack",
+    "Name": "Header Closed Incomplete Partition Pack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01020200",
+    "Description": "",
+    "ParentClass": "PartitionPack",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0205-0101-0d01-020101020300": {
+    "Symbol": "HeaderOpenCompletePartitionPack",
+    "Name": "Header Open Complete Partition Pack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01020300",
+    "Description": "",
+    "ParentClass": "PartitionPack",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0205-0101-0d01-020101020400": {
+    "Symbol": "HeaderClosedCompletePartitionPack",
+    "Name": "Header Closed Complete Partition Pack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01020400",
+    "Description": "",
+    "ParentClass": "PartitionPack",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0205-0101-0d01-020101030100": {
+    "Symbol": "BodyOpenIncompletePartitionPack",
+    "Name": "Body Open Incomplete Partition Pack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01030100",
+    "Description": "",
+    "ParentClass": "PartitionPack",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0205-0101-0d01-020101030200": {
+    "Symbol": "BodyClosedIncompletePartitionPack",
+    "Name": "Body Closed Incomplete Partition Pack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01030200",
+    "Description": "",
+    "ParentClass": "PartitionPack",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0205-0101-0d01-020101030300": {
+    "Symbol": "BodyOpenCompletePartitionPack",
+    "Name": "Body Open Complete Partition Pack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01030300",
+    "Description": "",
+    "ParentClass": "PartitionPack",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0205-0101-0d01-020101030400": {
+    "Symbol": "BodyClosedCompletePartitionPack",
+    "Name": "Body Closed Complete Partition Pack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01030400",
+    "Description": "",
+    "ParentClass": "PartitionPack",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0205-0101-0d01-020101040200": {
+    "Symbol": "FooterClosedIncompletePartitionPack",
+    "Name": "Footer Closed Incomplete Partition Pack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01040200",
+    "Description": "",
+    "ParentClass": "PartitionPack",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0205-0101-0d01-020101040400": {
+    "Symbol": "FooterClosedCompletePartitionPack",
+    "Name": "Footer Closed Complete Partition Pack",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01040400",
+    "Description": "",
+    "ParentClass": "PartitionPack",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0101-0102-0301-021001000000": {
+    "Symbol": "KLVFill",
+    "Name": "KLV Fill",
+    "Identification": "urn:smpte:ul:060e2b34.01010102.03010210.01000000",
+    "Description": "",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  }
+}

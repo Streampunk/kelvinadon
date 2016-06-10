@@ -46,8 +46,15 @@ parser.parseString(initRead.toString(), function (err, data) {
         if (Array.isArray(meta[k]) && meta[k].length === 1) {
           meta[k] = meta[k][0];
         };
+        if (meta[k] === 'true') {
+          meta[k] = true;
+        } else if (meta[k] === 'false') {
+          meta[k] = false;
+        } else if (meta[k].length > 0 && !isNaN(+meta[k])) {
+          meta[k] = +meta[k];
+        };
       });
-      meta['Type'] = type;
+      meta['MetaType'] = type;
       if (meta.Identification) {
         metaDefsByID[ulToUUID(meta.Identification)] = meta;
       }

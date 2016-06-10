@@ -1,0 +1,706 @@
+/* Copyright 2016 Streampunk Media Ltd.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
+
+var fs = require('fs');
+var uuid = require('uuid');
+
+var metaDefsIDFile = (process.argv[2]) ? process.argv[2] : 'lib/mxfDefsByID.json';
+var metaDefsNameFile = (process.argv[3]) ? process.argv[3] : 'lib/mxfDefsByName.json';
+
+var primerPack = {
+  Symbol: "PrimerPack",
+  Name: "PrimerPack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01050100",
+  Description: "",
+  IsConcrete: true,
+  MetaType: "ClassDefinition",
+  PackOrder: [ "LocalTagEntryBatch" ]
+};
+
+var localTagEntry = {
+  Symbol: "LocalTagEntry",
+  Name: "LocalTagEntry",
+  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.01000000",
+  Description: "",
+  IsConcrete: true,
+  MetaType: "ClassDefinition",
+  PackOrder: [ "LocalTag", "UID" ]
+};
+
+var uid = {
+  Symbol: "UID",
+  Name: "UID",
+  Identification: "urn:smpte:ul:060e2b34.01010105.01030603.00000000",
+  Description: "",
+  MemberOf: "LocalTagEntry",
+  Type: "AUID",
+  IsOptional: false,
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+}
+
+var localTag = {
+  Symbol: "LocalTag",
+  Name: "Local Tag",
+  Identification: "urn:smpte:ul:060e2b34.01010105.01030602.00000000",
+  Description: "",
+  MemberOf: "LocalTagEntry",
+  Type: "UInt16",
+  IsOptional: false,
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var localTagEntryBatchProperty = {
+  Symbol: "LocalTagEntryBatch",
+  Name: "LocalTagEntry Batch",
+  Identification: "urn:smpte:ul:060e2b34.01010105.06010107.15000000",
+  Description: "",
+  MemberOf: "PrimerPack",
+  Type: "LocalTagEntryBatch",
+  IsOptional: false,
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var localTagEntryBatchType = {
+  Symbol: "LocalTagEntryBatch",
+  Name: "LocalTagEntryBatch",
+  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.03000000",
+  Description: "",
+  ElementType: "LocalTagEntryReference",
+  MetaType: "TypeDefinitionSet"
+};
+
+var localTagEntryReference = {
+  Symbol: "LocalTagEntryReference",
+  Name: "LocalTagEntryReference",
+  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.02000000",
+  Description: "",
+  ReferencedType: "LocalTagEntry",
+  MetaType: "TypeDefinitionStrongObjectReference"
+};
+
+var randomIndexItemArray = {
+  Symbol: "RandomIndexItemArray",
+  Name: "RandomIndexItemArray",
+  Identification: "urn:smpte:ul:060e2b34.01040101.0f721102.04000000",
+  Description: "",
+  ElementType: "RandonIndexItem",
+  MetaType: "TypeDefinitionVariableArray"
+};
+
+var randomIndexItem = {
+  Symbol: "RandomIndexItem",
+  Name: "RandomIndexItem",
+  Identification: "urn:smpte:ul:060e2b34.01040101.0f721102.05000000",
+  Description: "",
+  Members: {
+    Name: [
+      "BodySID",
+      "ByteOffset"
+    ],
+    Type: [
+      "UInt32",
+      "UInt64"
+    ]
+  },
+  MetaType: "TypeDefinitionRecord"
+};
+
+var indexEntryArray = {
+  Symbol: "IndexEntryArray",
+  Name: "IndexEntryArray",
+  Identification: "urn:smpte:ul:060e2b34.01040101.0f721102.06000000",
+  Description: "",
+  ElementType: "IndexEntry",
+  MetaType: "TypeDefinitionVariableArray"
+};
+
+var indexEntry = {
+  Symbol: "IndexEntry",
+  Name: "IndexEntry",
+  Identification: "urn:smpte:ul:060e2b34.01040101.0f721102.07000000",
+  Description: "",
+  Members: {
+    Name: [
+      "TemporalOffset",
+      "KeyFrameOffset",
+      "Flags",
+      "StreamOffset"
+    ],
+    Type: [
+      "Int8",
+      "Int8",
+      "UInt8",
+      "UInt64"
+    ]
+  },
+  MetaType: "TypeDefinitionRecord"
+};
+
+var deltaEntryArray = {
+  Symbol: "DeltaEntryArray",
+  Name: "DeltaEntryArray",
+  Identification: "urn:smpte:ul:060e2b34.01040101.0f721102.08000000",
+  Description: "",
+  ElementType: "DeltaEntry",
+  MetaType: "TypeDefinitionVariableArray"
+};
+
+var deltaEntry = {
+  Symbol: "DeltaEntry",
+  Name: "DeltaEntry",
+  Identification: "urn:smpte:ul:060e2b34.01040101.0f721102.09000000",
+  Description: "",
+  Members: {
+    Name: [
+      "PosTableIndex",
+      "Slice",
+      "ElementDelta"
+    ],
+    Type: [
+      "Int8",
+      "UInt8",
+      "UInt32"
+    ]
+  },
+  MetaType: "TypeDefinitionRecord"
+};
+
+var randomIndexPack = {
+  Symbol: "RandomIndexPack",
+  Name: "RandomIndexPack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01110100",
+  Description: "",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var ripLength = {
+  Symbol: "Length",
+  Name: "Length",
+  Identification: "urn:smpte:ul:060e2b34.01010104.04061001.00000000",
+  Description: "",
+  MemberOf: "RandomIndexPack",
+  Type: "UInt32",
+  IsOptional: false,
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var partitionIndex = {
+  Symbol: "PartitionIndex",
+  Name: "PartitionIndex",
+  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.0a000000",
+  Description: "",
+  MemberOf: "RandomIndexPack",
+  Type: "RandomIndexItemArray",
+  IsOptional: false,
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var indexTableSegment = {
+  Symbol: "IndexTableSegment",
+  Name: "IndexTableSegment",
+  Identification: "urn:smpte:ul:060e2b34.02060101.0d010201.01100100",
+  Description: "",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var vbeByteCount = {
+  Symbol: "VBEByteCount",
+  Name: "VBEByteCount",
+  Identification: "urn:smpte:ul:060e2b34.0101010a.04060205.00000000",
+  Description: "",
+  LocalIdentification: 16144,
+  MemberOf: "IndexTableSegment",
+  IsOptional: true,
+  Type: "UInt64",
+  MetaType: "PropertyDefinition"
+};
+
+var extStartOffset = {
+  Symbol: "ExtStartOffset",
+  Name: "ExtStartOffset",
+  Identification: "urn:smpte:ul:060e2b34.0101010a.04060204.00000000",
+  Description: "",
+  LocalIdentification: 16143,
+  MemberOf: "IndexTableSegment",
+  IsOptional: true,
+  Type: "UInt64",
+  MetaType: "PropertyDefinition"
+};
+
+var indexStartPosition = {
+  Symbol: "IndexStartPosition",
+  Name: "Index Start Position",
+  Identification: "urn:smpte:ul:060e2b34.01010105.07020103.010a0000",
+  Description: "",
+  LocalIdentification: 16140,
+  MemberOf: "IndexTableSegment",
+  IsOptional: false,
+  Type: "PositionType",
+  MetaType: "PropertyDefinition"
+};
+
+var indexEditRate = {
+  Symbol: "IndexEditRate",
+  Name: "Index Edit Rate",
+  Identification: "urn:smpte:ul:060e2b34.01010105.05300406.00000000",
+  Description: "",
+  LocalIdentification: 16139,
+  MemberOf: "IndexTableSegment",
+  IsOptional: false,
+  Type: "Rational",
+  MetaType: "PropertyDefinition"
+};
+
+var bodySIDProp = {
+  Symbol: "BodySID",
+  Name: "BodySID",
+  Identification: "urn:smpte:ul:060e2b34.01010104.01030404.00000000",
+  Description: "",
+  LocalIdentification: 16135,
+  MemberOf: "IndexTableSegment",
+  IsOptional: false,
+  Type: "UInt32",
+  MetaType: "PropertyDefinition"
+};
+
+var editUnitByteCount = {
+  Symbol: "EditUnitByteCount",
+  Name: "Edit Unit Byte Count",
+  Identification: "urn:smpte:ul:060e2b34.01010104.04060201.00000000",
+  Description: "",
+  LocalIdentification: 16133,
+  MemberOf: "IndexTableSegment",
+  IsOptional: false,
+  Type: "UInt32",
+  MetaType: "PropertyDefinition"
+};
+
+var indexEntryArrayProp = {
+  Symbol: "IndexEntryArray",
+  Name: "Index Entry Array",
+  Identification: "urn:smpte:ul:060e2b34.01010105.04040402.05000000",
+  Description: "",
+  LocalIdentification: 16138,
+  MemberOf: "IndexTableSegment",
+  IsOptional: true,
+  Type: "IndexEntryArray",
+  MetaType: "PropertyDefinition"
+};
+
+var indexSIDProp = {
+  Symbol: "IndexSID",
+  Name: "IndexSID",
+  Identification: "urn:smpte:ul:060e2b34.01010104.01030405.00000000",
+  Description: "",
+  LocalIdentification: 16134,
+  MemberOf: "IndexTableSegment",
+  IsOptional: false,
+  Type: "UInt32",
+  MetaType: "PropertyDefinition"
+};
+
+var sliceCount = {
+  Symbol: "SliceCount",
+  Name: "Slice Count",
+  Identification: "urn:smpte:ul:060e2b34.01010104.04040401.01000000",
+  Description: "",
+  LocalIdentification: 16136,
+  MemberOf: "IndexTableSegment",
+  IsOptional: false,
+  Type: "UInt8",
+  MetaType: "PropertyDefinition"
+};
+
+var posTableCount = {
+  Symbol: "PosTableCount",
+  Name: "PosTableCount",
+  Identification: "urn:smpte:ul:060e2b34.01010105.04040401.07000000",
+  Description: "",
+  LocalIdentification: 16142,
+  MemberOf: "IndexTableSegment",
+  IsOptional: true,
+  Type: "UInt8",
+  MetaType: "PropertyDefinition"
+};
+
+var deltaEntryArrayProp = {
+  Symbol: "DeltaEntryArray",
+  Name: "Delta Entry Array",
+  Identification: "urn:smpte:ul:060e2b34.01010105.04040401.06000000",
+  Description: "",
+  LocalIdentification: 16137,
+  MemberOf: "IndexTableSegment",
+  IsOptional: true,
+  Type: "DeltaEntryArray",
+  MetaType: "PropertyDefinition"
+};
+
+var indexDuration = {
+  Symbol: "IndexDuration",
+  Name: "Index Duration",
+  Identification: "urn:smpte:ul:060e2b34.01010105.07020201.01020000",
+  Description: "",
+  LocalIdentification: 16141,
+  MemberOf: "IndexTableSegment",
+  IsOptional: false,
+  Type: "LengthType",
+  MetaType: "PropertyDefinition"
+};
+
+var partitionPack = {
+  Symbol: "PartitionPack",
+  Name: "PartitionPack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01000000",
+  Description: "",
+  IsConcrete: false,
+  MetaType: "ClassDefinition",
+  PackOrder: [
+		"MajorVersion", "MinorVersion", "KAGSize", "ThisPartition",
+		"PreviousPartition", "FooterPartition", "HeaderByteCount",
+		"IndexByteCount", "IndexSID", "BodyOffset", "BodySID",
+		"OperationalPattern", "EssenceContainers"
+	]
+};
+
+var footerPartition = {
+  Symbol: "FooterPartition",
+  Name: "FooterPartition",
+  Identification: "urn:smpte:ul:060e2b34.01010104.06101005.01000000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "UInt64",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var thisPartition = {
+  Symbol: "ThisPartition",
+  Name: "ThisPartition",
+  Identification: "urn:smpte:ul:060e2b34.01010104.06101003.01000000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "UInt64",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var previousPartition = {
+  Symbol: "PreviousPartition",
+  Name: "PreviousPartition",
+  Identification: "urn:smpte:ul:060e2b34.01010104.06101002.01000000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "UInt64",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var essenceContainers = {
+  Symbol: "EssenceContainers",
+  Name: "EssenceContainers",
+  Identification: "urn:smpte:ul:060e2b34.01010105.01020210.02010000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "AUIDSet",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var bodyOffset = {
+  Symbol: "BodyOffset",
+  Name: "BodyOffset",
+  Identification: "urn:smpte:ul:060e2b34.01010104.06080102.01030000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "UInt64",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var bodySIDPPProp = {
+  Symbol: "BodySID",
+  Name: "BodySID",
+  Identification: "urn:smpte:ul:060e2b34.01010104.01030404.00000000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "UInt32",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var headerByteCount = {
+  Symbol: "HeaderByteCount",
+  Name: "HeaderByteCount",
+  Identification: "urn:smpte:ul:060e2b34.01010104.04060901.00000000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "UInt64",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var indexSIDPPProp = {
+  Symbol: "IndexSID",
+  Name: "IndexSID",
+  Identification: "urn:smpte:ul:060e2b34.01010104.01030405.00000000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "UInt32",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var indexByteCount = {
+  Symbol: "IndexByteCount",
+  Name: "IndexByteCount",
+  Identification: "urn:smpte:ul:060e2b34.01010104.04060902.00000000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "UInt64",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var kagSize = {
+  Symbol: "KAGSize",
+  Name: "KAGSize",
+  Identification: "urn:smpte:ul:060e2b34.01010104.03010201.09000000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "UInt32",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var operationalPattern = {
+  Symbol: "OperationalPattern",
+  Name: "Operational Pattern",
+  Identification: "urn:smpte:ul:060e2b34.01010105.01020203.00000000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "AUID",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var majorVersion = {
+  Symbol: "MajorVersion",
+  Name: "Major Version",
+  Identification: "urn:smpte:ul:060e2b34.01010104.03010201.06000000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "UInt16",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var minorVersion = {
+  Symbol: "MinorVersion",
+  Name: "Minor Version",
+  Identification: "urn:smpte:ul:060e2b34.01010104.03010201.07000000",
+  Description: "",
+  MemberOf: "PartitionPack",
+  IsOptional: false,
+  Type: "UInt16",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var headerOpenIncompletePartitionPack = {
+  Symbol: "HeaderOpenIncompletePartitionPack",
+  Name: "Header Open Incomplete Partition Pack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01020100",
+  Description: "",
+  ParentClass: "PartitionPack",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var headerClosedIncompletePartitionPack = {
+  Symbol: "HeaderClosedIncompletePartitionPack",
+  Name: "Header Closed Incomplete Partition Pack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01020200",
+  Description: "",
+  ParentClass: "PartitionPack",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var headerOpenCompletePartitionPack = {
+  Symbol: "HeaderOpenCompletePartitionPack",
+  Name: "Header Open Complete Partition Pack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01020300",
+  Description: "",
+  ParentClass: "PartitionPack",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var headerClosedCompletePartitionPack = {
+  Symbol: "HeaderClosedCompletePartitionPack",
+  Name: "Header Closed Complete Partition Pack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01020400",
+  Description: "",
+  ParentClass: "PartitionPack",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var bodyOpenIncompletePartitionPack = {
+  Symbol: "BodyOpenIncompletePartitionPack",
+  Name: "Body Open Incomplete Partition Pack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01030100",
+  Description: "",
+  ParentClass: "PartitionPack",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var bodyClosedIncompletePartitionPack = {
+  Symbol: "BodyClosedIncompletePartitionPack",
+  Name: "Body Closed Incomplete Partition Pack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01030200",
+  Description: "",
+  ParentClass: "PartitionPack",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var bodyOpenCompletePartitionPack = {
+  Symbol: "BodyOpenCompletePartitionPack",
+  Name: "Body Open Complete Partition Pack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01030300",
+  Description: "",
+  ParentClass: "PartitionPack",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var bodyClosedCompletePartitionPack = {
+  Symbol: "BodyClosedCompletePartitionPack",
+  Name: "Body Closed Complete Partition Pack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01030400",
+  Description: "",
+  ParentClass: "PartitionPack",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var footerClosedIncompletePartitionPack = {
+  Symbol: "FooterClosedIncompletePartitionPack",
+  Name: "Footer Closed Incomplete Partition Pack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01040200",
+  Description: "",
+  ParentClass: "PartitionPack",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var footerClosedCompletePartitionPack = {
+  Symbol: "FooterClosedCompletePartitionPack",
+  Name: "Footer Closed Complete Partition Pack",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01040400",
+  Description: "",
+  ParentClass: "PartitionPack",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var klvFill = {
+  Symbol: "KLVFill",
+  Name: "KLV Fill",
+  Identification: "urn:smpte:ul:060e2b34.01010102.03010210.01000000",
+  Description: "",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
+var metaDefs = [ // Primer Pcak defs
+  uid, localTag, localTagEntry, localTagEntryBatchProperty,
+  localTagEntryBatchType, localTagEntryReference, primerPack,
+  // RIP defs
+  randomIndexItem, randomIndexItemArray, partitionIndex, ripLength,
+  randomIndexPack,
+  // Index Segment defs
+  indexEntry, indexEntryArray, deltaEntry, deltaEntryArray,
+  vbeByteCount, extStartOffset, indexStartPosition, indexEditRate,
+  bodySIDProp, editUnitByteCount, indexEntryArrayProp, indexSIDProp,
+  sliceCount, posTableCount, deltaEntryArrayProp, indexDuration,
+  // PartitionPack
+  footerPartition, thisPartition, previousPartition, essenceContainers,
+  bodyOffset, bodySIDPPProp, headerByteCount, indexSIDPPProp, indexByteCount,
+  kagSize, operationalPattern, majorVersion, minorVersion,
+  partitionPack, headerOpenIncompletePartitionPack,
+  headerClosedIncompletePartitionPack, headerOpenCompletePartitionPack,
+  headerClosedCompletePartitionPack,
+  bodyOpenIncompletePartitionPack, bodyClosedIncompletePartitionPack,
+  bodyOpenCompletePartitionPack, bodyClosedCompletePartitionPack,
+  footerClosedIncompletePartitionPack, footerClosedCompletePartitionPack,
+  // Fill
+  klvFill
+];
+
+var metaDefsByID = { };
+var metaDefsByName = {
+    ClassDefinition : {},
+    PropertyDefinition : {},
+    TypeDefinition : {},
+    ExtendibleEnumerationElement : {}
+};
+
+function ulToUUID (ul) {
+  if (ul.startsWith('urn:smpte:ul:')) ul = ul.slice(13);
+  return uuid.unparse(new Buffer(ul.replace(/\./g, ''), 'hex'));
+}
+
+metaDefs.forEach(function (def) {
+  if (def.Identification) {
+    metaDefsByID[ulToUUID(def.Identification)] = def;
+  } else {
+    console.error('Found definition without identification', def);
+  };
+  if (def.MetaType && def.Symbol) {
+    var type = (def.MetaType.startsWith('TypeDefinition')) ? 'TypeDefinition' : def.MetaType;
+    if (metaDefsByName[type]) {
+      metaDefsByName[type][def.Symbol] = def;
+    } else {
+      console.error(`Definition has unknown meta type ${def.MetaType}`, def);
+    }
+  } else {
+    console.error('Found definition without MetaType and/or Symbol', def);
+  }
+});
+
+fs.writeFileSync(metaDefsIDFile, JSON.stringify(metaDefsByID, null, 2));
+fs.writeFileSync(metaDefsNameFile, JSON.stringify(metaDefsByName, null, 2));
