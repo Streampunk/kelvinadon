@@ -56,3 +56,41 @@ tape('Parsing baseline defs by name', function (t) {
     .catch(t.fail)
     .done(t.end);
 });
+
+tape('Parsing MXF defs by ID', function (t) {
+  var readTime = process.hrtime();
+  readFile('lib/mxfDefsByID.json', 'utf8')
+    .then(function (json) {
+      t.ok(json.length > 0, 'reads a non empty file.');
+      return json;
+    })
+    .then(JSON.parse)
+    .then(function (defs) {
+      var totalTime = process.hrtime(readTime);
+      t.ok(totalTime[0] === 0 && totalTime[1] <= 999999999,
+        `is sub second at ${totalTime[1]/1000000}ms.`);
+      t.equal(typeof defs, 'object', 'creates an object.');
+      t.equal(Object.keys(defs).length, 51, 'has expected no of definitions.');
+    })
+    .catch(t.fail)
+    .done(t.end);
+});
+
+tape('Parsing MXF defs by name', function (t) {
+  var readTime = process.hrtime();
+  readFile('lib/mxfDefsByName.json', 'utf8')
+    .then(function (json) {
+      t.ok(json.length > 0, 'reads a non empty file.');
+      return json;
+    })
+    .then(JSON.parse)
+    .then(function (defs) {
+      var totalTime = process.hrtime(readTime);
+      t.ok(totalTime[0] === 0 && totalTime[1] <= 999999999,
+        `is sub second at ${totalTime[1]/1000000}ms.`);
+      t.equal(typeof defs, 'object', 'creates an object.');
+      t.equal(Object.keys(defs).length, 4, 'has expected no of properties.');
+    })
+    .catch(t.fail)
+    .done(t.end);
+});

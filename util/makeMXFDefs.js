@@ -646,6 +646,16 @@ var klvFill = {
   MetaType: "ClassDefinition"
 };
 
+var uint64 = {
+  Symbol: "UInt64",
+  Name: "UInt64",
+  Identification: "urn:smpte:ul:060e2b34.01040101.01010400.00000000",
+  Description: "",
+  Size: 8,
+  IsSigned: false,
+  MetaType: "TypeDefinitionInteger"
+};
+
 var metaDefs = [ // Primer Pcak defs
   uid, localTag, localTagEntry, localTagEntryBatchProperty,
   localTagEntryBatchType, localTagEntryReference, primerPack,
@@ -657,6 +667,7 @@ var metaDefs = [ // Primer Pcak defs
   vbeByteCount, extStartOffset, indexStartPosition, indexEditRate,
   bodySIDProp, editUnitByteCount, indexEntryArrayProp, indexSIDProp,
   sliceCount, posTableCount, deltaEntryArrayProp, indexDuration,
+  indexTableSegment,
   // PartitionPack
   footerPartition, thisPartition, previousPartition, essenceContainers,
   bodyOffset, bodySIDPPProp, headerByteCount, indexSIDPPProp, indexByteCount,
@@ -667,8 +678,8 @@ var metaDefs = [ // Primer Pcak defs
   bodyOpenIncompletePartitionPack, bodyClosedIncompletePartitionPack,
   bodyOpenCompletePartitionPack, bodyClosedCompletePartitionPack,
   footerClosedIncompletePartitionPack, footerClosedCompletePartitionPack,
-  // Fill
-  klvFill
+  // Fill & missing
+  klvFill, uint64
 ];
 
 var metaDefsByID = { };

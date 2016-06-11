@@ -31,6 +31,14 @@
       "IsConcrete": true,
       "MetaType": "ClassDefinition"
     },
+    "IndexTableSegment": {
+      "Symbol": "IndexTableSegment",
+      "Name": "IndexTableSegment",
+      "Identification": "urn:smpte:ul:060e2b34.02060101.0d010201.01100100",
+      "Description": "",
+      "IsConcrete": true,
+      "MetaType": "ClassDefinition"
+    },
     "PartitionPack": {
       "Symbol": "PartitionPack",
       "Name": "PartitionPack",
@@ -560,6 +568,15 @@
       "Description": "",
       "ElementType": "DeltaEntry",
       "MetaType": "TypeDefinitionVariableArray"
+    },
+    "UInt64": {
+      "Symbol": "UInt64",
+      "Name": "UInt64",
+      "Identification": "urn:smpte:ul:060e2b34.01040101.01010400.00000000",
+      "Description": "",
+      "Size": 8,
+      "IsSigned": false,
+      "MetaType": "TypeDefinitionInteger"
     }
   },
   "ExtendibleEnumerationElement": {}

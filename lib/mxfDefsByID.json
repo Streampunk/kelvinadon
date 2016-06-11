@@ -314,6 +314,14 @@
     "Type": "LengthType",
     "MetaType": "PropertyDefinition"
   },
+  "060e2b34-0206-0101-0d01-020101100100": {
+    "Symbol": "IndexTableSegment",
+    "Name": "IndexTableSegment",
+    "Identification": "urn:smpte:ul:060e2b34.02060101.0d010201.01100100",
+    "Description": "",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
   "060e2b34-0101-0104-0610-100501000000": {
     "Symbol": "FooterPartition",
     "Name": "FooterPartition",
@@ -555,5 +563,14 @@
     "Description": "",
     "IsConcrete": true,
     "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0104-0101-0101-040000000000": {
+    "Symbol": "UInt64",
+    "Name": "UInt64",
+    "Identification": "urn:smpte:ul:060e2b34.01040101.01010400.00000000",
+    "Description": "",
+    "Size": 8,
+    "IsSigned": false,
+    "MetaType": "TypeDefinitionInteger"
   }
 }
