@@ -34,8 +34,31 @@ var readyDicts = readDicts.then(function (x) {
   metaDictByName = [x[1], x[3]];
 }, console.error.bind(null, 'Failed to read a meta dictionary:'));
 
+function makeEssenceElement(id) {
+  var trackStart = id.length - 8;
+  return {
+    Symbol: "EssenceElement",
+    Name: "Essence Element",
+    Identification: "urn:smpte:ul:060e2b34.01020101.0d010301." + id.slice(trackStart),
+    Description: "",
+    IsConcrete: true,
+    MetaType: "ClassDefinition",
+    Track: id.slice(trackStart),
+    ItemType: id.slice(trackStart, trackStart + 2),
+    ElementType: id.slice(trackStart + 4, trackStart + 6),
+    ElementCount: id.slice(trackStart + 2, trackStart + 4),
+    ElementNumber: id.slice(trackStart + 6)
+  };
+}
+
 module.exports = {
   resolveByID: function (id) {
+    if (id.substring(11,13) === '53') {
+      id = id.substring(0, 11) + '06' + id.substring(13);
+    }
+    if (id.startsWith("060e2b34-0102-0101-0d01-0301")) {
+      return readyDicts.then(makeEssenceElement.bind(null, id));
+    }
     return readyDicts.then(function () {
       for ( var i = 0 ; i < metaDictByID.length ; i++ ) {
         var def = metaDictByID[i][id];

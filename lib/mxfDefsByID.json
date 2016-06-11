@@ -564,6 +564,14 @@
     "IsConcrete": true,
     "MetaType": "ClassDefinition"
   },
+  "060e2b34-0101-0101-0301-021001000000": {
+    "Symbol": "KLVFillOld",
+    "Name": "KLV Fill Old",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.03010210.01000000",
+    "Description": "",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
+  },
   "060e2b34-0104-0101-0101-040000000000": {
     "Symbol": "UInt64",
     "Name": "UInt64",
@@ -572,5 +580,13 @@
     "Size": 8,
     "IsSigned": false,
     "MetaType": "TypeDefinitionInteger"
+  },
+  "060e2b34-0102-0101-0d01-030100000000": {
+    "Symbol": "EssenceElement",
+    "Name": "Essence Element",
+    "Identification": "urn:smpte:ul:060e2b34.01020101.0d010301.00000000",
+    "Description": "",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition"
   }
 }

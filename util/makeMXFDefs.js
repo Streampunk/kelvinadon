@@ -646,6 +646,15 @@ var klvFill = {
   MetaType: "ClassDefinition"
 };
 
+var klvFillOld = {
+  Symbol: "KLVFillOld",
+  Name: "KLV Fill Old",
+  Identification: "urn:smpte:ul:060e2b34.01010101.03010210.01000000",
+  Description: "",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
+};
+
 var uint64 = {
   Symbol: "UInt64",
   Name: "UInt64",
@@ -654,6 +663,15 @@ var uint64 = {
   Size: 8,
   IsSigned: false,
   MetaType: "TypeDefinitionInteger"
+};
+
+var essenceElement = {
+  Symbol: "EssenceElement",
+  Name: "Essence Element",
+  Identification: "urn:smpte:ul:060e2b34.01020101.0d010301.00000000",
+  Description: "",
+  IsConcrete: true,
+  MetaType: "ClassDefinition"
 };
 
 var metaDefs = [ // Primer Pcak defs
@@ -679,7 +697,7 @@ var metaDefs = [ // Primer Pcak defs
   bodyOpenCompletePartitionPack, bodyClosedCompletePartitionPack,
   footerClosedIncompletePartitionPack, footerClosedCompletePartitionPack,
   // Fill & missing
-  klvFill, uint64
+  klvFill, klvFillOld, uint64, essenceElement
 ];
 
 var metaDefsByID = { };
