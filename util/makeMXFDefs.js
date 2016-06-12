@@ -34,33 +34,17 @@ var localTagEntry = {
   Name: "LocalTagEntry",
   Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.01000000",
   Description: "",
-  IsConcrete: true,
-  MetaType: "ClassDefinition",
-  PackOrder: [ "LocalTag", "UID" ]
-};
-
-var uid = {
-  Symbol: "UID",
-  Name: "UID",
-  Identification: "urn:smpte:ul:060e2b34.01010105.01030603.00000000",
-  Description: "",
-  MemberOf: "LocalTagEntry",
-  Type: "AUID",
-  IsOptional: false,
-  LocalIdentification: 0,
-  MetaType: "PropertyDefinition"
-}
-
-var localTag = {
-  Symbol: "LocalTag",
-  Name: "Local Tag",
-  Identification: "urn:smpte:ul:060e2b34.01010105.01030602.00000000",
-  Description: "",
-  MemberOf: "LocalTagEntry",
-  Type: "UInt16",
-  IsOptional: false,
-  LocalIdentification: 0,
-  MetaType: "PropertyDefinition"
+  Members: {
+    Name: [
+      "LocalTag",
+      "UID"
+    ],
+    Type: [
+      "UInt16",
+      "AUID"
+    ]
+  },
+  MetaType: "TypeDefinitionRecord",
 };
 
 var localTagEntryBatchProperty = {
@@ -80,17 +64,8 @@ var localTagEntryBatchType = {
   Name: "LocalTagEntryBatch",
   Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.03000000",
   Description: "",
-  ElementType: "LocalTagEntryReference",
+  ElementType: "LocalTagEntry",
   MetaType: "TypeDefinitionSet"
-};
-
-var localTagEntryReference = {
-  Symbol: "LocalTagEntryReference",
-  Name: "LocalTagEntryReference",
-  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.02000000",
-  Description: "",
-  ReferencedType: "LocalTagEntry",
-  MetaType: "TypeDefinitionStrongObjectReference"
 };
 
 var randomIndexItemArray = {
@@ -674,9 +649,21 @@ var essenceElement = {
   MetaType: "ClassDefinition"
 };
 
+var instanceUID = {
+  Symbol: "InstanceUID",
+  Name: " InstanceUID",
+  Identification: "urn:smpte:ul:060e2b34.01010101.01011502.00000000",
+  Description: "",
+  MemberOf: "InterchangeObject",
+  IsOptional: true,
+  Type: "AUID",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+}
+
 var metaDefs = [ // Primer Pcak defs
-  uid, localTag, localTagEntry, localTagEntryBatchProperty,
-  localTagEntryBatchType, localTagEntryReference, primerPack,
+  localTagEntry, localTagEntryBatchProperty,
+  localTagEntryBatchType, primerPack,
   // RIP defs
   randomIndexItem, randomIndexItemArray, partitionIndex, ripLength,
   randomIndexPack,
@@ -697,7 +684,7 @@ var metaDefs = [ // Primer Pcak defs
   bodyOpenCompletePartitionPack, bodyClosedCompletePartitionPack,
   footerClosedIncompletePartitionPack, footerClosedCompletePartitionPack,
   // Fill & missing
-  klvFill, klvFillOld, uint64, essenceElement
+  klvFill, klvFillOld, uint64, essenceElement, instanceUID
 ];
 
 var metaDefsByID = { };

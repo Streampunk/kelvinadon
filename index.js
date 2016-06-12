@@ -17,6 +17,7 @@ var H = require('highland');
 var KLVPacket = require('./model/KLVPacket.js');
 var fs = require('fs');
 var meta = require('./util/meta.js');
+var uuid = require('uuid');
 
 function getKeyAndLength(buffer, position) {
   if (buffer.length - position <= 17) return { success : false, position: position };
@@ -42,6 +43,7 @@ var hangover = null;
 var remaining = 0;
 var nextKLVToSend = null;
 var bufferCount = 0;
+var primer = {};
 
 H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XDCAM-HD422_colorbar.mxf'))
   .consume(function (err, x, push, next) {
@@ -124,5 +126,84 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
     }
   })
   .filter(function (x) { return x.meta && !x.meta.Symbol.startsWith("KLVFill"); })
+  .consume(function (err, x, push, next) {
+    if (err) {
+      push(err);
+      next();
+    } else if (x === H.nil) {
+      push(null, H.nil);
+    } else {
+      if (x.value.length > 1) {
+        x.value = [ Buffer.concat(x.value, x.length) ];
+      }
+      switch (uuid.parse(x.key)[5]) {
+      case 0x05:  // Fixed length pack
+        x.detail = {};
+        meta.getPackOrder(x.meta.Symbol).then(function (po) {
+          var resolve = po.map(function (item) {
+            return meta.resolveByName("PropertyDefinition", item).then(function (pd) {
+               return Promise.all([
+                 Promise.resolve(pd.Symbol),
+                 meta.readType(pd.Type),
+                 meta.sizeType(pd.Type) ]);
+            });
+          });
+          Promise.all(resolve).then(function (work) {
+            var pos = 0;
+            work.forEach(function (job) {
+              // console.log('Setting', job[0], job[2].call(x.value[0], pos));
+              x.detail[job[0]] = job[1].call(x.value[0], pos);
+              pos += job[2].call(x.value[0], pos);
+            });
+            if (x.meta.Symbol === 'PrimerPack') {
+              primer = {};
+              x.detail.LocalTagEntryBatch.forEach(function (ppi) {
+                primer[ppi.LocalTag] = ppi.UID;
+              });
+            }
+          }).then(function () {
+            push(null, x);
+            next();
+          });
+        });
+        break;
+      case 0x53: // Local sets with 2-byte keys and values
+        x.detail = {};
+        var pos = 0;
+        var buf = x.value[0];
+        var props = [];
+        while (pos < x.length) {
+          var tag = buf.readUInt16BE(pos);
+          var plen = buf.readUInt16BE(pos + 2);
+          props.push([pos, primer[tag], plen]);
+          pos += 4 + plen;
+        }
+        var resolve = props.map(function (prop) {
+          return meta.resolveByID(prop[1]).then(function (pd) {
+            return Promise.all([
+              Promise.resolve(pd.Symbol),
+              Promise.resolve(prop[0] + 4),
+              meta.readType(pd.Type),
+              Promise.resolve(prop[2])
+            ]).catch(console.error);
+          });
+        });
+        Promise.all(resolve).then(function (work) {
+          work.forEach(function (job) {
+            // console.log('Setting', job[0], job[2].call(x.value[0], job[1], job[3]));
+            x.detail[job[0]] = job[2].call(x.value[0], job[1], job[3]);
+          });
+        }).then(function() {
+          push(null, x);
+          next();
+        }).catch(console.error);
+        break;
+      default:
+        push(null, x);
+        next();
+        break;
+      }
+    }
+  })
   .each(H.log)
   .done(console.log.bind(null, "made it"));

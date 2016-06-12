@@ -115,5 +115,44 @@ tape('Test matching in by name and by ID', function (t) {
     return Promise.all(tests);
   })
   .then(function () { t.end(); }, t.fail);
+});
 
-})
+tape('Test get integer sizes', function (t) {
+  var toTest = [ ["UInt8", 1], ["Int8", 1], ["UInt16", 2], ["Int16", 2],
+    ["UInt32", 4], ["Int32", 4], ["UInt64", 8], ["Int64", 8] ];
+  var tests = toTest.map(function (tt) {
+    return meta.sizeType(tt[0]).then(function (f) {
+      t.equal(typeof f, 'function', `returns a function for ${tt[0]}.`);
+      t.equal(f(), tt[1], `has expected value of ${tt[1]} for ${tt[0]}`);
+    });
+  });
+  Promise.all(tests).then(function () { t.end(); }, t.fail);
+});
+
+tape('Test read integer values', function (t) {
+  var b = new Buffer([128, 2, 3, 4, 5, 6, 7, 8]);
+  var toTest = [ ["UInt8", 0x80], ["Int8", -0x80],
+    ["UInt16", 0x8002], ["Int16", -0x8000 + 2],
+    ["UInt32", 0x80020304], ["Int32", -0x80000000+0x20304],
+    ["UInt64", 0x8002030405060708], ["Int64", -0x8000000000000000+0x2030405060708] ];
+  var tests = toTest.map(function (tt) {
+    return meta.readType(tt[0]).then(function (f) {
+      t.equal(typeof f, 'function', `returns a function for ${tt[0]}.`);
+      t.equal(f.call(b, 0), tt[1], `has expected value of ${tt[1]} for ${tt[0]}`);
+    });
+  });
+  Promise.all(tests).then(function () { t.end(); }, t.fail);
+});
+
+tape('Test get pack order', function (t) {
+  var parentPO = null;
+  meta.getPackOrder('PartitionPack').then(function (po) {
+    t.ok(Array.isArray(po), 'pack order is defined in PartitionPack.');
+    t.equal(po.length, 13, 'pack order is of expected length.');
+    parentPO = po;
+  }).then(meta.getPackOrder.bind(null, 'HeaderClosedCompletePartitionPack'))
+  .then(function (hop) {
+    t.ok(Array.isArray(hop), 'pack order is defined in HeaderClosedCompletePartitionPack.');
+    t.deepEqual(hop, parentPO, 'is the same in parent and empty child.');
+  }).then(function () { t.end() }, t.fail);
+});

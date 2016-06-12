@@ -1,17 +1,5 @@
 {
   "ClassDefinition": {
-    "LocalTagEntry": {
-      "Symbol": "LocalTagEntry",
-      "Name": "LocalTagEntry",
-      "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.01000000",
-      "Description": "",
-      "IsConcrete": true,
-      "MetaType": "ClassDefinition",
-      "PackOrder": [
-        "LocalTag",
-        "UID"
-      ]
-    },
     "PrimerPack": {
       "Symbol": "PrimerPack",
       "Name": "PrimerPack",
@@ -178,28 +166,6 @@
     }
   },
   "PropertyDefinition": {
-    "UID": {
-      "Symbol": "UID",
-      "Name": "UID",
-      "Identification": "urn:smpte:ul:060e2b34.01010105.01030603.00000000",
-      "Description": "",
-      "MemberOf": "LocalTagEntry",
-      "Type": "AUID",
-      "IsOptional": false,
-      "LocalIdentification": 0,
-      "MetaType": "PropertyDefinition"
-    },
-    "LocalTag": {
-      "Symbol": "LocalTag",
-      "Name": "Local Tag",
-      "Identification": "urn:smpte:ul:060e2b34.01010105.01030602.00000000",
-      "Description": "",
-      "MemberOf": "LocalTagEntry",
-      "Type": "UInt16",
-      "IsOptional": false,
-      "LocalIdentification": 0,
-      "MetaType": "PropertyDefinition"
-    },
     "LocalTagEntryBatch": {
       "Symbol": "LocalTagEntryBatch",
       "Name": "LocalTagEntry Batch",
@@ -485,24 +451,44 @@
       "Type": "UInt16",
       "LocalIdentification": 0,
       "MetaType": "PropertyDefinition"
+    },
+    "InstanceUID": {
+      "Symbol": "InstanceUID",
+      "Name": " InstanceUID",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.01011502.00000000",
+      "Description": "",
+      "MemberOf": "InterchangeObject",
+      "IsOptional": true,
+      "Type": "AUID",
+      "LocalIdentification": 0,
+      "MetaType": "PropertyDefinition"
     }
   },
   "TypeDefinition": {
+    "LocalTagEntry": {
+      "Symbol": "LocalTagEntry",
+      "Name": "LocalTagEntry",
+      "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.01000000",
+      "Description": "",
+      "Members": {
+        "Name": [
+          "LocalTag",
+          "UID"
+        ],
+        "Type": [
+          "UInt16",
+          "AUID"
+        ]
+      },
+      "MetaType": "TypeDefinitionRecord"
+    },
     "LocalTagEntryBatch": {
       "Symbol": "LocalTagEntryBatch",
       "Name": "LocalTagEntryBatch",
       "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.03000000",
       "Description": "",
-      "ElementType": "LocalTagEntryReference",
+      "ElementType": "LocalTagEntry",
       "MetaType": "TypeDefinitionSet"
-    },
-    "LocalTagEntryReference": {
-      "Symbol": "LocalTagEntryReference",
-      "Name": "LocalTagEntryReference",
-      "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.02000000",
-      "Description": "",
-      "ReferencedType": "LocalTagEntry",
-      "MetaType": "TypeDefinitionStrongObjectReference"
     },
     "RandomIndexItem": {
       "Symbol": "RandomIndexItem",

@@ -1,37 +1,20 @@
 {
-  "060e2b34-0101-0105-0103-060300000000": {
-    "Symbol": "UID",
-    "Name": "UID",
-    "Identification": "urn:smpte:ul:060e2b34.01010105.01030603.00000000",
-    "Description": "",
-    "MemberOf": "LocalTagEntry",
-    "Type": "AUID",
-    "IsOptional": false,
-    "LocalIdentification": 0,
-    "MetaType": "PropertyDefinition"
-  },
-  "060e2b34-0101-0105-0103-060200000000": {
-    "Symbol": "LocalTag",
-    "Name": "Local Tag",
-    "Identification": "urn:smpte:ul:060e2b34.01010105.01030602.00000000",
-    "Description": "",
-    "MemberOf": "LocalTagEntry",
-    "Type": "UInt16",
-    "IsOptional": false,
-    "LocalIdentification": 0,
-    "MetaType": "PropertyDefinition"
-  },
   "060e2b34-0101-0101-0f72-110201000000": {
     "Symbol": "LocalTagEntry",
     "Name": "LocalTagEntry",
     "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.01000000",
     "Description": "",
-    "IsConcrete": true,
-    "MetaType": "ClassDefinition",
-    "PackOrder": [
-      "LocalTag",
-      "UID"
-    ]
+    "Members": {
+      "Name": [
+        "LocalTag",
+        "UID"
+      ],
+      "Type": [
+        "UInt16",
+        "AUID"
+      ]
+    },
+    "MetaType": "TypeDefinitionRecord"
   },
   "060e2b34-0101-0105-0601-010715000000": {
     "Symbol": "LocalTagEntryBatch",
@@ -49,16 +32,8 @@
     "Name": "LocalTagEntryBatch",
     "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.03000000",
     "Description": "",
-    "ElementType": "LocalTagEntryReference",
+    "ElementType": "LocalTagEntry",
     "MetaType": "TypeDefinitionSet"
-  },
-  "060e2b34-0101-0101-0f72-110202000000": {
-    "Symbol": "LocalTagEntryReference",
-    "Name": "LocalTagEntryReference",
-    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.02000000",
-    "Description": "",
-    "ReferencedType": "LocalTagEntry",
-    "MetaType": "TypeDefinitionStrongObjectReference"
   },
   "060e2b34-0205-0101-0d01-020101050100": {
     "Symbol": "PrimerPack",
@@ -588,5 +563,16 @@
     "Description": "",
     "IsConcrete": true,
     "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0101-0101-0101-150200000000": {
+    "Symbol": "InstanceUID",
+    "Name": " InstanceUID",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.01011502.00000000",
+    "Description": "",
+    "MemberOf": "InterchangeObject",
+    "IsOptional": true,
+    "Type": "AUID",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
   }
 }
