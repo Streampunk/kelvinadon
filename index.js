@@ -26,6 +26,7 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
   .through(metatiser(true))
   .through(stripTheFiller)
   .through(detailing())
+  // .ratelimit(1, 100)
   .each(function (x) { console.log(x);  })
   .errors(console.error)
   .done(console.log.bind(null, "made it"));

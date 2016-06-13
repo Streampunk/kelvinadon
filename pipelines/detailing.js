@@ -121,8 +121,8 @@ function detailing() {
             }
           })(x.key.slice(trackStart, trackStart + 2)),
           ElementType: '0x' + x.key.slice(trackStart + 4, trackStart + 6),
-          ElementCount: +x.key.slice(trackStart + 2, trackStart + 4),
-          ElementNumber: +x.key.slice(trackStart + 6)
+          ElementCount: parseInt(x.key.slice(trackStart + 2, trackStart + 4), 16),
+          ElementNumber: parseInt(x.key.slice(trackStart + 6), 16)
         };
         push(null, x);
         next();
