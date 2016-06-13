@@ -14,18 +14,7 @@
 */
 
 var H = require('highland');
-var fs = require('fs');
-var uuid = require('uuid');
-var stripTheFiller = require('./pipelines/stripTheFiller.js');
-var kelviniser = require('./pipelines/kelviniser.js');
-var metatiser = require('./pipelines/metatiser.js');
-var detailing = require('./pipelines/detailing.js');
 
-H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XDCAM-HD422_colorbar.mxf'))
-  .through(kelviniser())
-  .through(metatiser(true))
-  .through(stripTheFiller)
-  .through(detailing())
-  .each(function (x) { console.log(x);  })
-  .errors(console.error)
-  .done(console.log.bind(null, "made it"));
+module.exports = H.pipeline(H.filter(function (x) {
+  return x.meta && !x.meta.Symbol.startsWith("KLVFill");
+}));

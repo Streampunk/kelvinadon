@@ -19,7 +19,6 @@ var uuid = require('uuid');
 
 var metaDictByID = [];
 var metaDictByName = [];
-var primer = {};
 
 var readFile = Promise.denodeify(fs.readFile);
 
@@ -326,7 +325,7 @@ var getPackOrder = function (name) {
 }
 
 var resetPrimer = function () {
-  primer = {
+  return {
     // Index Table Segment
     0x3f0b: '060e2b34-0101-0105-0530-040600000000', // IndexEditRate
     0x3f0c: '060e2b34-0101-0105-0702-0103010a0000', // IndexStartPosition
@@ -343,11 +342,11 @@ var resetPrimer = function () {
   };
 }
 
-var addPrimerTag = function (localTag, uid) {
+var addPrimerTag = function (primer, localTag, uid) {
   primer[localTag] = uid;
 }
 
-var getPrimerUID = function (localTag) {
+var getPrimerUID = function (primer, localTag) {
   return primer[localTag];
 }
 
