@@ -138,7 +138,7 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
       }
       switch (uuid.parse(x.key)[5]) {
       case 0x05:  // Fixed length pack
-        x.detail = {};
+        x.detail = { ObjectClass: x.meta.Symbol };
         meta.getPackOrder(x.meta.Symbol).then(function (po) {
           var resolve = po.map(function (item) {
             return meta.resolveByName("PropertyDefinition", item).then(function (pd) {
@@ -168,7 +168,7 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
         });
         break;
       case 0x53: // Local sets with 2-byte keys and values
-        x.detail = {};
+        x.detail = { ObjectClass: x.meta.Symbol };
         var pos = 0;
         var buf = x.value[0];
         var props = [];
@@ -205,5 +205,5 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
       }
     }
   })
-  .each(H.log)
+  .each(function (x) { if (x.detail) console.log(x.detail); })
   .done(console.log.bind(null, "made it"));

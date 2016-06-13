@@ -82,7 +82,7 @@ var readingFns = {
           var min = this.readUInt8(pos + 5);
           var sec = this.readUInt8(pos + 6);
           var msec = this.readUInt8(pos + 7) * 4;
-          return (new Date(year, month, day, hour, min, sec, msec)).toString();
+          return (new Date(year, month, day, hour, min, sec, msec)).toISOString();
         }
       case "PackageIDType":
         return function (pos) {
@@ -157,6 +157,12 @@ var readingFns = {
       switch (def.Symbol) {
       case "Boolean":
         return this.readInt8(pos) === 1;
+      default:
+        var fnName = 'read' + def.ElementType +
+          ((def.ElementType.endsWith('Int8')) ? '' : 'BE');
+        var enumValue = this[fnName](pos);
+        var elIndex = def.Elements.Value.indexOf(`${enumValue}`);
+        return (elIndex >= 0) ? def.Elements.Name[elIndex] : '';
       }
     };
   }
@@ -234,7 +240,8 @@ var internalResolveByName = function (type, name) {
 
 var readType = function (typeName) {
   return resolveByName("TypeDefinition", typeName).then(function (type) {
-    // console.log('Reading type', typeName, type.MetaType, (readingFns[type.MetaType]) ? true: false);
+    if (!readingFns[type.MetaType])
+      console.error("Failed to resolve type", type.MetaType);
     return readingFns[type.MetaType](type);
   });
 }
