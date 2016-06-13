@@ -68,7 +68,7 @@
     "Name": "RandomIndexItemArray",
     "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.04000000",
     "Description": "",
-    "ElementType": "RandonIndexItem",
+    "ElementType": "RandomIndexItem",
     "MetaType": "TypeDefinitionVariableArray"
   },
   "060e2b34-0101-0101-0f72-11020a000000": {
@@ -99,7 +99,11 @@
     "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01110100",
     "Description": "",
     "IsConcrete": true,
-    "MetaType": "ClassDefinition"
+    "MetaType": "ClassDefinition",
+    "PackOrder": [
+      "PartitionIndex",
+      "Length"
+    ]
   },
   "060e2b34-0104-0101-0f72-110207000000": {
     "Symbol": "IndexEntry",
@@ -530,6 +534,121 @@
     "ParentClass": "PartitionPack",
     "IsConcrete": true,
     "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0104-0101-0f72-110204010000": {
+    "Symbol": "UInt8Array17",
+    "Name": "UInt8Array17",
+    "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.04010000",
+    "Description": "",
+    "ElementCount": 17,
+    "ElementType": "UInt8",
+    "MetaType": "TypeDefinitionFixedArray"
+  },
+  "060e2b34-0101-0101-0f72-110204020000": {
+    "Symbol": "Bitmap",
+    "Name": "Bitmap",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.04020000",
+    "Description": "",
+    "MemberOf": "SystemMetadata",
+    "IsOptional": false,
+    "Type": "UInt8",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0101-0f72-110204030000": {
+    "Symbol": "Rate",
+    "Name": "Rate",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.04030000",
+    "Description": "",
+    "MemberOf": "SystemMetadata",
+    "IsOptional": false,
+    "Type": "UInt8",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0101-0f72-110204040000": {
+    "Symbol": "Type",
+    "Name": "Type",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.04040000",
+    "Description": "",
+    "MemberOf": "SystemMetadata",
+    "IsOptional": false,
+    "Type": "UInt8",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0101-0f72-110204050000": {
+    "Symbol": "ChannelHandle",
+    "Name": "Channel Handle",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.04050000",
+    "Description": "",
+    "MemberOf": "SystemMetadata",
+    "IsOptional": false,
+    "Type": "UInt16",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0101-0f72-110204060000": {
+    "Symbol": "ContinuityCount",
+    "Name": "Continuity Count",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.04060000",
+    "Description": "",
+    "MemberOf": "SystemMetadata",
+    "IsOptional": false,
+    "Type": "UInt16",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0101-0f72-110204070000": {
+    "Symbol": "Label",
+    "Name": "Label",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.04070000",
+    "Description": "",
+    "MemberOf": "SystemMetadata",
+    "IsOptional": false,
+    "Type": "AUID",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0101-0f72-110204080000": {
+    "Symbol": "CreationDate",
+    "Name": "Creation Date",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.04080000",
+    "Description": "",
+    "MemberOf": "SystemMetadata",
+    "IsOptional": false,
+    "Type": "UInt8Array17",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0101-0101-0f72-110204090000": {
+    "Symbol": "UserDate",
+    "Name": "User Date",
+    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.04090000",
+    "Description": "",
+    "MemberOf": "SystemMetadata",
+    "IsOptional": false,
+    "Type": "UInt8Array17",
+    "LocalIdentification": 0,
+    "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0205-0101-0d01-030104010100": {
+    "Symbol": "SystemMetadata",
+    "Name": "SystemMetadata",
+    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010301.04010100",
+    "Description": "",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition",
+    "PackOrder": [
+      "Bitmap",
+      "Rate",
+      "Type",
+      "ChannelHandle",
+      "ContinuityCount",
+      "Label",
+      "CreationDate",
+      "UserDate"
+    ]
   },
   "060e2b34-0101-0102-0301-021001000000": {
     "Symbol": "KLVFill",

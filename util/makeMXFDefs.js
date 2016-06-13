@@ -73,7 +73,7 @@ var randomIndexItemArray = {
   Name: "RandomIndexItemArray",
   Identification: "urn:smpte:ul:060e2b34.01040101.0f721102.04000000",
   Description: "",
-  ElementType: "RandonIndexItem",
+  ElementType: "RandomIndexItem",
   MetaType: "TypeDefinitionVariableArray"
 };
 
@@ -161,7 +161,8 @@ var randomIndexPack = {
   Identification: "urn:smpte:ul:060e2b34.02050101.0d010201.01110100",
   Description: "",
   IsConcrete: true,
-  MetaType: "ClassDefinition"
+  MetaType: "ClassDefinition",
+  PackOrder: [ "PartitionIndex", "Length" ]
 };
 
 var ripLength = {
@@ -661,6 +662,123 @@ var instanceUID = {
   MetaType: "PropertyDefinition"
 }
 
+var systemMetadata = {
+  Symbol: "SystemMetadata",
+  Name: "SystemMetadata",
+  Identification: "urn:smpte:ul:060e2b34.02050101.0d010301.04010100",
+  Description: "",
+  IsConcrete: true,
+  MetaType: "ClassDefinition",
+  PackOrder: [ "Bitmap", "Rate", "Type", "ChannelHandle", "ContinuityCount",
+    "Label", "CreationDate", "UserDate" ]
+};
+
+var system17byteValue = {
+  Symbol: "UInt8Array17",
+  Name: "UInt8Array17",
+  "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.04010000",
+  "Description": "",
+  "ElementCount": 17,
+  "ElementType": "UInt8",
+  "MetaType": "TypeDefinitionFixedArray"
+};
+
+var bitmap = {
+  Symbol: "Bitmap",
+  Name: "Bitmap",
+  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.04020000",
+  Description: "",
+  MemberOf: "SystemMetadata",
+  IsOptional: false,
+  Type: "UInt8",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var rate = {
+  Symbol: "Rate",
+  Name: "Rate",
+  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.04030000",
+  Description: "",
+  MemberOf: "SystemMetadata",
+  IsOptional: false,
+  Type: "UInt8",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var smType = {
+  Symbol: "Type",
+  Name: "Type",
+  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.04040000",
+  Description: "",
+  MemberOf: "SystemMetadata",
+  IsOptional: false,
+  Type: "UInt8",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var channelHandle = {
+  Symbol: "ChannelHandle",
+  Name: "Channel Handle",
+  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.04050000",
+  Description: "",
+  MemberOf: "SystemMetadata",
+  IsOptional: false,
+  Type: "UInt16",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var contCount = {
+  Symbol: "ContinuityCount",
+  Name: "Continuity Count",
+  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.04060000",
+  Description: "",
+  MemberOf: "SystemMetadata",
+  IsOptional: false,
+  Type: "UInt16",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var smLabel = {
+  Symbol: "Label",
+  Name: "Label",
+  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.04070000",
+  Description: "",
+  MemberOf: "SystemMetadata",
+  IsOptional: false,
+  Type: "AUID",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var smCreationDate = {
+  Symbol: "CreationDate",
+  Name: "Creation Date",
+  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.04080000",
+  Description: "",
+  MemberOf: "SystemMetadata",
+  IsOptional: false,
+  Type: "UInt8Array17",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
+var smUserDate = {
+  Symbol: "UserDate",
+  Name: "User Date",
+  Identification: "urn:smpte:ul:060e2b34.01010101.0f721102.04090000",
+  Description: "",
+  MemberOf: "SystemMetadata",
+  IsOptional: false,
+  Type: "UInt8Array17",
+  LocalIdentification: 0,
+  MetaType: "PropertyDefinition"
+};
+
 var metaDefs = [ // Primer Pcak defs
   localTagEntry, localTagEntryBatchProperty,
   localTagEntryBatchType, primerPack,
@@ -683,6 +801,9 @@ var metaDefs = [ // Primer Pcak defs
   bodyOpenIncompletePartitionPack, bodyClosedIncompletePartitionPack,
   bodyOpenCompletePartitionPack, bodyClosedCompletePartitionPack,
   footerClosedIncompletePartitionPack, footerClosedCompletePartitionPack,
+  // System metadata
+  system17byteValue, bitmap, rate, smType, channelHandle, contCount,
+  smLabel, smCreationDate, smUserDate, systemMetadata,
   // Fill & missing
   klvFill, klvFillOld, uint64, essenceElement, instanceUID
 ];

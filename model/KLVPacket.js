@@ -15,10 +15,12 @@
 
 var uuid = require('uuid');
 
-function KLVPacket(key, length, value) {
+function KLVPacket(key, length, value, lengthLength, filePos) {
   this.key = (Buffer.isBuffer(key)) ? uuid.unparse(key) : key;
   this.length = length;
   this.value = (Buffer.isBuffer(value)) ? [ value ] : value;
+  this.lengthLength = lengthLength;
+  this.filePos = filePos;
 }
 
 module.exports = KLVPacket;

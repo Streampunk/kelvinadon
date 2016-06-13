@@ -34,6 +34,7 @@ function getKeyAndLength(buffer, position) {
   return {
     key : buffer.slice(position, position + 16),
     length : buffer.readUIntBE(position + 17, tailLength),
+    lengthLength : tailLength + 1,
     success : true,
     position : position + 17 + tailLength
   };
@@ -43,7 +44,7 @@ var hangover = null;
 var remaining = 0;
 var nextKLVToSend = null;
 var bufferCount = 0;
-var primer = {};
+var filePos = 0;
 
 H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XDCAM-HD422_colorbar.mxf'))
   .consume(function (err, x, push, next) {
@@ -57,14 +58,15 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
       bufferCount++;
       if (hangover) { // Break in a key
         if (Buffer.isBuffer(hangover) && remaining === 0) {
-          x = Buffer.concat([hangover, x], hangover.length);
+          x = Buffer.concat([hangover, x], hangover.length + x.length);
         } else if (remaining > x.length) { // Break in valye ... not enough in buffer.
             hangover.push(x);
             remaining -= x.length;
             pos = x.length;
         } else { // Break in data - enough in buffer
           hangover.push(x.slice(pos, pos + remaining));
-          push(null, new KLVPacket(nextKLVToSend.key, nextKLVToSend.length, hangover));
+          push(null, new KLVPacket(nextKLVToSend.key, nextKLVToSend.length, hangover,
+            nextKLVToSend.lengthLength, filePos + pos));
           // console.log('Pushed a packet', hangover.map(x => { return x.length; }));
           pos += remaining;
           remaining = 0;
@@ -76,10 +78,13 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
         var nextKLV = getKeyAndLength(x, pos);
         if (nextKLV.success) {
           // console.log('+++ more pos', pos, pos.toString(16));
+          var streamPos = filePos + pos;
           pos = nextKLV.position;
           if (x.length - pos >= nextKLV.length) {
-              push(null, new KLVPacket(nextKLV.key, nextKLV.length,
-              x.slice(pos, pos + nextKLV.length)));
+            var p = new KLVPacket(nextKLV.key, nextKLV.length,
+              x.slice(pos, pos + nextKLV.length), nextKLV.lengthLength,
+              streamPos);
+            push(null, p);
             pos += nextKLV.length;
             hangover = null;
             remaining = 0;
@@ -93,10 +98,12 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
           }
         } else { // Not enough bytes to read next key
           console.log('Detected KLV wrap around.');
-          hangover = x.slice(position);
-          position = x.length;
+          hangover = x.slice(pos);
+          pos = x.length;
         }
       }
+    //   if (hangover && remaining === 0) console.log('BAD HANGOVER', hangover.length);
+      filePos += x.length - ((hangover && remaining === 0) ? hangover.length : 0);
       next();
     }
 
@@ -111,7 +118,7 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
       meta.resolveByID(x.key)
         .then(function (y) {
           if (!y) {
-            console.log(x.key);
+            console.error(`Omitting unknown key ${x.key} in MXF KLV stream.`);
             push(null, x);
           } else {
             x.meta = y;
@@ -156,15 +163,15 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
               pos += job[2].call(x.value[0], pos);
             });
             if (x.meta.Symbol === 'PrimerPack') {
-              primer = {};
+              meta.resetPrimer();
               x.detail.LocalTagEntryBatch.forEach(function (ppi) {
-                primer[ppi.LocalTag] = ppi.UID;
+                meta.addPrimerTag(ppi.LocalTag, ppi.UID);
               });
             }
           }).then(function () {
             push(null, x);
             next();
-          });
+          }).catch(function (e) { console.error(e.message, e.stack)});
         });
         break;
       case 0x53: // Local sets with 2-byte keys and values
@@ -175,7 +182,7 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
         while (pos < x.length) {
           var tag = buf.readUInt16BE(pos);
           var plen = buf.readUInt16BE(pos + 2);
-          props.push([pos, primer[tag], plen]);
+          props.push([pos, meta.getPrimerUID(tag), plen, tag]);
           pos += 4 + plen;
         }
         var resolve = props.map(function (prop) {
@@ -193,10 +200,43 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
             // console.log('Setting', job[0], job[2].call(x.value[0], job[1], job[3]));
             x.detail[job[0]] = job[2].call(x.value[0], job[1], job[3]);
           });
+          x.props = [];
+          for ( var i = 0 ; i < work.length ; i++ ) {
+            x.props.push({ tag: props[i][3], plen: props[i][2], name: work[i][0] });
+          };
         }).then(function() {
           push(null, x);
           next();
         }).catch(console.error);
+        break;
+      case 0x13:
+        push("Decoding local stes with BER property lengths is not supported.");
+        next();
+        break;
+      case 0x02:
+        // Probably an essence Element
+        var trackStart = x.key.length - 8;
+        x.detail = {
+          ObjectClass: "EssenceElement",
+          Track: x.key.slice(trackStart),
+          ItemType: (function (itemType) {
+            switch (itemType) {
+              case '05' : return 'SDTI-CP Picture (SMPTE 326M)';
+              case '06' : return 'SDTI-CP Sound (SMPTE 326M)';
+              case '07' : return 'SDTI-CP Data (SMPTE 326M)';
+              case '15' : return 'GC Picture';
+              case '16' : return 'GC Sound';
+              case '17' : return 'GC Data';
+              case '18' : return 'GC Compound';
+              default: return 'Unknown';
+            }
+          })(x.key.slice(trackStart, trackStart + 2)),
+          ElementType: '0x' + x.key.slice(trackStart + 4, trackStart + 6),
+          ElementCount: +x.key.slice(trackStart + 2, trackStart + 4),
+          ElementNumber: +x.key.slice(trackStart + 6)
+        };
+        push(null, x);
+        next();
         break;
       default:
         push(null, x);
@@ -205,5 +245,6 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
       }
     }
   })
-  .each(function (x) { if (x.detail) console.log(x.detail); })
+  .each(function (x) { console.log(x);  })
+  .errors(console.error)
   .done(console.log.bind(null, "made it"));
