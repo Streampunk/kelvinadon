@@ -693,5 +693,21 @@
     "Type": "AUID",
     "LocalIdentification": 0,
     "MetaType": "PropertyDefinition"
+  },
+  "060e2b34-0206-0101-0d01-010101015b00": {
+    "Symbol": "VBIDataDescriptor",
+    "Name": "VBI Data Descriptor",
+    "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01015b00",
+    "Description": "",
+    "Parent": "DataEssenceDescriptor",
+    "MetaType": "ClassDefinition"
+  },
+  "060e2b34-0206-0101-0d01-010101015c00": {
+    "Symbol": "ANCDataDescriptor",
+    "Name": "ANC Data Descriptor",
+    "Identification": "urn:smpte:ul:060e2b34.02060101.0d010101.01015c00",
+    "Description": "",
+    "Parent": "DataEssenceDescriptor",
+    "MetaType": "ClassDefinition"
   }
 }

@@ -779,6 +779,24 @@ var smUserDate = {
   MetaType: "PropertyDefinition"
 };
 
+var vbiDataDescriptor = {
+  Symbol: "VBIDataDescriptor",
+  Name: "VBI Data Descriptor",
+  Identification: "urn:smpte:ul:060e2b34.02060101.0d010101.01015b00",
+  Description: "",
+  Parent: "DataEssenceDescriptor",
+  MetaType: "ClassDefinition"
+};
+
+var ancDataDescriptor = {
+  Symbol: "ANCDataDescriptor",
+  Name: "ANC Data Descriptor",
+  Identification: "urn:smpte:ul:060e2b34.02060101.0d010101.01015c00",
+  Description: "",
+  Parent: "DataEssenceDescriptor",
+  MetaType: "ClassDefinition"
+};
+
 var metaDefs = [ // Primer Pcak defs
   localTagEntry, localTagEntryBatchProperty,
   localTagEntryBatchType, primerPack,
@@ -805,7 +823,8 @@ var metaDefs = [ // Primer Pcak defs
   system17byteValue, bitmap, rate, smType, channelHandle, contCount,
   smLabel, smCreationDate, smUserDate, systemMetadata,
   // Fill & missing
-  klvFill, klvFillOld, uint64, essenceElement, instanceUID
+  klvFill, klvFillOld, uint64, essenceElement, instanceUID,
+  vbiDataDescriptor, ancDataDescriptor
 ];
 
 var metaDefsByID = { };

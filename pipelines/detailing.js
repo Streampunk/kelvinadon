@@ -27,14 +27,12 @@ function detailing() {
     } else if (x === H.nil) {
       push(null, H.nil);
     } else {
-      console.log('Hello', x.meta.Symbol);
       if (x.value.length > 1) {
         x.value = [ Buffer.concat(x.value, x.length) ];
       }
       switch (uuid.parse(x.key)[5]) {
       case 0x05:  // Fixed length pack
         x.detail = { ObjectClass: x.meta.Symbol };
-        console.log("I'm a", x.detail);
         meta.getPackOrder(x.meta.Symbol).then(function (po) {
           var resolve = po.map(function (item) {
             return meta.resolveByName("PropertyDefinition", item).then(function (pd) {

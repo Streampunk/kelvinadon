@@ -20,6 +20,8 @@ var stripTheFiller = require('./pipelines/stripTheFiller.js');
 var kelviniser = require('./pipelines/kelviniser.js');
 var metatiser = require('./pipelines/metatiser.js');
 var detailing = require('./pipelines/detailing.js');
+var puppeteer = require('./pipelines/puppeteer.js');
+var util = require('util');
 
 H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XDCAM-HD422_colorbar.mxf'))
   .through(kelviniser())
@@ -27,6 +29,8 @@ H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XD
   .through(stripTheFiller)
   .through(detailing())
   // .ratelimit(1, 100)
-  .each(function (x) { console.log(x);  })
+  .through(puppeteer())
+  .each(function (x) { if (x.ObjectClass && x.ObjectClass === 'Preface')
+    console.log(util.inspect(x, { depth : null }));  })
   .errors(console.error)
   .done(console.log.bind(null, "made it"));
