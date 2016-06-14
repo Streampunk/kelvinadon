@@ -16,7 +16,7 @@
 var H = require('highland');
 var meta = require('../util/meta.js');
 
-var metatiser = function (errors) {
+var metatiser = function () {
   var metaChomper = function (err, x, push, next) {
     if (err) {
       push(err);
@@ -27,7 +27,7 @@ var metatiser = function (errors) {
       meta.resolveByID(x.key)
         .then(function (y) {
           if (!y) {
-            if (errors) console.error(`Omitting unknown key ${x.key} in MXF KLV stream.`);
+            push(`Omitting unknown key ${x.key} in MXF KLV stream.`);
             push(null, x);
           } else {
             x.meta = y;

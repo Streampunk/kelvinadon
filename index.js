@@ -22,15 +22,63 @@ var metatiser = require('./pipelines/metatiser.js');
 var detailing = require('./pipelines/detailing.js');
 var puppeteer = require('./pipelines/puppeteer.js');
 var util = require('util');
+const EventEmitter = require('events');
 
-H(fs.createReadStream('/Volumes/Ormiscraid/media/streampunk/gv/PAL_1080i_MPEG_XDCAM-HD422_colorbar.mxf'))
+function MXFEmitter() {
+  EventEmitter.call(this);
+};
+util.inherits(MXFEmitter, EventEmitter);
+const mxfEmmy = new MXFEmitter();
+
+var cachedTracks = { };
+
+function searchForTrack(item) {
+  Object(item).keys.forEach(function (name) {
+    var value = item[name];
+    if (typeof value === 'object') {
+      if (value.EssenceTrackNumber) {
+        cachedTracks[value.EssenceTrackNumber] = value;
+      } else {
+        searchForTrack(value);
+      }
+    }
+  };
+}
+
+H(fs.createReadStream(process.argv[2]))
   .through(kelviniser())
-  .through(metatiser(true))
+  .through(metatiser())
   .through(stripTheFiller)
   .through(detailing())
   // .ratelimit(1, 100)
   .through(puppeteer())
-  .each(function (x) { if (x.ObjectClass && x.ObjectClass === 'Preface')
-    console.log(util.inspect(x, { depth : null }));  })
-  .errors(console.error)
+  .doto(function (x) {
+    if (x.ObjectClass && x.ObjectClass === 'Preface') {
+      searchForTrack(item);
+      console.log(cachedTracks);
+      return mxfEmmy.emit('metadata', x);
+    };
+    if (x.meta.Symbol.endsWith('PartitionPack')) {
+      return mxfEmmy.emiti('partition', x);
+    };
+    if (x.meta.Symbol === 'IndexTableSegment') {
+      return mxfEmmy.emit('index', x);
+    };
+  })
+  .errors(function (e) { mxfEmmy.emit('error', e); })
   .done(console.log.bind(null, "made it"));
+
+mxfEmmy.on('metadata', function (x) {
+  console.log(util.inspect(x, { depth: null }))});
+mxfEmmy.on('error', function (e) {
+  if (!e.startsWith('Omitting')) console.error(e);
+});
+
+module.exports = {
+  mxfEmmitter: mxfEmmitter,
+  kelviniser: kelviniser,
+  metatiser: metatiser,
+  stripTheFiller : stripTheFiller,
+  detailing: detailing,
+  puppeteer: puppetter
+};
