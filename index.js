@@ -44,21 +44,6 @@ function MXFEmitter (stream) {
 };
 util.inherits(MXFEmitter, EventEmitter);
 
-var mxfEmmy = new MXFEmitter(fs.createReadStream(process.argv[2]));
-mxfEmmy.on('metadata', function (x) {
-  console.log(util.inspect(x, { depth: null }));
-  console.log(mxfEmmy.getTrackList());
-  console.log(mxfEmmy.getTrackDetails('picture0'));
-});
-mxfEmmy.on('error', function (e) {
-  if (typeof e !== 'string' || !e.startsWith('Omitting')) console.error(e);
-});
-var picCount = 0;
-var data = [];
-var dataLength = 0;
-// mxfEmmy.on('picture0', function (x) { console.log(x.length ); });
-mxfEmmy.on('done', function (x) { console.log('Phew!'); });
-
 module.exports = {
   MXFEmitter: MXFEmitter,
   kelviniser: kelviniser,

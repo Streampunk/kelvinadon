@@ -76,7 +76,7 @@ function trackCacher() {
       };
     });
     Object.keys(numberToName).forEach(function (x) {
-      nameToNumber[numberToName[x]] = x;
+      nameToNumber[numberToName[x]] = +x;
     });
   };
 
@@ -88,7 +88,6 @@ function trackCacher() {
       push(null, H.nil);
     } else if (x.ObjectClass && x.ObjectClass === 'Preface') {
       buildTrackCache(x);
-      console.log("Built track cache.");
       push(null, {
         ObjectClass: 'TrackCache',
         cachedTracks: cachedTracks,
