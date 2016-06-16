@@ -78,9 +78,9 @@ This application is in its simplest form at this time. Further options will be a
 Kelvinadon has two modes that it can be used in within an application:
 
 1. As an event emitter, with the data within the stream split into _partitions_, _metadata_, _indexes_ and _essence by track_.
-2. Via [highland.js](http://highlandjs.org/), allowing back pressure to be applied to the building blocks provided.
+2. Via [highland.js](http://highlandjs.org/), allowing back pressure to be applied via the building blocks provided.
 
-### Event model
+### Event emitter
 
 To use kelvinadon as a Node.js event emitter, install it as a local dependency and follow the example below:
 
