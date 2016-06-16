@@ -24,6 +24,7 @@ var metatiser = require('./pipelines/metatiser.js');
 var detailing = require('./pipelines/detailing.js');
 var puppeteer = require('./pipelines/puppeteer.js');
 var emmyiser = require('./pipelines/emmyiser.js');
+var trackCacher = require('./pipelines/trackCacher.js');
 
 function MXFEmitter (stream) {
   EventEmitter.call(this);
@@ -36,6 +37,7 @@ function MXFEmitter (stream) {
   .through(stripTheFiller)
   .through(detailing())
   .through(puppeteer())
+  .through(trackCacher())
   .through(emmyiser(emmy))
   .errors(function (e) { emmy.emit('error', e); })
   .done(function () { emmy.emit('done'); });
@@ -45,6 +47,8 @@ util.inherits(MXFEmitter, EventEmitter);
 var mxfEmmy = new MXFEmitter(fs.createReadStream(process.argv[2]));
 mxfEmmy.on('metadata', function (x) {
   console.log(util.inspect(x, { depth: null }));
+  console.log(mxfEmmy.getTrackList());
+  console.log(mxfEmmy.getTrackDetails('picture0'));
 });
 mxfEmmy.on('error', function (e) {
   if (typeof e !== 'string' || !e.startsWith('Omitting')) console.error(e);
@@ -52,7 +56,7 @@ mxfEmmy.on('error', function (e) {
 var picCount = 0;
 var data = [];
 var dataLength = 0;
-mxfEmmy.on('index', function (x) { console.log(x.detail ); });
+// mxfEmmy.on('picture0', function (x) { console.log(x.length ); });
 mxfEmmy.on('done', function (x) { console.log('Phew!'); });
 
 module.exports = {

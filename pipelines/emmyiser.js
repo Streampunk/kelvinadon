@@ -20,70 +20,14 @@ function emmyiser (emitter) {
   var numberToName = { };
   var nameToNumber = { };
   var emmy = this;
-  function buildTrackCache (preface) {
-    var essenceSources = preface.ContentStorageObject.Packages.filter(function (x) {
-      return x.ObjectClass === 'SourcePackage' &&
-          x.PackageTracks.some(function (y) {
-        return y.EssenceTrackNumber > 0;
-      })
-    });
-    essenceSources.forEach(function (src) {
-      var trackIDMap = { };
-      var startTimecode = null;
-      src.PackageTracks.forEach(function (t) {
-        if (t.EssenceTrackNumber) {
-          emmy.cachedTracks[t.EssenceTrackNumber] = { srcID: src.PackageID, track : t, index : 0 };
-          trackIDMap[t.TrackID] = t.EssenceTrackNumber;
-        }
-        if (t.TrackSegment && Array.isArray(t.TrackSegment.ComponentObjects) &&
-              t.TrackSegment.ComponentObjects.length >= 1 &&
-              t.TrackSegment.ComponentObjects[0].ObjectClass === 'Timecode') {
-          startTimecode = t.TrackSegment.ComponentObjects[0];
-        }
-      });
-      if (src.EssenceDescription.ObjectClass === 'MultipleDescriptor') {
-        Object.keys(src.EssenceDescription.FileDescriptors).forEach(function (key) {
-          var descriptor = src.EssenceDescription.FileDescriptors[key];
-          if (descriptor.LinkedTrackID) {
-            emmy.cachedTracks[trackIDMap[descriptor.LinkedTrackID]].description = descriptor;
-          }
-        });
-      } else {
-        Object.keys(trackIDMap).forEach(function (key) {
-          emmy.cachedTracks[trackIDMap[key]].push(src.EssenceDescription);
-        });
-      }
-      if (startTimecode) {
-        Object.keys(emmy.cachedTracks).forEach(function (tid) {
-          cachedTracks[tid].startTimecode = startTimecode;
-        });
-      }
-    });
-    Object.keys(emmy.cachedTracks).forEach(function (t) {
-      switch (t >>> 24) {
-      case 0x05:
-      case 0x15:
-        numberToName[t] = `picture${t & 0xff}`; break;
-      case 0x06:
-      case 0x16:
-        numberToName[t] = `sound${t & 0xff}`; break;
-      case 0x07:
-      case 0x17:
-        numberToName[t] = `data${t & 0xff}`; break;
-      case 0x18:
-        numberToName[t] = `compound${t & 0xff}`; break;
-      default:
-        numberToName[t] = `unknown${t & 0xff}`; break;
-      };
-    });
-    Object.keys(numberToName).forEach(function (x) {
-      nameToNumber[numberToName[x]] = x;
-    });
-  };
-
   var emmyPhone = function (klv) {
+    if (klv.ObjectClass && klv.ObjectClass === 'TrackCache') {
+      emmy.cachedTracks = klv.cachedTracks;
+      numberToName = klv.numberToName;
+      nameToNumber = klv.nameToNumber;
+      return;
+    }
     if (klv.ObjectClass && klv.ObjectClass === 'Preface') {
-      buildTrackCache(klv);
       return emitter.emit('metadata', klv);
     };
     if (klv.meta.Symbol.endsWith('PartitionPack')) {
@@ -114,14 +58,15 @@ function emmyiser (emitter) {
     };
   };
   emitter.getTrackList = function () {
-    return Object.names(nameToNumber);
+    return Object.keys(nameToNumber);
   };
   emitter.getTrackDetails = function (name) {
-    if (typeof trackID === 'number') {
+    if (typeof name === 'number') {
       return cachedTracks[trackID];
-    } else if (typeof trackID === 'string') {
+    } else if (typeof name === 'string') {
+      console.log(nameToNumber, name);
       if (isNaN(parseInt(name, 16)))
-        return cachedTracks[nameToNumber[trackID]];
+        return cachedTracks[nameToNumber[name]];
       else
         return cachedTracks[parseInt(name, 16)];
     } else {
