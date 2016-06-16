@@ -1,14 +1,14 @@
 # Kelvinadon
 
-Kelvinadon is a cross-platform streaming library for working with [Material Exchange Format (MXF)](https://en.wikipedia.org/wiki/Material_Exchange_Format) files in Node.js. Kelvinadon works with [highland.js](http://highlandjs.org/) to provide a means to process MXF data in stream formats with back pressure.
+Kelvinadon is a cross-platform streaming library for working with [Material Exchange Format (MXF)](https://en.wikipedia.org/wiki/Material_Exchange_Format) files in [Node.js](https://nodejs.org/en/). Kelvinadon works with [highland.js](http://highlandjs.org/) to provide a means to process MXF data in stream form with back pressure.
 
 Currently, the library supports reading from MXF streams. A means to write essence elements back to MXF streams and files will be provided in the future.
 
-The name _kelvinadon_ is a play on the format of MXF files using a KLV structure and a nod to (Sir William Thomson, 1st Baron Kelvin)[https://en.wikipedia.org/wiki/William_Thomson,_1st_Baron_Kelvin] - this library being developed in Scotland based on the highland library. This is an add on module for other Streampunk Media projects.
+The name _kelvinadon_ is a play on the format of MXF files using a KLV structure and a nod to [Sir William Thomson, 1st Baron Kelvin](https://en.wikipedia.org/wiki/William_Thomson,_1st_Baron_Kelvin) - this library being developed in Scotland based on the highland library. This is an add on module for other Streampunk Media projects.
 
 ## Installation
 
-Kelvinadump is intended for use with the latest long term support (LTS) version of Node.js, which must be installed first. To install kelvinadon globally and use the simple MXF file dumper `kelvinadump`:
+Kelvinadon is intended for use with the latest long term support (LTS) version of [Node.js](https://nodejs.org/en/), which must be installed first. Otherwise, the library is pure Javascript and does not require a binding to C++ library. To install kelvinadon globally and use the simple MXF file dumper `kelvinadump`:
 
     npm install -g kelvinadon
 
@@ -64,12 +64,12 @@ Here is an example output for one KLV packet:
 Each packet has:
 * `key` 16-byte identifier;
 * `length` length of the following value;
-* `value` Array of chunks of data that make up the value of the packet;
-* `lengthLength` Number of bytes used to carry the length value;
-* `filePos` Absolute file position of this KLV packet in the overall stream;
-* `meta` If the key is recognized, the meta definition of the corresponding data type;
-* `detail` Application of the meta definition used to decode the buffer and interpret the data it contains;
-* `props` (not shown) For local sets, an array or arrays describing each local tag found in a local set.
+* `value` array of chunks of data that make up the value of the packet;
+* `lengthLength` number of bytes used to carry the length value;
+* `filePos` absolute file position of this KLV packet in the overall stream;
+* `meta` if the key is recognized, the meta definition of the corresponding data type;
+* `detail` application of the meta definition used to decode the buffer and interpret the data it contains;
+* `props` (not shown) for local sets, an array or arrays describing each local tag found in a local set.
 
 This application is in its simplest form at this time. Further options will be added in the future to make it more flexible.
 
@@ -78,11 +78,11 @@ This application is in its simplest form at this time. Further options will be a
 Kelvinadon has two modes that it can be used in within an application:
 
 1. As an event emitter, with the data within the stream split into _partitions_, _metadata_, _indexes_ and _essence by track_.
-2. Via highland.js, allowing back pressure to be applied to the building blocks provided.
+2. Via [highland.js](http://highlandjs.org/), allowing back pressure to be applied to the building blocks provided.
 
 ### Event model
 
-To use kelvinadon as an event emitter, install it as a local dependency and follow the example below:
+To use kelvinadon as a Node.js event emitter, install it as a local dependency and follow the example below:
 
 ```javascript
 var klv = require('kelvinadon');
@@ -102,23 +102,23 @@ mxfEvents.on('metadata', function (preface) {
 
 // Listen for information on a pictire track
 mxfEvents.on('picture0', function (data) {
-  // Data is an object containing the Buffer value, length, track details, descriptors and
+  // Data is an object containing the Buffer value, length, track details, descriptor and
   // associated timecode track for the media
 });
 
 mxfEvents.on('sound0', function (data) {
-  // Data is an object containing the Buffer value, length, track details, descriptors and
+  // Data is an object containing the Buffer value, length, track details, descriptor and
   // associated timecode track for the media
 });
 
-// EVent called at the end of the stream
+// Event called at the end of the stream
 mxfEvents.on('done', function () { console.log('Streaming complete.'); });
 
 ```
 
-The track names are available with the metadata event by calling `mxfEvents.getTrackList()`. Typically, these are `picture0`, `sound0`, `sound1`, ... , `data0` etc.. Alternatively, you can use the `essence` event to listen for all essence elements in the stream.
+The track names are available with the metadata event by calling `mxfEvents.getTrackList()`. Typically, these are `picture0`, `sound0`, `sound1`, ... , `data0` etc.. Alternatively, you can use the `essence` event to listen for all essence elements in the stream. Note that a sound track may contain more than one channel.
 
-The design is such that events are fairly self-contained, providing enough information that a decoder could process them, including the count of the index of this element within its stream, the source package identifier, file descriptor, track details and the start timecode from the same package. Here is an example of the event data sent for picture data:
+The design is such that events are fairly self-contained, providing enough information that a decoder could process them standalone, including the count of the index of this element within its stream, the source package identifier, file descriptor, track details and the start timecode of the same package. Here is an example of the event data sent for picture data:
 
 ```javascript
 { trackNumber: '15010500',
@@ -228,17 +228,19 @@ base.fork()
 base.resume();
 ```
 
-The highland pipelines available are described below and should be applied in the given order:
+The highland pipeline stages available are described below and should be applied in the given order:
 
 1. `kelviniser` Turns a byte stream into a stream of raw KLV packets.
 2. `metatiser` Reads the keys of the KLV stream and adds meta definitions to the KLV packets. See the [lib](/lib) folder for the meta dictionaries in use.
 3. `stripTheFiller` Remove any filler elements from the stream (optional).
-4. `detailing` Use the meta definition to extract the details from the Buffer value.
-5. `puppeteer` Collapse metadata classes into a single preface object with children by resolving local references. The preface is sent on down the stream without its KLV wrapper.
-6. `trackCacher` Cache track details and give names to each metadata track.
+4. `detailing` Use the meta definition to extract the details from the Buffer value, such as decoding a local set to a metadata value.
+5. `puppeteer` Collapse metadata classes into a single preface-object-with-children by resolving local references. The children are removed from the stream and the preface is sent on down the stream without its KLV wrapper.
+6. `trackCacher` Cache track details and give names to each metadata track. An object with class `TrackCache` is created and sent on down the stream.
 7. `partitionFilter`, `metadataFilter`, `indexFilter` and `essenceFilter`. Filter the stream so that it contains only KLV packets of the given type. A track name can be passed to `essenceFilter` to make it track specific.
 
 If a consumer that is slower than the producer is added to the stream, the producer (e.g. file reader stream) will be slowed down via back pressure.
+
+Also provided is `emmyiser`, the highland side-effect that is the basis of event emitter. This must be placed in the pipeline after the `trackCacher`.
 
 ## Status, support and further development
 
