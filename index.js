@@ -16,69 +16,51 @@
 var H = require('highland');
 var fs = require('fs');
 var uuid = require('uuid');
+var util = require('util');
+const EventEmitter = require('events');
 var stripTheFiller = require('./pipelines/stripTheFiller.js');
 var kelviniser = require('./pipelines/kelviniser.js');
 var metatiser = require('./pipelines/metatiser.js');
 var detailing = require('./pipelines/detailing.js');
 var puppeteer = require('./pipelines/puppeteer.js');
-var util = require('util');
-const EventEmitter = require('events');
+var emmyiser = require('./pipelines/emmyiser.js');
 
-function MXFEmitter() {
+function MXFEmitter (stream) {
   EventEmitter.call(this);
-};
-util.inherits(MXFEmitter, EventEmitter);
-const mxfEmmy = new MXFEmitter();
-
-var cachedTracks = { };
-
-function searchForTrack(item) {
-  Object(item).keys.forEach(function (name) {
-    var value = item[name];
-    if (typeof value === 'object') {
-      if (value.EssenceTrackNumber) {
-        cachedTracks[value.EssenceTrackNumber] = value;
-      } else {
-        searchForTrack(value);
-      }
-    }
-  };
-}
-
-H(fs.createReadStream(process.argv[2]))
+  this.getTrackList = function () { return []; }
+  this.getTrackDetails = function () { return undefined; }
+  var emmy = this;
+  this.highland = H(stream)
   .through(kelviniser())
   .through(metatiser())
   .through(stripTheFiller)
   .through(detailing())
-  // .ratelimit(1, 100)
   .through(puppeteer())
-  .doto(function (x) {
-    if (x.ObjectClass && x.ObjectClass === 'Preface') {
-      searchForTrack(item);
-      console.log(cachedTracks);
-      return mxfEmmy.emit('metadata', x);
-    };
-    if (x.meta.Symbol.endsWith('PartitionPack')) {
-      return mxfEmmy.emiti('partition', x);
-    };
-    if (x.meta.Symbol === 'IndexTableSegment') {
-      return mxfEmmy.emit('index', x);
-    };
-  })
-  .errors(function (e) { mxfEmmy.emit('error', e); })
-  .done(console.log.bind(null, "made it"));
+  .through(emmyiser(emmy))
+  .errors(function (e) { emmy.emit('error', e); })
+  .done(function () { emmy.emit('done'); });
+};
+util.inherits(MXFEmitter, EventEmitter);
 
+var mxfEmmy = new MXFEmitter(fs.createReadStream(process.argv[2]));
 mxfEmmy.on('metadata', function (x) {
-  console.log(util.inspect(x, { depth: null }))});
-mxfEmmy.on('error', function (e) {
-  if (!e.startsWith('Omitting')) console.error(e);
+  console.log(util.inspect(x, { depth: null }));
 });
+mxfEmmy.on('error', function (e) {
+  if (typeof e !== 'string' || !e.startsWith('Omitting')) console.error(e);
+});
+var picCount = 0;
+var data = [];
+var dataLength = 0;
+mxfEmmy.on('index', function (x) { console.log(x.detail ); });
+mxfEmmy.on('done', function (x) { console.log('Phew!'); });
 
 module.exports = {
-  mxfEmmitter: mxfEmmitter,
+  MXFEmitter: MXFEmitter,
   kelviniser: kelviniser,
   metatiser: metatiser,
   stripTheFiller : stripTheFiller,
   detailing: detailing,
-  puppeteer: puppetter
+  puppeteer: puppeteer,
+  emmyiser: emmyiser
 };
