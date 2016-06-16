@@ -47,6 +47,7 @@ function emmyiser (emitter) {
         element: [ klv.detail.ElementNumber, klv.detail.ElementCount ]
       };
       if (track) {
+        output.sourcePackageID = track.srcID;
         output.count = track.index;
         output.track = track.track;
         output.description = track.description;

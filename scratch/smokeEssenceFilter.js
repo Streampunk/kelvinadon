@@ -15,38 +15,25 @@
 
 var H = require('highland');
 var fs = require('fs');
-var uuid = require('uuid');
-var util = require('util');
-const EventEmitter = require('events');
-var stripTheFiller = require('../pipelines/stripTheFiller.js');
-var kelviniser = require('../pipelines/kelviniser.js');
-var metatiser = require('../pipelines/metatiser.js');
-var detailing = require('../pipelines/detailing.js');
-var puppeteer = require('../pipelines/puppeteer.js');
-var emmyiser = require('../pipelines/emmyiser.js');
-var trackCacher = require('../pipelines/trackCacher.js');
-var essenceFilter = require('../pipelines/essenceFilter.js');
-var indexFilter = require('../pipelines/indexFilter.js');
-var partitionFilter = require('../pipelines/partitionFilter.js');
-var metadataFilter = require('../pipelines/metadataFilter.js');
+var klv = require('../index.js');
 
 var base = H(fs.createReadStream(process.argv[2]))
-.through(kelviniser())
-.through(metatiser())
-.through(stripTheFiller)
-.through(detailing())
-.through(puppeteer())
-.through(trackCacher());
+.through(klv.kelviniser())
+.through(klv.metatiser())
+.through(klv.stripTheFiller)
+.through(klv.detailing())
+.through(klv.puppeteer())
+.through(klv.trackCacher());
 
 base.fork()
- .through(partitionFilter('data1'))
+ .through(klv.essenceFilter('picture0'))
  .doto(H.log)
- .errors(function (e) { console.error })
- .done(function () { console.log('Filterator filterated fork 1.'); });
+ .errors(function (e) { console.error(e); })
+ .done(function () { console.log('Finished reading picture data.'); });
 
 base.fork()
-  .through(metadataFilter())
+  .through(klv.essenceFilter('sound0'))
   .doto(H.log)
-  .errors(function (e) { console.error })
-  .done(function () { console.log('Filterator filterated fork 2.') });
+  .errors(function (e) { console.error(e); })
+  .done(function () { console.log('Finished reading sound data.') });
 base.resume();

@@ -30,7 +30,7 @@ function detailing() {
       if (x.value.length > 1) {
         x.value = [ Buffer.concat(x.value, x.length) ];
       }
-      switch (uuid.parse(x.key)[5]) {
+      switch (x.meta && uuid.parse(x.key)[5]) {
       case 0x05:  // Fixed length pack
         x.detail = { ObjectClass: x.meta.Symbol };
         meta.getPackOrder(x.meta.Symbol).then(function (po) {

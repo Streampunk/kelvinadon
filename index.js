@@ -25,6 +25,10 @@ var detailing = require('./pipelines/detailing.js');
 var puppeteer = require('./pipelines/puppeteer.js');
 var emmyiser = require('./pipelines/emmyiser.js');
 var trackCacher = require('./pipelines/trackCacher.js');
+var partitionFilter = require('./pipelines/partitionFilter.js');
+var indexFilter = require('./pipelines/indexFilter.js');
+var metadataFilter = require('./pipelines/metadataFilter.js');
+var essenceFilter = require('./pipelines/essenceFilter.js');
 
 function MXFEmitter (stream) {
   EventEmitter.call(this);
@@ -51,5 +55,10 @@ module.exports = {
   stripTheFiller : stripTheFiller,
   detailing: detailing,
   puppeteer: puppeteer,
-  emmyiser: emmyiser
+  trackCacher: trackCacher,
+  emmyiser: emmyiser,
+  partitionFilter: partitionFilter,
+  indexFilter: indexFilter,
+  metadataFilter: metadataFilter,
+  essenceFilter: essenceFilter
 };
