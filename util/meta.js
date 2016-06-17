@@ -22,8 +22,11 @@ var metaDictByName = [];
 
 var readFile = Promise.denodeify(fs.readFile);
 
-var dictFiles = [ 'lib/baselineDefsByID.json', 'lib/baselineDefsByName.json',
-  'lib/mxfDefsByID.json', 'lib/mxfDefsByName.json'];
+var dictFiles = [
+  `${__dirname}/../lib/baselineDefsByID.json`,
+  `${__dirname}/../lib/baselineDefsByName.json`,
+  `${__dirname}/../lib/mxfDefsByID.json`,
+  `${__dirname}/../lib/mxfDefsByName.json`];
 // TODO additional meta dictionaries via command licenses
 
 var readDicts = Promise.all(dictFiles.map(function (dict) {
