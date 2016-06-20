@@ -231,7 +231,7 @@ base.resume();
 
 The highland pipeline stages available are described below and should be applied in the given order:
 
-1. `kelviniser` Turns a byte stream into a stream of raw KLV packets.
+1. `kelviniser` Turns a byte stream into a stream of raw KLV packets. The input stream is any node readable stream, including HTTP response objects.
 2. `metatiser` Reads the keys of the KLV stream and adds meta definitions to the KLV packets. See the [lib](/lib) folder for the meta dictionaries in use.
 3. `stripTheFiller` Remove any filler elements from the stream (optional).
 4. `detailing` Use the meta definition to extract the details from the Buffer value, such as decoding a local set to a metadata value.
