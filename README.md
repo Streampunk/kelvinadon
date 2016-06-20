@@ -106,6 +106,7 @@ mxfEvents.on('picture0', function (data) {
   // associated timecode track for the media
 });
 
+// Listen for information on a sound track
 mxfEvents.on('sound0', function (data) {
   // Data is an object containing the Buffer value, length, track details, descriptor and
   // associated timecode track for the media
