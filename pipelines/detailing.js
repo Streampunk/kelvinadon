@@ -97,7 +97,7 @@ function detailing() {
         }).catch(function (e) { push(e); next(); });
         break;
       case 0x13:
-        push("Decoding local stes with BER property lengths is not supported.");
+        push("Decoding local sets with BER property lengths is not supported.");
         next();
         break;
       case 0x02:

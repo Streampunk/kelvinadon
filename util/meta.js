@@ -210,6 +210,11 @@ var readingFns = {
     return function (pos) {
       return this.slice(pos, pos + def.ElementCount);
     } // TODO improve for non UInt8 values
+  },
+  "TypeDefinitionExtendibleEnumeration": function (def) {
+    return function (pos) {
+      return uuid.unparse(this.slice(pos, pos + 16));
+    }
   }
 }
 
@@ -250,6 +255,11 @@ var sizingFns = {
   "TypeDefinitionFixedArray": function (def) {
     return function (pos) {
       return def.ElementCount; // TODO improve for non UInt8 types
+    }
+  },
+  "TypeDefinitionExtendibleEnumeration": function (def) {
+    return function (pos) {
+      return 16;
     }
   }
 }
@@ -306,7 +316,7 @@ var internalResolveByName = function (type, name) {
 var readType = function (typeName) {
   return resolveByName("TypeDefinition", typeName).then(function (type) {
     if (!readingFns[type.MetaType])
-      console.error("Failed to resolve type", type.MetaType);
+      console.error("Failed to resolve type", type.MetaType, typeName);
     return readingFns[type.MetaType](type);
   });
 }

@@ -37,11 +37,11 @@ c.on('ready', function () {
      .errors(function (e) { console.error(e); })
      .done(function () { console.log('Finished reading picture data.'); });
 
-    base.fork()
-      .through(klv.essenceFilter('sound0'))
-      .doto(H.log)
-      .errors(function (e) { console.error(e); })
-      .done(function () { console.log('Finished reading sound data.') });
+    // base.fork()
+    //   .through(klv.essenceFilter('sound0'))
+    //   .doto(H.log)
+    //   .errors(function (e) { console.error(e); })
+    //   .done(function () { console.log('Finished reading sound data.') });
     base.resume();
 
     stream.on('close', function () { console.log("End of the stream.")});
