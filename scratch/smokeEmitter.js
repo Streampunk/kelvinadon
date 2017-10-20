@@ -24,25 +24,26 @@ var mxfEvents = new klv.MXFEmitter(fs.createReadStream(process.argv[2]));
 mxfEvents.on('error', function (e) { console.error(e); });
 
 // Receive any header metadata sets (optional)
-mxfEvents.on('metadata', function (preface) {
-  console.log('*** METADATA ***\n');
-  console.log(util.inspect(preface, { depth : null }));
-});
+// mxfEvents.on('metadata', function (preface) {
+//   console.log('*** METADATA ***\n');
+//   console.log(util.inspect(preface, { depth : null }));
+// });
 
 var picCount = 0;
 
 // Listen for information on a pictire track
-mxfEvents.on('picture0', function (data) {
+mxfEvents.once('picture0', function (data) {
   console.log(`*** PICTURE ${picCount++} ***\n`);
   console.log(util.inspect(data, { depth : null }));
+  fs.writeFile('frame0.h264', data.value, console.error);
 });
 
-var soundCount = 0;
-
-mxfEvents.on('sound0', function (data) {
-  console.log(`*** SOUND ${soundCount++} ***\n`);
-  console.log(util.inspect(data, { depth : null }));
-});
+// var soundCount = 0;
+//
+// mxfEvents.on('sound0', function (data) {
+//   console.log(`*** SOUND ${soundCount++} ***\n`);
+//   console.log(util.inspect(data, { depth : null }));
+// });
 
 // EVent called at the end of the stream
 mxfEvents.on('done', function () { console.log('Streaming complete.'); });

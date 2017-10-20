@@ -70,7 +70,7 @@ tape('Parsing MXF defs by ID', function (t) {
       t.ok(totalTime[0] === 0 && totalTime[1] <= 999999999,
         `is sub second at ${totalTime[1]/1000000}ms.`);
       t.equal(typeof defs, 'object', 'creates an object.');
-      t.equal(Object.keys(defs).length, 63, 'has expected no of definitions.');
+      t.equal(Object.keys(defs).length, 65, 'has expected no of definitions.');
     })
     .catch(t.fail)
     .done(t.end);
