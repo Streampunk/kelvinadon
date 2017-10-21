@@ -67,3 +67,99 @@ tape('Test packet roundtrip with collected buffers', t => {
   t.deepEqual(madePacket, testPacket, 'packets are equal.');
   t.end();
 });
+
+var tp1 = new KLVPacket(uuid.v4(), 42, Buffer.allocUnsafe(42), 1, 0);
+var tp2 = new KLVPacket(uuid.v4(), 1000, Buffer.allocUnsafe(1000), 4, tp1.size());
+var tp3 = new KLVPacket(uuid.v4(), 4200000, Buffer.allocUnsafe(4200000), 9, tp2.filePos + tp2.size());
+
+var bigBuf = null;
+H([tp1, tp2, tp3]).through(kelvinwriter())
+  .collect().map(Buffer.concat).each(x => { bigBuf = x; });
+
+tape('Roundtrip boundary testing - single buffer', t => {
+  var result = null;
+  H([bigBuf])
+    .through(kelviniser())
+    .errors(t.fail)
+    .toArray(a => { result = a; t.pass('pipeline finished.')});
+  t.ok(Array.isArray(result), 'result is an array.');
+  t.equal(result.length, 3, 'array is of the expected length.');
+  t.ok(result.every(x => KLVPacket.isKLVPacket(x)), 'every entry is a KLV packet.');
+  result.forEach(x => x.flattenValue());
+  t.deepEqual(result[0], tp1, 'first packet matches.');
+  t.deepEqual(result[1], tp2, 'second packet matches.');
+  t.deepEqual(result[2], tp3, 'third packet matches.');
+  t.end();
+});
+
+tape('Roundtrip boundary testing - split first value', t => {
+  var result = null;
+  H([bigBuf.slice(0, 32), bigBuf.slice(32)])
+    .through(kelviniser())
+    .errors(t.fail)
+    .toArray(a => { result = a; t.pass('pipeline finished.')});
+  t.ok(Array.isArray(result), 'result is an array.');
+  t.equal(result.length, 3, 'array is of the expected length.');
+  t.ok(result.every(x => KLVPacket.isKLVPacket(x)), 'every entry is a KLV packet.');
+  result.forEach(x => x.flattenValue());
+  t.deepEqual(result[0], tp1, 'first packet matches.');
+  t.deepEqual(result[1], tp2, 'second packet matches.');
+  t.deepEqual(result[2], tp3, 'third packet matches.');
+  t.end();
+});
+
+tape('Roundtrip boundary testing - split second key', t => {
+  var result = null;
+  H([bigBuf.slice(0, 65), bigBuf.slice(65)])
+    .through(kelviniser())
+    .errors(t.fail)
+    .toArray(a => { result = a; t.pass('pipeline finished.')});
+  t.ok(Array.isArray(result), 'result is an array.');
+  t.equal(result.length, 3, 'array is of the expected length.');
+  t.ok(result.every(x => KLVPacket.isKLVPacket(x)), 'every entry is a KLV packet.');
+  result.forEach(x => x.flattenValue());
+  t.deepEqual(result[0], tp1, 'first packet matches.');
+  t.deepEqual(result[1], tp2, 'second packet matches.');
+  t.deepEqual(result[2], tp3, 'third packet matches.');
+  t.end();
+});
+
+tape('Roundtrip boundary testing - split third large value', t => {
+  var result = null;
+  H([bigBuf.slice(0, 12345), bigBuf.slice(12345)])
+    .through(kelviniser())
+    .errors(t.fail)
+    .toArray(a => { result = a; t.pass('pipeline finished.')});
+  t.ok(Array.isArray(result), 'result is an array.');
+  t.equal(result.length, 3, 'array is of the expected length.');
+  t.ok(result.every(x => KLVPacket.isKLVPacket(x)), 'every entry is a KLV packet.');
+  result.forEach(x => x.flattenValue());
+  t.deepEqual(result[0], tp1, 'first packet matches.');
+  t.deepEqual(result[1], tp2, 'second packet matches.');
+  t.deepEqual(result[2], tp3, 'third packet matches.');
+  t.end();
+});
+
+var randomBufs = [];
+var pos = 0;
+while (pos < bigBuf.length) {
+  var r = Math.random() * 1024 | 0;
+  randomBufs.push(bigBuf.slice(pos, pos + r));
+  pos += r;
+}
+
+tape('Roundtrip boundary testing - random buffers', t => {
+  var result = null;
+  H(randomBufs)
+    .through(kelviniser())
+    .errors(t.fail)
+    .toArray(a => { result = a; t.pass('pipeline finished.')});
+  t.ok(Array.isArray(result), 'result is an array.');
+  t.equal(result.length, 3, 'array is of the expected length.');
+  t.ok(result.every(x => KLVPacket.isKLVPacket(x)), 'every entry is a KLV packet.');
+  result.forEach(x => x.flattenValue());
+  t.deepEqual(result[0], tp1, 'first packet matches.');
+  t.deepEqual(result[1], tp2, 'second packet matches.');
+  t.deepEqual(result[2], tp3, 'third packet matches.');
+  t.end();
+});
