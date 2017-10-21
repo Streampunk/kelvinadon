@@ -24,11 +24,11 @@ function KLVPacket(key, length, value, lengthLength, filePos) {
 }
 
 KLVPacket.prototype.size = function () {
-  return 16 + lengthLength + length;
+  return 16 + this.lengthLength + this.length;
 }
 
 KLVPacket.prototype.lengthFromValue = function () {
-  this.length = value.reduce((x, y) => x + y.length, 0);
+  this.length = this.value.reduce((x, y) => x + y.length, 0);
   return this.length;
 }
 

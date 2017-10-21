@@ -27,3 +27,5 @@ function kelvinwriter () {
   }
   return H.pipeline(H.flatMap(mapper));
 }
+
+module.exports = kelvinwriter;
