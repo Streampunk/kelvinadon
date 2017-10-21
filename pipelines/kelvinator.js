@@ -18,7 +18,7 @@ var KLVPacket = require('../model/KLVPacket.js');
 var writeKeyAndLength = require('../util/klvUtil.js').writeKeyAndLength;
 var uuid = require('uuid');
 
-function kelvinwriter () {
+function kelvinator () {
   function mapper(x) {
     if (!KLVPacket.isKLVPacket(x))
       throw new Error('Received an object that is not a KLV packet.');
@@ -28,4 +28,4 @@ function kelvinwriter () {
   return H.pipeline(H.flatMap(mapper));
 }
 
-module.exports = kelvinwriter;
+module.exports = kelvinator;

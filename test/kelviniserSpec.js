@@ -17,7 +17,7 @@ var klvUtil = require('../util/klvUtil.js');
 var tape = require('tape');
 var uuid = require('uuid');
 var H = require('highland');
-var kelvinwriter = require('../pipelines/kelvinwriter.js');
+var kelvinator = require('../pipelines/kelvinator.js');
 var kelviniser = require('../pipelines/kelviniser.js');
 var KLVPacket = require('../model/KLVPacket.js');
 
@@ -26,7 +26,7 @@ var testPacket = new KLVPacket(uuid.v4(), 42, Buffer.allocUnsafe(42), 4, 0);
 tape('Test conversion of packet to bytes', t => {
   var b = [];
   t.ok(KLVPacket.isKLVPacket(testPacket), 'test packet shows up as a packet.');
-  H([testPacket]).through(kelvinwriter()).errors(t.fail).each(x => { b.push(x); })
+  H([testPacket]).through(kelvinator()).errors(t.fail).each(x => { b.push(x); })
     .done(() => { t.pass(`finished pipeline.`)});
   t.ok(Array.isArray(b) && b.length === 2, 'creates an array of length 2.');
   t.ok(b.every(x => Buffer.isBuffer(x)), 'every element of the array is a buffer.');
@@ -42,7 +42,7 @@ tape('Test conversion of packet to bytes', t => {
 tape('Test packet roundtrip with separate buffers', t => {
   var madePacket = null;
   H([testPacket])
-    .through(kelvinwriter())
+    .through(kelvinator())
     .through(kelviniser(true))
     .errors(t.fail)
     .each(x => { madePacket = x; })
@@ -56,7 +56,7 @@ tape('Test packet roundtrip with separate buffers', t => {
 tape('Test packet roundtrip with collected buffers', t => {
   var madePacket = null;
   H([testPacket])
-    .through(kelvinwriter())
+    .through(kelvinator())
     .collect()
     .map(Buffer.concat)
     .through(kelviniser(true))
@@ -73,7 +73,7 @@ var tp2 = new KLVPacket(uuid.v4(), 1000, Buffer.allocUnsafe(1000), 4, tp1.size()
 var tp3 = new KLVPacket(uuid.v4(), 4200000, Buffer.allocUnsafe(4200000), 9, tp2.filePos + tp2.size());
 
 var bigBuf = null;
-H([tp1, tp2, tp3]).through(kelvinwriter())
+H([tp1, tp2, tp3]).through(kelvinator())
   .collect().map(Buffer.concat).each(x => { bigBuf = x; });
 
 tape('Roundtrip boundary testing - single buffer', t => {

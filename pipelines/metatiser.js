@@ -16,6 +16,9 @@
 var H = require('highland');
 var meta = require('../util/meta.js');
 
+// Asyncrhonous nature of meta definition resolution means this method would
+// not work well with flatMap.
+
 var metatiser = function () {
   var metaChomper = function (err, x, push, next) {
     if (err) {
