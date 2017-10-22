@@ -79,28 +79,28 @@ var readingFns = {
       case "TimeStamp":
         return (buf, pos) => {
           var year = buf.readInt16BE(pos + 0);
-          var month = buf.readUInt8(pos + 2);
+          var month = buf.readUInt8(pos + 2) - 1;
           var day = buf.readUInt8(pos + 3);
           var hour = buf.readUInt8(pos + 4);
           var min = buf.readUInt8(pos + 5);
           var sec = buf.readUInt8(pos + 6);
           var msec = buf.readUInt8(pos + 7) * 4;
-          return (new Date(year, month, day, hour, min, sec, msec)).toISOString();
-        }
+          return (new Date(Date.UTC(year, month, day, hour, min, sec, msec))).toISOString();
+        };
       case "PackageIDType":
         return (buf, pos) => {
           return [
             uuid.unparse(buf.slice(pos, pos + 16)),
             uuid.unparse(buf.slice(pos + 16, pos + 32))];
-        }
+        };
       case "VersionType":
         return (buf, pos) => {
-          return [ buf.readUInt8(pos), buf.readUInt8(pos + 1) ];
-        }
+          return [ buf.readInt8(pos), buf.readInt8(pos + 1) ];
+        };
       case "Rational":
         return (buf, pos) => {
           return [ buf.readInt32BE(pos), buf.readInt32BE(pos + 4) ];
-        }
+        };
       case "IndexEntry":
         return (buf, pos) => {
           return {
@@ -109,7 +109,7 @@ var readingFns = {
             Flags: buf.readUInt8(pos + 2),
             StreamOffset: buf.readUIntBE(pos + 3, 8)
           };
-        }
+        };
       case "DeltaEntry":
         return (buf, pos) => {
           return {
@@ -117,16 +117,16 @@ var readingFns = {
             Slice: buf.readUInt8(pos + 1),
             ElementDelta: buf.readUInt32BE(pos + 2)
           };
-        }
+        };
       case "RandomIndexItem":
         return (buf, pos) => {
           return {
             BodySID: buf.readUInt32BE(pos),
             ByteOffset: buf.readUIntBE(pos + 4, 8)
           };
-        }
+        };
       default:
-        return () => { return undefined; }
+        return () => { return undefined; };
     }
   },
   "TypeDefinitionSet": def => {
@@ -224,7 +224,7 @@ var writingFns = {
       if (def.IsSigned) {
         buf.writeIntBE(v, pos, def.Size);
       } else {
-        buf.writeUInt16LE(v, pos, def.Size);
+        buf.writeUIntBE(v, pos, def.Size);
       };
       return def.Size;
     }
@@ -233,22 +233,22 @@ var writingFns = {
     switch (def.Symbol) {
     case "AUID":
       return (v, buf, pos) => {
-        return writeUUID(v, buf, offset);
+        return writeUUID(v, buf, pos);
       };
     case "LocalTagEntry":
       return (v, buf, pos) => {
         buf.writeUInt16BE(v.LocalTag, pos);
-        writeUUID(u, buf, pos + 2);
+        writeUUID(v.UID, buf, pos + 2);
         return 18;
       };
     case "TimeStamp":
       return (v, buf, pos) => {
         var d = new Date(v);
         buf.writeUInt16BE(d.getUTCFullYear(), pos + 0);
-        buf.writeUInt8(d.getUTCMonth(), pos + 2);
-        buf.writeUInt8(d.getUTCDay(), pos + 3);
-        buf.writeUInt8(d.getUTCHour(), pos + 4);
-        buf.writeUInt8(d.getUTCMinute(), pos + 5);
+        buf.writeUInt8(d.getUTCMonth() + 1, pos + 2);
+        buf.writeUInt8(d.getUTCDate(), pos + 3);
+        buf.writeUInt8(d.getUTCHours(), pos + 4);
+        buf.writeUInt8(d.getUTCMinutes(), pos + 5);
         buf.writeUInt8(d.getUTCSeconds(), pos + 6);
         buf.writeUInt8(d.getUTCMilliseconds() / 4 | 0, pos + 7);
         return 8;
@@ -261,8 +261,8 @@ var writingFns = {
       };
     case "VersionType":
       return (v, buf, pos) => {
-        buf.writeUInt8(v[0], pos + 0);
-        buf.writeUInt8(v[1], pos + 1);
+        buf.writeInt8(v[0], pos + 0);
+        buf.writeInt8(v[1], pos + 1);
         return 2;
       };
     case "Rational":
@@ -274,22 +274,22 @@ var writingFns = {
     case "IndexEntry":
       return (v, buf, pos) => {
         buf.writeInt8(v.TemporalOffset, pos + 0);
-        buf.writeInt8(x.KeyFrameOffset, pos + 1);
-        buf.writeUInt8(x.Flags, pos + 2);
-        buf.writeUIntBE(x.StreamOffset, pos + 3, 8);
+        buf.writeInt8(v.KeyFrameOffset, pos + 1);
+        buf.writeUInt8(v.Flags, pos + 2);
+        buf.writeUIntBE(v.StreamOffset, pos + 3, 8);
         return 11;
       };
     case "DeltaEntry":
       return (v, buf, pos) => {
         buf.writeInt8(v.PosTableIndex, pos + 0);
         buf.writeUInt8(v.Slice, pos + 1);
-        buf.wruteUInt32BE(v.ElementData, pos + 2);
+        buf.writeUInt32BE(v.ElementDelta, pos + 2);
         return 6;
       };
     case "RandomIndexItem":
       return (v, buf, pos) => {
         buf.writeUInt32BE(v.BodySID, pos + 0),
-        buf.wruteUIntBE(v.ByteOffset, pos + 4, 8);
+        buf.writeUIntBE(v.ByteOffset, pos + 4, 8);
         return 12;
       };
     default:
@@ -361,6 +361,12 @@ var sizingFns = {
     switch (def.Symbol) {
       case "AUID": return () => 16;
       case "LocalTagEntry": return () => 18;
+      case "TimeStamp": return () => 8;
+      case "PackageIDType": return () => 32;
+      case "VersionType": return () => 2;
+      case "Rational": return () => 8;
+      case "IndexEntry": return () => 11;
+      case "DeltaEntry": return () => 6;
       case "RandomIndexItem": return () => 12;
       defualt: return () => 0;
     }
@@ -399,6 +405,12 @@ var lengthFns = {
     switch (def.Symbol) {
       case "AUID": return () => 16;
       case "LocalTagEntry": return () => 18;
+      case "TimeStamp": return () => 8;
+      case "PackageIDType": return () => 32;
+      case "VersionType": return () => 2;
+      case "Rational": return () => 8;
+      case "IndexEntry": return () => 11;
+      case "DeltaEntry": return () => 6;
       case "RandomIndexItem": return () => 12;
       default: return () => undefined;
     }
@@ -557,7 +569,7 @@ function ulToUUID (ul) {
 }
 
 function writeUUID(u, b, pos) {
-  b.hexWrute(u.replace(/-/g, ''), pos);
+  b.hexWrite(u.replace(/-/g, ''), pos);
   return 16;
 }
 

@@ -15,6 +15,7 @@
 
 var meta = require('../util/meta.js');
 var tape = require('tape');
+var uuid = require('uuid');
 
 tape('Test resolve by ID', t => {
   meta.resolveByID("060e2b34-0101-0102-0601-010401030000").then(def => {
@@ -155,4 +156,64 @@ tape('Test get pack order', t => {
     t.ok(Array.isArray(hop), 'pack order is defined in HeaderClosedCompletePartitionPack.');
     t.deepEqual(hop, parentPO, 'is the same in parent and empty child.');
   }).then(() => { t.end() }, t.fail);
+});
+
+function getFns(t) {
+  return Promise.all([
+    meta.lengthType(t),
+    meta.writeType(t),
+    meta.sizeType(t),
+    meta.readType(t)
+  ]).then(x => {
+    return { lengthFn : x[0], writeFn: x[1], sizeFn: x[2], readFn: x[3]}; });
+}
+
+var toTest = [
+  { type: "UInt8", value: 0x80, length: 1},
+  { type: "Int8", value: -0x80, length: 1},
+  { type: "UInt16", value: 0x8002, length: 2},
+  { type: "Int16", value: -0x8000 + 2, length: 2},
+  { type: "UInt32", value: 0x80020304, length: 4},
+  { type: "Int32", value: -0x80000000+0x20304, length: 4},
+  { type: "UInt64", value: 0x8002030405060708, length: 8},
+  { type: "Int64", value: -0x8000000000000000+0x2030405060708, length: 8},
+  { type: "AUID", value: uuid.v4(), length: 16},
+  { type: "LocalTagEntry", value: { LocalTag: 4321, UID: uuid.v4() }, length: 18},
+  { type: "TimeStamp", value: '2017-10-22T19:24:27.204Z', length: 8}, // force millis divide by 4
+  { type: "PackageIDType", value: [ uuid.v4(), uuid.v4() ], length: 32} ,
+  { type: "VersionType", value: [4, 2], length: 2},
+  { type: "Rational", value: [ -1234567, 7654321 ], length: 8},
+  { type: "IndexEntry", value: {
+    TemporalOffset: 42,
+    KeyFrameOffset: -42,
+    Flags: 0x7f,
+    StreamOffset: 9876543210
+  }, length: 11},
+  { type: "DeltaEntry", value: {
+    PosTableIndex: -42,
+    Slice: 47,
+    ElementDelta: 543210
+  }, length: 6},
+  { type: "RandomIndexItem", value: {
+    BodySID: 24,
+    ByteOffset: 8765567890
+  }, length: 12}
+];
+
+tape('Test roundtrip values', t => {
+  var tests = toTest.map(tt => {
+    return getFns(tt.type).then(fns => {
+      t.equal(typeof fns.lengthFn, 'function', `length function for ${tt.type} is a function.`);
+      t.equal(fns.lengthFn(tt.value), tt.length, `for a ${tt.type}, length is ${tt.length} as expected.`);
+      var buf = Buffer.allocUnsafe(fns.lengthFn(tt.value));
+      t.equal(typeof fns.writeFn, 'function', `write function for ${tt.type} is a function.`);
+      t.equal(fns.writeFn(tt.value, buf, 0), tt.length, `write function for ${tt.type} writes ${tt.length} bytes.`);
+
+      t.equal(typeof fns.sizeFn, 'function', `size function for ${tt.type} is a function.`);
+      t.equal(fns.sizeFn(buf, 0), tt.length, `size function for ${tt.type} has expected length of ${tt.length}.`);
+      t.equal(typeof fns.readFn, 'function', `read function for ${tt.type} is a function.`);
+      t.deepEqual(fns.readFn(buf, 0), tt.value, `read function for ${tt.type} roundtrips value.`);
+    });
+  });
+  Promise.all(tests).then(() => { t.end(); }, t.fail);
 });
