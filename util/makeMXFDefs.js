@@ -1,4 +1,4 @@
-/* Copyright 2016 Streampunk Media Ltd.
+/* Copyright 2017 Streampunk Media Ltd.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 
 var fs = require('fs');
 var uuid = require('uuid');
+var ulToUUID = require('meta.js').ulToUUID;
 
 var metaDefsIDFile = (process.argv[2]) ? process.argv[2] : 'lib/mxfDefsByID.json';
 var metaDefsNameFile = (process.argv[3]) ? process.argv[3] : 'lib/mxfDefsByName.json';
@@ -834,11 +835,6 @@ var metaDefsByName = {
     TypeDefinition : {},
     ExtendibleEnumerationElement : {}
 };
-
-function ulToUUID (ul) {
-  if (ul.startsWith('urn:smpte:ul:')) ul = ul.slice(13);
-  return uuid.unparse(new Buffer(ul.replace(/\./g, ''), 'hex'));
-}
 
 metaDefs.forEach(function (def) {
   if (def.Identification) {

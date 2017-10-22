@@ -1,4 +1,4 @@
-/* Copyright 2016 Streampunk Media Ltd.
+/* Copyright 2017 Streampunk Media Ltd.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,12 +15,11 @@
 
 var H = require('highland');
 var meta = require('../util/meta.js');
-var Promise = require('promise');
 var uuid = require('uuid');
 
 function detailing() {
   var primer = null;
-  var detailChomper = function (err, x, push, next) {
+  var detailChomper = (err, x, push, next) => {
     if (err) {
       push(err);
       next();
@@ -33,32 +32,32 @@ function detailing() {
       switch (x.meta && uuid.parse(x.key)[5]) {
       case 0x05:  // Fixed length pack
         x.detail = { ObjectClass: x.meta.Symbol };
-        meta.getPackOrder(x.meta.Symbol).then(function (po) {
-          var resolve = po.map(function (item) {
-            return meta.resolveByName("PropertyDefinition", item).then(function (pd) {
+        meta.getPackOrder(x.meta.Symbol).then(po => {
+          var resolve = po.map(item => {
+            return meta.resolveByName("PropertyDefinition", item).then(pd => {
                return Promise.all([
-                 Promise.resolve(pd.Symbol),
+                 pd.Symbol,
                  meta.readType(pd.Type),
                  meta.sizeType(pd.Type) ]);
             });
           });
-          Promise.all(resolve).then(function (work) {
+          Promise.all(resolve).then(work => {
             var pos = 0;
-            work.forEach(function (job) {
+            work.forEach(job => {
               // console.log('Setting', job[0], job[2].call(x.value[0], pos));
-              x.detail[job[0]] = job[1].call(x.value[0], pos);
-              pos += job[2].call(x.value[0], pos);
+              x.detail[job[0]] = job[1](x.value[0], pos);
+              pos += job[2](x.value[0], pos);
             });
             if (x.meta.Symbol === 'PrimerPack') {
               primer = meta.resetPrimer();
-              x.detail.LocalTagEntryBatch.forEach(function (ppi) {
+              x.detail.LocalTagEntryBatch.forEach(ppi => {
                 meta.addPrimerTag(primer, ppi.LocalTag, ppi.UID);
               });
             }
-          }).then(function () {
+          }).then(() => {
             push(null, x);
             next();
-          }).catch(function (e) { console.error(e.message, e.stack)});
+          }).catch(e => { console.error(e.message, e.stack)});
         });
         break;
       case 0x53: // Local sets with 2-byte keys and values
@@ -72,29 +71,29 @@ function detailing() {
           props.push([pos, meta.getPrimerUID(primer, tag), plen, tag]);
           pos += 4 + plen;
         }
-        var resolve = props.map(function (prop) {
-          return meta.resolveByID(prop[1]).then(function (pd) {
+        var resolve = props.map(prop => {
+          return meta.resolveByID(prop[1]).then(pd => {
             return Promise.all([
-              Promise.resolve(pd.Symbol),
-              Promise.resolve(prop[0] + 4),
+              pd.Symbol,
+              prop[0] + 4,
               meta.readType(pd.Type),
-              Promise.resolve(prop[2])
-            ]).catch(function (e) { push(e); return next(); });
+              prop[2]
+            ]).catch(e => { push(e); return next(); });
           });
         });
-        Promise.all(resolve).then(function (work) {
-          work.forEach(function (job) {
+        Promise.all(resolve).then(work => {
+          work.forEach(job => {
             // console.log('Setting', job[0], job[2].call(x.value[0], job[1], job[3]));
-            x.detail[job[0]] = job[2].call(x.value[0], job[1], job[3]);
+            x.detail[job[0]] = job[2](x.value[0], job[1], job[3]);
           });
           x.props = [];
           for ( var i = 0 ; i < work.length ; i++ ) {
             x.props.push({ tag: props[i][3], plen: props[i][2], name: work[i][0] });
           };
-        }).then(function() {
+        }).then(() => {
           push(null, x);
           next();
-        }).catch(function (e) { push(e); next(); });
+        }).catch(e => { push(e); next(); });
         break;
       case 0x13:
         push("Decoding local sets with BER property lengths is not supported.");
@@ -106,7 +105,7 @@ function detailing() {
         x.detail = {
           ObjectClass: "EssenceElement",
           Track: x.key.slice(trackStart),
-          ItemType: (function (itemType) {
+          ItemType: (itemType => {
             switch (itemType) {
               case '05' : return 'SDTI-CP Picture (SMPTE 326M)';
               case '06' : return 'SDTI-CP Sound (SMPTE 326M)';

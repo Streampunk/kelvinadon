@@ -1,4 +1,4 @@
-/* Copyright 2016 Streampunk Media Ltd.
+/* Copyright 2017 Streampunk Media Ltd.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -29,11 +29,11 @@ var dictFiles = [
   `${__dirname}/../lib/mxfDefsByName.json`];
 // TODO additional meta dictionaries via command licenses
 
-var readDicts = Promise.all(dictFiles.map(function (dict) {
+var readDicts = Promise.all(dictFiles.map(dict => {
   return readFile(dict, 'utf8').then(JSON.parse);
 }));
 
-var readyDicts = readDicts.then(function (x) {
+var readyDicts = readDicts.then(x => {
   metaDictByID = [x[0], x[2]];
   metaDictByName = [x[1], x[3]];
 }, console.error.bind(null, 'Failed to read a meta dictionary:'));
@@ -56,213 +56,385 @@ function makeEssenceElement(id) {
 }
 
 var readingFns = {
-  "TypeDefinitionInteger": function (def) {
-    return function (offset) {
+  "TypeDefinitionInteger": def => {
+    return (buf, pos) => {
       return (def.IsSigned) ?
-        this.readIntBE(offset, def.Size) :
-        this.readUIntBE(offset, def.Size);
+        buf.readIntBE(pos, def.Size) :
+        buf.readUIntBE(pos, def.Size);
     };
   },
-  "TypeDefinitionRecord": function (def) {
+  "TypeDefinitionRecord": def => {
     switch (def.Symbol) {
       case "AUID":
-        return function (pos) {
-          return uuid.unparse(this.slice(pos, pos + 16));
+        return (buf, pos) => {
+          return uuid.unparse(buf.slice(pos, pos + 16));
         };
       case "LocalTagEntry":
-        return function (pos) {
+        return (buf, pos) => {
           return {
-            LocalTag: this.readUInt16BE(pos),
-            UID: uuid.unparse(this.slice(pos + 2, pos + 18))
+            LocalTag: buf.readUInt16BE(pos),
+            UID: uuid.unparse(buf.slice(pos + 2, pos + 18))
           };
         };
       case "TimeStamp":
-        return function (pos) {
-          var year = this.readInt16BE(pos + 0);
-          var month = this.readUInt8(pos + 2);
-          var day = this.readUInt8(pos + 3);
-          var hour = this.readUInt8(pos + 4);
-          var min = this.readUInt8(pos + 5);
-          var sec = this.readUInt8(pos + 6);
-          var msec = this.readUInt8(pos + 7) * 4;
+        return (buf, pos) => {
+          var year = buf.readInt16BE(pos + 0);
+          var month = buf.readUInt8(pos + 2);
+          var day = buf.readUInt8(pos + 3);
+          var hour = buf.readUInt8(pos + 4);
+          var min = buf.readUInt8(pos + 5);
+          var sec = buf.readUInt8(pos + 6);
+          var msec = buf.readUInt8(pos + 7) * 4;
           return (new Date(year, month, day, hour, min, sec, msec)).toISOString();
         }
       case "PackageIDType":
-        return function (pos) {
+        return (buf, pos) => {
           return [
-            uuid.unparse(this.slice(pos, pos + 16)),
-            uuid.unparse(this.slice(pos + 16, pos + 32))];
+            uuid.unparse(buf.slice(pos, pos + 16)),
+            uuid.unparse(buf.slice(pos + 16, pos + 32))];
         }
       case "VersionType":
-        return function (pos) {
-          return [ this.readUInt8(pos), this.readUInt8(pos + 1) ];
+        return (buf, pos) => {
+          return [ buf.readUInt8(pos), buf.readUInt8(pos + 1) ];
         }
       case "Rational":
-        return function (pos) {
-          return [ this.readInt32BE(pos), this.readInt32BE(pos + 4) ];
+        return (buf, pos) => {
+          return [ buf.readInt32BE(pos), buf.readInt32BE(pos + 4) ];
         }
       case "IndexEntry":
-        return function (pos) {
+        return (buf, pos) => {
           return {
-            TemporalOffset: this.readInt8(pos),
-            KeyFrameOffset: this.readInt8(pos + 1),
-            Flags: this.readUInt8(pos + 2),
-            StreamOffset: this.readUIntBE(pos + 3, 8)
+            TemporalOffset: buf.readInt8(pos),
+            KeyFrameOffset: buf.readInt8(pos + 1),
+            Flags: buf.readUInt8(pos + 2),
+            StreamOffset: buf.readUIntBE(pos + 3, 8)
           };
         }
       case "DeltaEntry":
-        return function (pos) {
+        return (buf, pos) => {
           return {
-            PosTableIndex: this.readInt8(pos),
-            Slice: this.readUInt8(pos + 1),
-            ElementDelta: this.readUInt32BE(pos + 2)
+            PosTableIndex: buf.readInt8(pos),
+            Slice: buf.readUInt8(pos + 1),
+            ElementDelta: buf.readUInt32BE(pos + 2)
           };
         }
       case "RandomIndexItem":
-        return function (pos) {
+        return (buf, pos) => {
           return {
-            BodySID: this.readUInt32BE(pos),
-            ByteOffset: this.readUIntBE(pos + 4, 8)
+            BodySID: buf.readUInt32BE(pos),
+            ByteOffset: buf.readUIntBE(pos + 4, 8)
           };
         }
       default:
-        return function () { return undefined; }
+        return () => { return undefined; }
     }
   },
-  "TypeDefinitionSet": function (def) {
-    return function (pos) {
-      var items = this.readUInt32BE(pos);
-      var each = this.readUInt32BE(pos + 4);
+  "TypeDefinitionSet": def => {
+    return (buf, pos) => {
+      var items = buf.readUInt32BE(pos);
+      var each = buf.readUInt32BE(pos + 4);
       var elType = internalResolveByName("TypeDefinition", def.ElementType);
       var elementFn = readingFns[elType.MetaType](elType);
       var set = [];
       for ( var i = 0 ; i < items ; i++ ) {
-        set.push(elementFn.call(this, pos + 8 + i * each));
+        set.push(elementFn(buf, pos + 8 + i * each));
       };
       return set;
     };
   },
-  "TypeDefinitionVariableArray": function (def) {
+  "TypeDefinitionVariableArray": def => {
     if (def.Symbol === 'RandomIndexItemArray') {
-      return function (pos) {
-        var items = (this.length - pos - 4) / 12;
+      return (buf, pos) => {
+        var items = (buf.length - pos - 4) / 12;
         var elType = internalResolveByName("TypeDefinition", "RandomIndexItem");
         var elementFn = readingFns[elType.MetaType](elType);
         var set = [];
         for ( var i = 0 ; i < items ; i++ ) {
-          set.push(elementFn.call(this, pos + i * 12));
+          set.push(elementFn(buf, pos + i * 12));
         };
         return set;
       };
     } else {
-      return function (pos) {
-        var items = this.readUInt32BE(pos);
-        var each = this.readUInt32BE(pos + 4);
+      return (buf, pos) => {
+        var items = buf.readUInt32BE(pos);
+        var each = buf.readUInt32BE(pos + 4);
         var elType = internalResolveByName("TypeDefinition", def.ElementType);
         var elementFn = readingFns[elType.MetaType](elType);
         var set = [];
         for ( var i = 0 ; i < items ; i++ ) {
-          set.push(elementFn.call(this, pos + 8 + i * each));
+          set.push(elementFn(buf, pos + 8 + i * each));
         };
         return set;
       };
     }
   },
-  "TypeDefinitionStrongObjectReference": function (def) {
-    return function (pos) {
-      return uuid.unparse(this.slice(pos, pos + 16));
+  "TypeDefinitionStrongObjectReference": def => {
+    return (buf, pos) => {
+      return uuid.unparse(buf.slice(pos, pos + 16));
     };
   },
-  "TypeDefinitionWeakObjectReference": function (def) {
-    return function (pos) {
-      return uuid.unparse(this.slice(pos, pos + 16));
+  "TypeDefinitionWeakObjectReference": def => {
+    return (buf, pos) => {
+      return uuid.unparse(buf.slice(pos, pos + 16));
     };
   },
-  "TypeDefinitionString": function (def) {
-    return function (pos, length) {
-      var utf16be = this.slice(pos, pos + length);
-      var utf16le = new Buffer(length);
+  "TypeDefinitionString": def => {
+    return (buf, pos, length) => {
+      var utf16be = buf.slice(pos, pos + length);
+      var utf16le = Buffer.allocUnsafe(length);
       for ( var x = 0 ; x < length ; x += 2 ) {
         utf16le.writeUInt16LE(utf16be.readUInt16BE(x), x);
       }
       return utf16le.toString('utf16le');
-    }
+    };
   },
-  "TypeDefinitionRename": function (def) {
+  "TypeDefinitionRename": def => {
     var elType = internalResolveByName("TypeDefinition", def.RenamedType);
     return readingFns[elType.MetaType](elType);
   },
-  "TypeDefinitionEnumeration": function (def) {
-    return function (pos) {
+  "TypeDefinitionEnumeration": def => {
+    return (buf, pos) => {
       switch (def.Symbol) {
       case "Boolean":
-        return this.readInt8(pos) === 1;
+        return buf.readInt8(pos) === 1;
       default:
         var fnName = 'read' + def.ElementType +
           ((def.ElementType.endsWith('Int8')) ? '' : 'BE');
-        var enumValue = this[fnName](pos);
+        var enumValue = buf[fnName](pos);
         var elIndex = def.Elements.Value.indexOf(`${enumValue}`);
         return (elIndex >= 0) ? def.Elements.Name[elIndex] : '';
       }
     };
   },
-  "TypeDefinitionFixedArray": function (def) {
-    return function (pos) {
-      return this.slice(pos, pos + def.ElementCount);
+  "TypeDefinitionFixedArray": def => {
+    return (buf, pos) => {
+      return buf.slice(pos, pos + def.ElementCount);
     } // TODO improve for non UInt8 values
   },
-  "TypeDefinitionExtendibleEnumeration": function (def) {
-    return function (pos) {
-      return uuid.unparse(this.slice(pos, pos + 16));
+  "TypeDefinitionExtendibleEnumeration": def => {
+    return (buf, pos) => {
+      return uuid.unparse(buf.slice(pos, pos + 16));
     }
   }
-}
+};
 
-var sizingFns = {
-  "TypeDefinitionInteger": function (def) {
-    return function () { return def.Size; };
-  },
-  "TypeDefinitionRecord": function (def) { // Cache to be fast
-    switch (def.Symbol) {
-      case "AUID":
-        return function () { return 16; }
-      case "LocalTagEntry":
-        return function () { return 18; }
-      case "RandomIndexItem":
-        return function () { return 12; }
+var writingFns = {
+  "TypeDefinitionInteger": def => {
+    return (v, buf, pos) => {
+      if (def.IsSigned) {
+        buf.writeIntBE(v, pos, def.Size);
+      } else {
+        buf.writeUInt16LE(v, pos, def.Size);
+      };
+      return def.Size;
     }
   },
-  "TypeDefinitionSet": function (def) {
-    return function (pos) {
-      var items = this.readUInt32BE(pos);
-      var each = this.readUInt32BE(pos + 4);
+  "TypeDefinitionRecord": def => {
+    switch (def.Symbol) {
+    case "AUID":
+      return (v, buf, pos) => {
+        return writeUUID(v, buf, offset);
+      };
+    case "LocalTagEntry":
+      return (v, buf, pos) => {
+        buf.writeUInt16BE(v.LocalTag, pos);
+        writeUUID(u, buf, pos + 2);
+        return 18;
+      };
+    case "TimeStamp":
+      return (v, buf, pos) => {
+        var d = new Date(v);
+        buf.writeUInt16BE(d.getUTCFullYear(), pos + 0);
+        buf.writeUInt8(d.getUTCMonth(), pos + 2);
+        buf.writeUInt8(d.getUTCDay(), pos + 3);
+        buf.writeUInt8(d.getUTCHour(), pos + 4);
+        buf.writeUInt8(d.getUTCMinute(), pos + 5);
+        buf.writeUInt8(d.getUTCSeconds(), pos + 6);
+        buf.writeUInt8(d.getUTCMilliseconds() / 4 | 0, pos + 7);
+        return 8;
+      };
+    case "PackageIDType":
+      return (v, buf, pos) => {
+        writeUUID(v[0], buf, pos + 0);
+        writeUUID(v[1], buf, pos + 16);
+        return 32;
+      };
+    case "VersionType":
+      return (v, buf, pos) => {
+        buf.writeUInt8(v[0], pos + 0);
+        buf.writeUInt8(v[1], pos + 1);
+        return 2;
+      };
+    case "Rational":
+      return (v, buf, pos) => {
+        buf.writeInt32BE(v[0], pos + 0);
+        buf.writeInt32BE(v[1], pos + 4);
+        return 8;
+      };
+    case "IndexEntry":
+      return (v, buf, pos) => {
+        buf.writeInt8(v.TemporalOffset, pos + 0);
+        buf.writeInt8(x.KeyFrameOffset, pos + 1);
+        buf.writeUInt8(x.Flags, pos + 2);
+        buf.writeUIntBE(x.StreamOffset, pos + 3, 8);
+        return 11;
+      };
+    case "DeltaEntry":
+      return (v, buf, pos) => {
+        buf.writeInt8(v.PosTableIndex, pos + 0);
+        buf.writeUInt8(v.Slice, pos + 1);
+        buf.wruteUInt32BE(v.ElementData, pos + 2);
+        return 6;
+      };
+    case "RandomIndexItem":
+      return (v, buf, pos) => {
+        buf.writeUInt32BE(v.BodySID, pos + 0),
+        buf.wruteUIntBE(v.ByteOffset, pos + 4, 8);
+        return 12;
+      };
+    default:
+      return () => { return 0; };
+    }
+  },
+  "TypeDefinitionSet": def => {
+    return (v, buf, pos) => {
+      var start = pos;
+      var elType = internalResolveByName("TypeDefinition", def.ElementType);
+      var elementFn = writingFns[elType.MetaType](elType);
+      var lengthFn = lengthFns[elType.MetaType](elType);
+      var each = v.length > 0 ? lengthFn(v[0]) : lengthFn();
+      this.writeUInt32BE(v.length, pos + 0);
+      this.writeUInt32BE(typeof each === 'number' ? each : 0, pos + 4);
+      pos += 8;
+      for (let item of v) {
+        pos += elementFn(item, buf, pos);
+      };
+      return start - pos;
+    };
+  },
+  "TypeDefinitionVariableArray": def => {
+    if (def.Symbol === 'RandomIndexItemArray') {
+      return (v, buf, pos) => {
+        var elType = internalResolveByName("TypeDefinition", "RandomIndexItem");
+        var elementFn = writingFns[elType.MetaType](elType);
+        var pos = offset;
+        for (let item of v) {
+          pos += elementFn(item, buf, pos);
+        };
+        return v.length * 12;
+      };
+    } else {
+      return (v, buf, pos) => {
+        var start = pos;
+        var elType = internalResolveByName("TypeDefinition", def.ElementType);
+        var elementFn = writingFns[elType.MetaType](elType);
+        var lengthFn = lengthFns[elType.MetaType](elType);
+        var each = v.length > 0 ? lengthFn(v[0]) : lengthFn();
+        this.writeUInt32BE(v.length, pos + 0);
+        this.writeUInt32BE(typeof each === 'number' ? each : 0, pos + 4);
+        pos += 8;
+        for (let item of v) {
+          pos += elementFn(item, buf, pos);
+        };
+        return start - pos;
+      };
+    };
+  },
+  "TypeDefinitionStrongObjectReference": def => {
+    return (v, buf, pos) => {
+      return writeUUID(v, buf, offset);
+    };
+  },
+  "TypeDefinitionWeakObjectReference": def => {
+    return (v, buf, pos) => {
+      return writeUUID(v, buf, offset);
+    };
+  },
+
+};
+
+var sizingFns = {
+  "TypeDefinitionInteger": def => {
+    return () => def.Size;
+  },
+  "TypeDefinitionRecord": def => { // Cache to be fast
+    switch (def.Symbol) {
+      case "AUID": return () => 16;
+      case "LocalTagEntry": return () => 18;
+      case "RandomIndexItem": return () => 12;
+      defualt: return () => 0;
+    }
+  },
+  "TypeDefinitionSet": def => {
+    return (buf, pos) => {
+      var items = buf.readUInt32BE(pos);
+      var each = buf.readUInt32BE(pos + 4);
       return 8 + items * each;
     }
   },
-  "TypeDefinitionVariableArray": function (def) {
+  "TypeDefinitionVariableArray": def => {
     if (def.Symbol === 'RandomIndexItemArray') {
-      return function (pos) {
-        return this.length - pos - 4;
-      }
+      return (buf, pos) => buf.length - pos - 4;
     } else {
-      return function (pos) {
-        var items = this.readUInt32BE(pos);
-        var each = this.readUInt32BE(pos + 4);
+      return (buf, pos) => {
+        var items = buf.readUInt32BE(pos);
+        var each = buf.readUInt32BE(pos + 4);
         return 8 + items * each;
-      }
+      };
     }
   },
-  "TypeDefinitionFixedArray": function (def) {
-    return function (pos) {
-      return def.ElementCount; // TODO improve for non UInt8 types
-    }
+  "TypeDefinitionFixedArray": def => {
+    return () => def.ElementCount; // TODO improve for non UInt8 types
   },
-  "TypeDefinitionExtendibleEnumeration": function (def) {
-    return function (pos) {
-      return 16;
-    }
+  "TypeDefinitionExtendibleEnumeration": def => {
+    return () => 16;
   }
-}
+};
+
+var lengthFns = {
+  "TypeDefinitionInteger": def => {
+    return () => def.Size;
+  },
+  "TypeDefinitionRecord": def => { // Cache to be fast
+    switch (def.Symbol) {
+      case "AUID": return () => 16;
+      case "LocalTagEntry": return () => 18;
+      case "RandomIndexItem": return () => 12;
+      default: return () => undefined;
+    }
+  },
+  "TypeDefinitionSet": def => {
+    return value => {
+      if (!value) return undefined;
+      var elType = internalResolveByName("TypeDefinition", def.ElementType);
+      var elementFn = lengthFns[elType.MetaType](elType);
+      var each = value.length > 0 ? elementFn(value[0]) : elementFn();
+      return 8 + value.length * (typeof each === 'number' ? each : 0);
+    }
+  },
+  "TypeDefinitionVariableArray": def => {
+    if (def.Symbol === 'RandomIndexItemArray') {
+      return value => {
+        if (!value) return undefined;
+        return value.length * 12;
+      };
+    } else {
+      return value => {
+        if (!value) return undefined;
+        var elType = internalResolveByName("TypeDefinition", def.ElementType);
+        var elementFn = lengthFns[elType.MetaType](elType);
+        var each = value.length > 0 ? elementFn(value[0]) : elementFn();
+        return 8 + value.length * (typeof each === 'number' ? each : 0);
+      };
+    };
+  },
+  "TypeDefinitionFixedArray": def => {
+    return () => def.ElementCount; // TODO improve for non UInt8 types
+  },
+  "TypeDefinitionExtendibleEnumeration": def => {
+    return () => 16;
+  }
+};
 
 var resolveByID = function (id) {
   if (id.substring(11,13) === '53') {
@@ -271,7 +443,7 @@ var resolveByID = function (id) {
   if (id.startsWith("060e2b34-0102-0101-0d01-0301")) {
     return readyDicts.then(makeEssenceElement.bind(null, id));
   }
-  return readyDicts.then(function () {
+  return readyDicts.then(() => {
     for ( var i = 0 ; i < metaDictByID.length ; i++ ) {
       var def = metaDictByID[i][id];
       if (def) return def;
@@ -281,7 +453,7 @@ var resolveByID = function (id) {
 }
 
 var resolveByName = function (type, name) {
-  return readyDicts.then(function () {
+  return readyDicts.then(() => {
     for ( var i = 0; i < metaDictByName.length ; i++ ) {
       if (metaDictByName[i][type]) {
         var def = metaDictByName[i][type][name];
@@ -314,23 +486,39 @@ var internalResolveByName = function (type, name) {
 }
 
 var readType = function (typeName) {
-  return resolveByName("TypeDefinition", typeName).then(function (type) {
+  return resolveByName("TypeDefinition", typeName).then(type => {
     if (!readingFns[type.MetaType])
       console.error("Failed to resolve type", type.MetaType, typeName);
     return readingFns[type.MetaType](type);
   });
 }
 
+var writeType = function (typeName) {
+  return resolveByName("TypeDefinition", typeName).then(type => {
+    if (!writingFns[type.MetaType])
+      console.error("Failed to resolve type", type.MetaType, typeName);
+    return writingFns[type.MetaType](type);
+  });
+}
+
 var sizeType = function (typeName) {
-  return resolveByName("TypeDefinition", typeName).then(function (type) {
+  return resolveByName("TypeDefinition", typeName).then(type => {
     if (!sizingFns[type.MetaType])
       console.error("Failed to resolve type", type.MetaType);
-    return sizingFns[type.MetaType](type)
+    return sizingFns[type.MetaType](type);
+  });
+}
+
+var lengthType = function (typeName) {
+  return resolveByName("TypeDefinition", typeName).then(type => {
+    if (!lengthFns[type.MetaType])
+      console.error("Failed to resolve type", type.MetaType);
+    return lengthFns[type.MetaType](type);
   });
 }
 
 var getPackOrder = function (name) {
-  return resolveByName("ClassDefinition", name).then(function (def) {
+  return resolveByName("ClassDefinition", name).then(def => {
     if (def.PackOrder) return def.PackOrder;
     if (def.ParentClass) return getPackOrder(def.ParentClass);
     return undefined;
@@ -363,13 +551,23 @@ var getPrimerUID = function (primer, localTag) {
   return primer[localTag];
 }
 
+function ulToUUID (ul) {
+  if (ul.startsWith('urn:smpte:ul:')) ul = ul.slice(13);
+  return uuid.unparse(new Buffer(ul.replace(/\./g, ''), 'hex'));
+}
+
+function writeUUID(u, b, pos) {
+  b.hexWrute(u.replace(/-/g, ''), pos);
+  return 16;
+}
+
 module.exports = {
   resolveByID: resolveByID,
   resolveByName: resolveByName,
   getAllIDs: function () {
-    return readyDicts.then(function () {
+    return readyDicts.then(() => {
       var ids = [];
-      metaDictByID.forEach(function (dict) {
+      metaDictByID.forEach(dict => {
         ids = ids.concat(Object.keys(dict));
       });
       return ids;
@@ -377,8 +575,12 @@ module.exports = {
   },
   readType: readType,
   sizeType: sizeType,
+  writeType: writeType,
+  lengthType: lengthType,
   getPackOrder: getPackOrder,
   resetPrimer: resetPrimer,
   addPrimerTag: addPrimerTag,
-  getPrimerUID: getPrimerUID
+  getPrimerUID: getPrimerUID,
+  ulToUUID: ulToUUID,
+  writeUUID: writeUUID
 };
