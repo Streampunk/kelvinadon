@@ -44,7 +44,7 @@ function detailing() {
           Promise.all(resolve).then(work => {
             var pos = 0;
             work.forEach(job => {
-              // console.log('Setting', job[0], job[2].call(x.value[0], pos));
+              // console.log('Setting', job[0], x.value[0].slice(pos, pos + 8));
               x.detail[job[0]] = job[1](x.value[0], pos);
               pos += job[2](x.value[0], pos);
             });

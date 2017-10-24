@@ -383,7 +383,6 @@ var writingFns = {
   },
   "TypeDefinitionFixedArray": def => {
     return (v, buf, pos) => {
-      console.log('WELL HELLO!');
       return v.copy(buf, pos);
     };
   },
@@ -648,7 +647,7 @@ function writeIntBE(v, buf, pos, size) {
 
 function readUIntBE(buf, pos, size) {
   if (size === 8) {
-    if (buf.readUInt16BE(0) > 0)
+    if (buf.readUInt16BE(pos) > 0)
       throw new Error(`Reading a value larger than Javascript UInt 48-bit maximum.`);
     return buf.readUIntBE(pos + 2, 6);
   } else {
@@ -658,7 +657,7 @@ function readUIntBE(buf, pos, size) {
 
 function readIntBE(buf, pos, size) {
   if (size === 8) {
-    if (buf.readUInt16BE(0) !== 0 && buf.readUInt16BE(0) !== 0xffff)
+    if (buf.readUInt16BE(pos) !== 0 && buf.readUInt16BE(pos) !== 0xffff)
       throw new Error(`Reading a value larger or smaller than Javascript Int 48-bit maximum.`);
     return buf.readIntBE(pos + 2, 6);
   } else {

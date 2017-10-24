@@ -16,8 +16,9 @@
 var H = require('highland');
 var meta = require('../util/meta.js');
 var KLVPacket = require('../model/KLVPacket.js');
+var uuid = require('uuid');
 
-fuunction packetator (primer) {
+function packetator (primer) {
   var packetMaker = (err, x, push, next) => {
     if (err) {
       push(err);
@@ -47,12 +48,12 @@ fuunction packetator (primer) {
           return next();
         }
       }
-      meta.resolveByName(detail.ObjectClass)
-        .then(meta => {
-          var key = meta.ulToUUID(meta.Identification);
-          switch (uuid.unparse(key)[5]) {
+      meta.resolveByName('ClassDefinition', detail.ObjectClass)
+        .then(cls => {
+          var key = meta.ulToUUID(cls.Identification);
+          switch (uuid.parse(key)[5]) {
           case 0x05: // Fixed length pack
-            meta.getPackOrder(x.meta.Symbol).then(po => {
+            meta.getPackOrder(cls.Symbol).then(po => {
               var resolve = po.map(item => {
                 return meta.resolveByName("PropertyDefinition", item).then(pd => {
                   return Promise.all([
@@ -62,7 +63,7 @@ fuunction packetator (primer) {
                 });
               });
               Promise.all(resolve).then(work => {
-                var length = work.reduce((prop, sum) => {
+                var length = work.reduce((sum, prop) => {
                   var size = prop[2](detail[prop[0]]);
                   return sum + size;
                 }, 0);
@@ -71,8 +72,8 @@ fuunction packetator (primer) {
                 for (let prop of work) {
                   pos += prop[1](detail[prop[0]], buf, pos);
                 };
-                var klv = new KLVPacket(key, length, [value], lengthLength, filePos);
-                klv.meta = meta;
+                var klv = new KLVPacket(key, length, [buf], lengthLength, filePos);
+                klv.meta = cls
                 klv.detail = detail;
                 push(null, klv);
                 next();
