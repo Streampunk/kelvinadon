@@ -131,17 +131,27 @@ tape('Test get integer sizes', t => {
 });
 
 tape('Test read integer values', t => {
-  var b = new Buffer([128, 2, 3, 4, 5, 6, 7, 8]);
+  var b = new Buffer([128, 2, 3, 4, 5, 6, 0, 0]);
   var toTest = [ ["UInt8", 0x80], ["Int8", -0x80],
     ["UInt16", 0x8002], ["Int16", -0x8000 + 2],
-    ["UInt32", 0x80020304], ["Int32", -0x80000000+0x20304],
-    ["UInt64", 0x8002030405060708], ["Int64", -0x8000000000000000+0x2030405060708] ];
+    ["UInt32", 0x80020304], ["Int32", -0x80000000+0x20304] ];
   var tests = toTest.map(tt => {
     return meta.readType(tt[0]).then(f => {
       t.equal(typeof f, 'function', `returns a function for ${tt[0]}.`);
       t.equal(f(b, 0), tt[1], `has expected value of ${tt[1]} for ${tt[0]}`);
     });
   });
+  // Javascript bombs out at 48 bits
+  tests.push(meta.readType("Int64").then(f => {
+    var c = new Buffer([0xff, 0xff, 128, 2, 3, 4, 5, 6]);
+    t.equal(typeof f, 'function', `returns a function for Int64.`);
+    t.equal(f(c, 0), -0x800000000000+0x203040506, `has expected value of Int64 for ${-0x800000000000+0x203040506}`);
+  }));
+  tests.push(meta.readType("UInt64").then(f => {
+    var c = new Buffer([0, 0, 128, 2, 3, 4, 5, 6]);
+    t.equal(typeof f, 'function', `returns a function for Int64.`);
+    t.equal(f(c, 0), 0x800203040506, `has expected value of UInt64 for ${0x800203040506}`);
+  }));
   Promise.all(tests).then(() => { t.end(); }, t.fail);
 });
 
@@ -175,8 +185,8 @@ var toTest = [
   { type: "Int16", value: -0x8000 + 2, length: 2},
   { type: "UInt32", value: 0x80020304, length: 4},
   { type: "Int32", value: -0x80000000+0x20304, length: 4},
-  { type: "UInt64", value: 0x8002030405060708, length: 8},
-  { type: "Int64", value: -0x8000000000000000+0x2030405060708, length: 8},
+  { type: "UInt64", value: 0x800203040506, length: 8},
+  { type: "Int64", value: -0x203040506070, length: 8},
   { type: "AUID", value: uuid.v4(), length: 16},
   { type: "LocalTagEntry", value: { LocalTag: 4321, UID: uuid.v4() }, length: 18},
   { type: "TimeStamp", value: '2017-10-22T19:24:27.204Z', length: 8}, // force millis divide by 4
@@ -197,7 +207,30 @@ var toTest = [
   { type: "RandomIndexItem", value: {
     BodySID: 24,
     ByteOffset: 8765567890
-  }, length: 12}
+  }, length: 12},
+  { type: "LocalTagEntryBatch", value: [
+    { LocalTag: 43210, UID: uuid.v4() },
+    { LocalTag: 65535, UID: uuid.v4() },
+    { LocalTag: 42, UID: uuid.v4() }
+  ], length: 3 * 18 + 8},
+  { type: "RandomIndexItemArray", value: [
+    { BodySID: 24, ByteOffset: 8765567890},
+    { BodySID: 42, ByteOffset: 27}
+  ], length: 24},
+  { type: "DeltaEntryArray", value: [
+    { PosTableIndex: -42, Slice: 47, ElementDelta: 54321 },
+    { PosTableIndex: 1, Slice: 3, ElementDelta: 543210 },
+    { PosTableIndex: 42, Slice: 1, ElementDelta: 5432100 },
+    { PosTableIndex: 69, Slice: 9, ElementDelta: 54321000 }
+  ], length: 8 + 6 * 4},
+  { type: "PackageStrongReference", value: uuid.v4(), length: 16},
+  { type: "DataDefinitionWeakReference", value: uuid.v4(), length: 16},
+  { type: "UTF16String", value: "To be or not to be?", length: 19 * 2},
+  { type: "LengthType", value: 56785678, length: 8 },
+  { type: "LayoutType", value: "SeparateFields", length: 1},
+  { type: "UInt8Array8", value: new Buffer([42, 43, 44, 45, 46, 47, 48, 49]),
+      length: 8 },
+  { type: "ColorPrimaries", value: uuid.v4(), length: 16 }
 ];
 
 tape('Test roundtrip values', t => {
@@ -205,15 +238,40 @@ tape('Test roundtrip values', t => {
     return getFns(tt.type).then(fns => {
       t.equal(typeof fns.lengthFn, 'function', `length function for ${tt.type} is a function.`);
       t.equal(fns.lengthFn(tt.value), tt.length, `for a ${tt.type}, length is ${tt.length} as expected.`);
-      var buf = Buffer.allocUnsafe(fns.lengthFn(tt.value));
+      var buf = Buffer.allocUnsafe(fns.lengthFn(tt.value) + ((tt.type === "RandomIndexItemArray") ? 4 : 0)); // extra 4 bytes for random index item array tests
       t.equal(typeof fns.writeFn, 'function', `write function for ${tt.type} is a function.`);
       t.equal(fns.writeFn(tt.value, buf, 0), tt.length, `write function for ${tt.type} writes ${tt.length} bytes.`);
 
       t.equal(typeof fns.sizeFn, 'function', `size function for ${tt.type} is a function.`);
       t.equal(fns.sizeFn(buf, 0), tt.length, `size function for ${tt.type} has expected length of ${tt.length}.`);
       t.equal(typeof fns.readFn, 'function', `read function for ${tt.type} is a function.`);
-      t.deepEqual(fns.readFn(buf, 0), tt.value, `read function for ${tt.type} roundtrips value.`);
+      t.deepEqual(fns.readFn(buf, 0, buf.length), tt.value, `read function for ${tt.type} roundtrips value.`);
     });
   });
+  Promise.all(tests).then(() => { t.end(); }, t.fail);
+});
+
+tape('Pushing the 48-bit boundary of Javascript UInt64 representation', t => {
+  var tests = [];
+  tests.push(getFns('UInt64').then(fns => {
+    var b = Buffer.allocUnsafe(8);
+    t.doesNotThrow(() => fns.writeFn(0xffffffffffff, b, 0), 'does not throw writing max UInt48 value.');
+    t.equal(fns.readFn(b, 0), 0xffffffffffff, 'reads maximum UInt48.');
+    b[1] = 0x01;
+    t.throws(() => fns.readFn(b, 0), /larger/, 'throws on reading a UInt48 value that exceeds max.');
+    t.throws(() => fns.writeFn(0x1000000000000, b, 0), /value/, 'throws on writing a UInt48 value too large.');
+    t.throws(() => fns.writeFn(-1, b, 0), /value/, 'throws on writing a UInt48 value too small.')
+  }));
+  tests.push(getFns('Int64').then(fns => {
+    var b = Buffer.allocUnsafe(8);
+    t.doesNotThrow(() => fns.writeFn(0x7fffffffffff, b, 0), 'does not throw writing max Int48 value.');
+    t.equal(fns.readFn(b, 0), 0x7fffffffffff, 'reads maximum UInt48.');
+    t.doesNotThrow(() => fns.writeFn(-0x800000000000, b, 0), 'does not throw writing min Int48 value.');
+    t.equal(fns.readFn(b, 0), -0x800000000000, 'reads minimum UInt48.');
+    b[1] = 0x01;
+    t.throws(() => fns.readFn(b, 0), /larger/, 'throws on reading a Int48 value that exceeds limit.');
+    t.throws(() => fns.writeFn(0x800000000000, b, 0), /value/, 'throws on writing a Int48 value too large.');
+    t.throws(() => fns.writeFn(-0x800000000001, b, 0), /value/, 'throws on writing a Int48 value too small.')
+  }));
   Promise.all(tests).then(() => { t.end(); }, t.fail);
 });

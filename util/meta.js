@@ -59,8 +59,8 @@ var readingFns = {
   "TypeDefinitionInteger": def => {
     return (buf, pos) => {
       return (def.IsSigned) ?
-        buf.readIntBE(pos, def.Size) :
-        buf.readUIntBE(pos, def.Size);
+        readIntBE(buf, pos, def.Size) :
+        readUIntBE(buf, pos, def.Size);
     };
   },
   "TypeDefinitionRecord": def => {
@@ -183,7 +183,8 @@ var readingFns = {
       var utf16be = buf.slice(pos, pos + length);
       var utf16le = Buffer.allocUnsafe(length);
       for ( var x = 0 ; x < length ; x += 2 ) {
-        utf16le.writeUInt16LE(utf16be.readUInt16BE(x), x);
+        utf16le.writeUInt16LE(utf16be.readUInt16BE(x)
+        , x);
       }
       return utf16le.toString('utf16le');
     };
@@ -198,9 +199,10 @@ var readingFns = {
       case "Boolean":
         return buf.readInt8(pos) === 1;
       default:
-        var fnName = 'read' + def.ElementType +
-          ((def.ElementType.endsWith('Int8')) ? '' : 'BE');
-        var enumValue = buf[fnName](pos);
+        var elType = internalResolveByName('TypeDefinition', def.ElementType);
+        var enumValue = (elType.IsSigned) ?
+          readIntBE(buf, pos, elType.Size) :
+          readUIntBE(buf, pos, elType.Size);
         var elIndex = def.Elements.Value.indexOf(`${enumValue}`);
         return (elIndex >= 0) ? def.Elements.Name[elIndex] : '';
       }
@@ -222,9 +224,9 @@ var writingFns = {
   "TypeDefinitionInteger": def => {
     return (v, buf, pos) => {
       if (def.IsSigned) {
-        buf.writeIntBE(v, pos, def.Size);
+        writeIntBE(v, buf, pos, def.Size);
       } else {
-        buf.writeUIntBE(v, pos, def.Size);
+        writeUIntBE(v, buf, pos, def.Size);
       };
       return def.Size;
     }
@@ -303,25 +305,25 @@ var writingFns = {
       var elementFn = writingFns[elType.MetaType](elType);
       var lengthFn = lengthFns[elType.MetaType](elType);
       var each = v.length > 0 ? lengthFn(v[0]) : lengthFn();
-      this.writeUInt32BE(v.length, pos + 0);
-      this.writeUInt32BE(typeof each === 'number' ? each : 0, pos + 4);
+      buf.writeUInt32BE(v.length, pos + 0);
+      buf.writeUInt32BE(typeof each === 'number' ? each : 0, pos + 4);
       pos += 8;
       for (let item of v) {
         pos += elementFn(item, buf, pos);
       };
-      return start - pos;
+      return pos - start;
     };
   },
   "TypeDefinitionVariableArray": def => {
     if (def.Symbol === 'RandomIndexItemArray') {
       return (v, buf, pos) => {
+        var start = pos;
         var elType = internalResolveByName("TypeDefinition", "RandomIndexItem");
         var elementFn = writingFns[elType.MetaType](elType);
-        var pos = offset;
         for (let item of v) {
           pos += elementFn(item, buf, pos);
         };
-        return v.length * 12;
+        return pos - start;
       };
     } else {
       return (v, buf, pos) => {
@@ -330,27 +332,66 @@ var writingFns = {
         var elementFn = writingFns[elType.MetaType](elType);
         var lengthFn = lengthFns[elType.MetaType](elType);
         var each = v.length > 0 ? lengthFn(v[0]) : lengthFn();
-        this.writeUInt32BE(v.length, pos + 0);
-        this.writeUInt32BE(typeof each === 'number' ? each : 0, pos + 4);
+        buf.writeUInt32BE(v.length, pos + 0);
+        buf.writeUInt32BE(typeof each === 'number' ? each : 0, pos + 4);
         pos += 8;
         for (let item of v) {
           pos += elementFn(item, buf, pos);
         };
-        return start - pos;
+        return pos - start;
       };
     };
   },
   "TypeDefinitionStrongObjectReference": def => {
     return (v, buf, pos) => {
-      return writeUUID(v, buf, offset);
+      return writeUUID(v, buf, pos);
     };
   },
   "TypeDefinitionWeakObjectReference": def => {
     return (v, buf, pos) => {
-      return writeUUID(v, buf, offset);
+      return writeUUID(v, buf, pos);
     };
   },
-
+  "TypeDefinitionString": def => {
+    return (v, buf, pos) => {
+      var utf16le = Buffer.from(v, 'utf16le');
+      for ( var i = 0 ; i < utf16le.length ; i += 2) {
+        buf.writeUInt16BE(utf16le.readUInt16LE(i), pos + i);
+      }
+      return utf16le.length;
+    };
+  },
+  "TypeDefinitionRename": def => {
+    var elType = internalResolveByName("TypeDefinition", def.RenamedType);
+    return writingFns[elType.MetaType](elType);
+  },
+  "TypeDefinitionEnumeration": def => {
+    return (v, buf, pos) => {
+      switch (def.Symbol) {
+      case "Boolean":
+        buf.writeInt8(v === true ? 1 : 0);
+        return 1;
+      default:
+        var elType = internalResolveByName('TypeDefinition', def.ElementType);
+        var elIndex = def.Elements.Name.indexOf(v);
+        var enumValue = (elIndex >= 0) ? +def.Elements.Value[elIndex] : 0;
+        return (elType.IsSigned) ?
+          writeInt8BE(enumValue, buf, pos, elType.Size) :
+          writeUIntBE(enumValue, buf, pos, elType.Size);
+      };
+    };
+  },
+  "TypeDefinitionFixedArray": def => {
+    return (v, buf, pos) => {
+      console.log('WELL HELLO!');
+      return v.copy(buf, pos);
+    };
+  },
+  "TypeDefinitionExtendibleEnumeration": def => {
+    return (v, buf, pos) => {
+      return writeUUID(v, buf, pos);
+    };
+  }
 };
 
 var sizingFns = {
@@ -391,6 +432,31 @@ var sizingFns = {
   },
   "TypeDefinitionFixedArray": def => {
     return () => def.ElementCount; // TODO improve for non UInt8 types
+  },
+  "TypeDefinitionExtendibleEnumeration": def => {
+    return () => 16;
+  },
+  "TypeDefinitionStrongObjectReference": def => {
+    return () => 16;
+  },
+  "TypeDefinitionWeakObjectReference": def => {
+    return () => 16;
+  },
+  "TypeDefinitionString": def => {
+    return (buf, pos) => {
+      return buf.length - pos;
+    };
+  },
+  "TypeDefinitionRename": def => {
+    var elType = internalResolveByName("TypeDefinition", def.RenamedType);
+    return sizingFns[elType.MetaType](elType);
+  },
+  "TypeDefinitionEnumeration": def => {
+    var elType = internalResolveByName("TypeDefinition", def.ElementType);
+    return sizingFns[elType.MetaType](elType);
+  },
+  "TypeDefinitionFixedArray": def => {
+    return () => def.ElementCount;
   },
   "TypeDefinitionExtendibleEnumeration": def => {
     return () => 16;
@@ -442,6 +508,29 @@ var lengthFns = {
   },
   "TypeDefinitionFixedArray": def => {
     return () => def.ElementCount; // TODO improve for non UInt8 types
+  },
+  "TypeDefinitionExtendibleEnumeration": def => {
+    return () => 16;
+  },
+  "TypeDefinitionStrongObjectReference": def => {
+    return () => 16;
+  },
+  "TypeDefinitionWeakObjectReference": def => {
+    return () => 16;
+  },
+  "TypeDefinitionString": def => {
+    return (value) => value.length * 2;
+  },
+  "TypeDefinitionRename": def => {
+    var elType = internalResolveByName("TypeDefinition", def.RenamedType);
+    return lengthFns[elType.MetaType](elType);
+  },
+  "TypeDefinitionEnumeration": def => {
+    var elType = internalResolveByName("TypeDefinition", def.ElementType);
+    return lengthFns[elType.MetaType](elType);
+  },
+  "TypeDefinitionFixedArray": def => {
+    return () => def.ElementCount;
   },
   "TypeDefinitionExtendibleEnumeration": def => {
     return () => 16;
@@ -535,6 +624,46 @@ var getPackOrder = function (name) {
     if (def.ParentClass) return getPackOrder(def.ParentClass);
     return undefined;
   });
+}
+
+function writeUIntBE(v, buf, pos, size) {
+  if (size === 8) {
+    buf.writeUInt16BE(0, pos);
+    buf.writeUIntBE(v, pos + 2, 6);
+    return 8;
+  } else {
+    return buf.writeUIntBE(v, pos, size);
+  }
+}
+
+function writeIntBE(v, buf, pos, size) {
+  if (size === 8) {
+    buf.writeUInt16BE(v < 0 ? 0xffff : 0, pos);
+    buf.writeIntBE(v, pos + 2, 6);
+    return 8;
+  } else {
+    return buf.writeIntBE(v, pos, size);
+  }
+}
+
+function readUIntBE(buf, pos, size) {
+  if (size === 8) {
+    if (buf.readUInt16BE(0) > 0)
+      throw new Error(`Reading a value larger than Javascript UInt 48-bit maximum.`);
+    return buf.readUIntBE(pos + 2, 6);
+  } else {
+    return buf.readUIntBE(pos, size);
+  }
+}
+
+function readIntBE(buf, pos, size) {
+  if (size === 8) {
+    if (buf.readUInt16BE(0) !== 0 && buf.readUInt16BE(0) !== 0xffff)
+      throw new Error(`Reading a value larger or smaller than Javascript Int 48-bit maximum.`);
+    return buf.readIntBE(pos + 2, 6);
+  } else {
+    return buf.readIntBE(pos, size);
+  }
 }
 
 var resetPrimer = function () {

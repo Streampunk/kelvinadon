@@ -32,5 +32,8 @@
   },
   "bin": {
     "kelvinadump": "./kelvinadump.js"
+  },
+  "devDependencies": {
+    "eslint-config-google": "^0.9.1"
   }
 }
