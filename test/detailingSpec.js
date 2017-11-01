@@ -39,7 +39,7 @@ const footer = {
     '060e2b34-0401-0109-0d01-0301020e0000',
     '060e2b34-0401-0101-0d01-030102060300' ] };
 
-tape('Convert JSON object to KLV', t => {
+tape('Convert JSON object to KLV for fixed length pack', t => {
   H([footer])
     .through(packetator())
     .errors(t.fail)
@@ -56,7 +56,7 @@ tape('Convert JSON object to KLV', t => {
   }).done(() => { t.pass('pipeline ended.')});
 });
 
-tape('Convert detail inside JSON object to KLV', t => {
+tape('Convert detail inside JSON object to KLV for fixed length pack', t => {
   H([{ detail: footer }])
     .through(packetator())
     .errors(t.fail)
@@ -73,7 +73,7 @@ tape('Convert detail inside JSON object to KLV', t => {
   }).done(() => { t.pass('pipeline ended.')});
 });
 
-tape('Roundtrip detail to and from bytes', t => {
+tape('Roundtrip detail to and from bytes for fixed length pack', t => {
   H([footer])
     .through(packetator())
     .map(x => { delete x.detail; return x; })
@@ -82,5 +82,24 @@ tape('Roundtrip detail to and from bytes', t => {
       t.ok(KLVPacket.isKLVPacket(klv), 'creates a KLV packet.');
       t.deepEqual(klv.detail, footer, 'embeds the original object as detail.');
       t.end();
-    }).done(() => { t.pass('pipeline added.')});
+    }).done(() => { t.pass('pipeline ended.')});
+});
+
+var timecode = {
+  ObjectClass: 'Timecode',
+  InstanceUID: '2eef6a04-5614-141e-4daa-00b00901b339',
+  ComponentDataDefinition: '060e2b34-0401-0101-0103-020101000000',
+  ComponentLength: 250,
+  FramesPerSecond: 25,
+  StartTimecode: 0,
+  DropFrame: false };
+
+tape('Convert JSON object to KLV for local set', t => {
+  H([timecode])
+    .through(packetator())
+    .errors(t.fail)
+    .each(klv => {
+      console.log(klv);
+      t.end();
+    }).done(() => { t.pass('pipeline ended.')})
 });

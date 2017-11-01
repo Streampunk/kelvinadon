@@ -27,7 +27,7 @@ function detailing() {
       push(null, H.nil);
     } else {
       if (x.value.length > 1) {
-        x.value = [ Buffer.concat(x.value, x.length) ];
+        x.value = [ Buffer.concat(x.value) ];
       }
       switch (x.meta && uuid.parse(x.key)[5]) {
       case 0x05:  // Fixed length pack
@@ -119,7 +119,8 @@ function detailing() {
           })(x.key.slice(trackStart, trackStart + 2)),
           ElementType: '0x' + x.key.slice(trackStart + 4, trackStart + 6),
           ElementCount: parseInt(x.key.slice(trackStart + 2, trackStart + 4), 16),
-          ElementNumber: parseInt(x.key.slice(trackStart + 6), 16)
+          ElementNumber: parseInt(x.key.slice(trackStart + 6), 16),
+          Data: x.value
         };
         push(null, x);
         next();

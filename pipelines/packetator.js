@@ -50,6 +50,7 @@ function packetator (primer) {
       }
       meta.resolveByName('ClassDefinition', detail.ObjectClass)
         .then(cls => {
+          console.log('CLASS', cls);
           var key = meta.ulToUUID(cls.Identification);
           switch (uuid.parse(key)[5]) {
           case 0x05: // Fixed length pack
@@ -80,13 +81,69 @@ function packetator (primer) {
               });
             });
             break;
+          case 0x06:
           case 0x53: // local sets with 2-byte keys and values
+            console.log('CLASS', cls);
+            var propProm = Object.keys(detail).filter(k => k != 'ObjectClass').map(k => {
+              return meta.resolveByName('PropertyDefinition', k);
+            });
+            Promise.all(propProm).then(props => {
+              var propAndTypes = props.map(prop => {
+                return Promise.all([
+                  prop,
+                  meta.lengthFn(prop.Type),
+                  meta.writeFn(prop.Type)
+                ]);
+              })
+              return Promise.all(propAndTypes);
+            }).then(work => {
+              var lengths = work.map(prop => prop[1](detail[k]));
+              var totalLen = lengths.reduce((x, y) => x + y + 4, 0);
+              var buf = Buffer.allocUnsafe(totalLen);
+              var pos = 0;
+              for ( var z = 0 ; z < work.length ; z++ ) {
+                var job = work[z];
+                pos += buf.writeUInt16BE(job[0].LocalIdentification);
+                pos += buf.writeUInt16BE(lengths[z]);
+                pos += job[2](detail[k], buf. pos);
+              }
+              var klv = new KLVPacket(key, totalLen, [buf], lengthLength, filePos);
+              klv.meta = cls;
+              klv.detail = detail;
+              push(null, klv);
+              next();
+            })
             break;
           case 0x13: // Unxupported local set with BER property lengths
             push(`Encoding local sets with BER property lengths is not supported. Object class ${detail.ObjectClass}.`);
             next();
             break;
           case 0x02: // Most likely an essence element
+            var trackStart = x.key.length - 8;
+            var itemType = (t => switch (t) {
+              case 'SDTI-CP Picture (SMPTE 326M)': return '05';
+              case 'SDTI-CP Sound (SMPTE 326M)' : return '06';
+              case 'SDTI-CP Data (SMPTE 326M)' : return '07';
+              case 'GC Picture' : return '15';
+              case 'GC Sound' : return '16';
+              case 'GC Data' : return '17';
+              case 'GC Compound' : return '18';
+              default: return '00';
+            })(detail.ItemType);
+            var elementType = detail.ElementType.slice(2);
+            var elementCount = detail.ElementCount.toString(16);
+            var elementNumber = detail.ElementNumber.toString(16);
+            detail.Track = itemType + elementType +
+              ((elementCount.length === 1) ? '0' + elementCount : elementCount) +
+              ((elementNumber.length === 1) ? '0' + elementNumber : elementNumber);
+            key = key.slice(0, trackStart) + detail.Track;
+            var length = detail.Data.reduce((x, y) => x + y.length, 0);
+            var klv = new KLVPacket(key, length, [ detail.Data ],
+              detail.Data.length < 16777216 ? 4 : 8, filePos);
+            klv.meta = cls;
+            klv.detail = detail;
+            push(null, klv);
+            next();
             break;
           default:
             break;
@@ -103,3 +160,4 @@ function packetator (primer) {
 }
 
 module.exports = packetator;
+;
