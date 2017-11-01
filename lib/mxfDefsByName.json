@@ -586,7 +586,7 @@
       "MemberOf": "InterchangeObject",
       "IsOptional": true,
       "Type": "AUID",
-      "LocalIdentification": 0,
+      "LocalIdentification": 15370,
       "MetaType": "PropertyDefinition"
     }
   },

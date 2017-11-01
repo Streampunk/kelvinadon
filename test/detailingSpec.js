@@ -19,6 +19,7 @@ var detailing = require('../pipelines/detailing.js');
 var packetator = require('../pipelines/packetator.js');
 var KLVPacket = require('../model/KLVPacket.js');
 var meta = require('../util/meta.js');
+var uuid = require('uuid');
 
 const footer = {
   ObjectClass: 'FooterClosedCompletePartitionPack',
@@ -99,7 +100,57 @@ tape('Convert JSON object to KLV for local set', t => {
     .through(packetator())
     .errors(t.fail)
     .each(klv => {
-      console.log(klv);
-      t.end();
-    }).done(() => { t.pass('pipeline ended.'); });
+      t.deepEqual(klv.detail, timecode, 'sets detail as expected.');
+      t.ok(klv.meta && klv.meta.Symbol === 'Timecode', 'has metadata of expected object class.');
+      var baseKey = meta.ulToUUID(klv.meta.Identification);
+      t.equal(klv.key, baseKey.slice(0, 11) + '53' + baseKey.slice(13), 'key represents meta.');
+      t.equal(klv.lengthLength, 4, 'length length has been set to 4.');
+      t.ok(typeof klv.length === 'number' && !isNaN(klv.length), 'length is a number.');
+    }).done(() => { t.pass('pipeline ended.'); t.end(); });
+});
+
+tape('Roundtrip JSON object to and from local set', t => {
+  H([timecode])
+    .through(packetator())
+    .map(x => {
+      delete x.detail;
+      delete x.props;
+      return x;
+    })
+    .through(detailing())
+    .errors(t.fail)
+    .each(klv => {
+      t.deepEqual(klv.detail, timecode, 'timecode value roundtrips OK.');
+      t.ok(klv.props && klv.props.length === 6, 'recreates a props array.');
+    })
+    .done(() => { t.pass('pipeline ended'); t.end(); });
+});
+
+var essence = {
+  ObjectClass: 'EssenceElement',
+  InstanceUID: uuid.v4(),
+  ItemType: 'GC Picture',
+  ElementType: 0x42,
+  ElementCount: 0x04,
+  ElementNumber: 0x02,
+  Data: Buffer.allocUnsafe(2042)
+};
+
+var essenceWithTrack = JSON.parse(JSON.stringify(essence));
+essenceWithTrack.Track = '15044202';
+essenceWithTrack.Data = essence.Data;
+
+tape('Convert JSON object to KLV for essence element', t => {
+  H([essence])
+    .through(packetator())
+    .errors(t.fail)
+    .each(klv => {
+      t.deepEqual(klv.detail, essenceWithTrack, 'sets detail as expected with track.');
+      t.ok(klv.meta && klv.meta.Symbol === 'EssenceElement', 'has metadata of expected class.');
+      t.equal(klv.key.slice(0, -8), meta.ulToUUID(klv.meta.Identification).slice(0, -8),
+        'key starts with base essence element key.');
+      t.equal(klv.key.slice(-8), klv.detail.Track, 'key ends with track number.');
+      t.equal(klv.lengthLength, 4, 'length length has been set to 4.');
+      t.ok(typeof klv.length === 'number' && !isNaN(klv.length), 'length is a number.');
+    }).done(() => { t.pass('pipeline ended.'); t.end(); });
 });

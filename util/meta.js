@@ -19,6 +19,7 @@ var uuid = require('uuid');
 
 var metaDictByID = [];
 var metaDictByName = [];
+var shadowPrimer = null;
 
 var readFile = Promise.denodeify(fs.readFile);
 
@@ -369,15 +370,15 @@ var writingFns = {
     return (v, buf, pos) => {
       switch (def.Symbol) {
       case 'Boolean':
-        buf.writeInt8(v === true ? 1 : 0);
+        buf.writeInt8(v === true ? 1 : 0, pos);
         return 1;
       default:
         var elType = internalResolveByName('TypeDefinition', def.ElementType);
         var elIndex = def.Elements.Name.indexOf(v);
         var enumValue = (elIndex >= 0) ? +def.Elements.Value[elIndex] : 0;
         return (elType.IsSigned) ?
-          writeIntBE(enumValue, buf, pos, elType.Size) :
-          writeUIntBE(enumValue, buf, pos, elType.Size);
+          writeIntBE(enumValue, buf, pos, elType.Size) - pos :
+          writeUIntBE(enumValue, buf, pos, elType.Size) - pos;
       }
     };
   },
@@ -451,6 +452,7 @@ var sizingFns = {
     return sizingFns[elType.MetaType](elType);
   },
   'TypeDefinitionEnumeration': def => {
+    if (def.Type === 'Boolean') return 1;
     var elType = internalResolveByName('TypeDefinition', def.ElementType);
     return sizingFns[elType.MetaType](elType);
   }
@@ -519,6 +521,7 @@ var lengthFns = {
     return lengthFns[elType.MetaType](elType);
   },
   'TypeDefinitionEnumeration': def => {
+    if (def.Type === 'Boolean') return 1;
     var elType = internalResolveByName('TypeDefinition', def.ElementType);
     return lengthFns[elType.MetaType](elType);
   }
@@ -676,7 +679,19 @@ var addPrimerTag = function (primer, localTag, uid) {
 };
 
 var getPrimerUID = function (primer, localTag) {
-  return primer[localTag];
+  var id = primer[localTag];
+  if (id) return id;
+  if (!shadowPrimer) {
+    shadowPrimer = { };
+    metaDictByID.forEach(dict => {
+      Object.keys(dict).forEach(k => {
+        var def = dict[k];
+        if (def.MetaType === 'PropertyDefinition' && def.LocalIdentification > 0)
+          shadowPrimer[def.LocalIdentification] = ulToUUID(def.Identification);
+      });
+    });
+  }
+  return shadowPrimer[localTag];
 };
 
 function ulToUUID (ul) {

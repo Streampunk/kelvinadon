@@ -18,7 +18,7 @@ var meta = require('../util/meta.js');
 var uuid = require('uuid');
 
 function detailing() {
-  var primer = null;
+  var primer = meta.resetPrimer();
   var detailChomper = (err, x, push, next) => {
     if (err) {
       push(err);
@@ -117,7 +117,7 @@ function detailing() {
             default: return 'Unknown';
             }
           })(x.key.slice(trackStart, trackStart + 2)),
-          ElementType: '0x' + x.key.slice(trackStart + 4, trackStart + 6),
+          ElementType: parseInt(x.key.slice(trackStart + 4, trackStart + 6), 16),
           ElementCount: parseInt(x.key.slice(trackStart + 2, trackStart + 4), 16),
           ElementNumber: parseInt(x.key.slice(trackStart + 6), 16),
           Data: x.value

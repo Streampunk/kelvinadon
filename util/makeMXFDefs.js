@@ -14,7 +14,7 @@
 */
 
 var fs = require('fs');
-var ulToUUID = require('meta.js').ulToUUID;
+var ulToUUID = require('./meta.js').ulToUUID;
 
 var metaDefsIDFile = (process.argv[2]) ? process.argv[2] : 'lib/mxfDefsByID.json';
 var metaDefsNameFile = (process.argv[3]) ? process.argv[3] : 'lib/mxfDefsByName.json';
@@ -658,7 +658,7 @@ var instanceUID = {
   MemberOf: 'InterchangeObject',
   IsOptional: true,
   Type: 'AUID',
-  LocalIdentification: 0,
+  LocalIdentification: 0x3c0a,
   MetaType: 'PropertyDefinition'
 };
 
