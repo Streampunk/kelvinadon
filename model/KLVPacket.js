@@ -25,21 +25,21 @@ function KLVPacket(key, length, value, lengthLength, filePos) {
 
 KLVPacket.prototype.size = function () {
   return 16 + this.lengthLength + this.length;
-}
+};
 
 KLVPacket.prototype.lengthFromValue = function () {
   this.length = this.value.reduce((x, y) => x + y.length, 0);
   return this.length;
-}
+};
 
 KLVPacket.prototype.flattenValue = function () {
   this.value = [ Buffer.concat(this.value, this.length) ];
-}
+};
 
 KLVPacket.isKLVPacket = function (x) {
   return x !== null &&
     typeof x === 'object' &&
     x.constructor === KLVPacket.prototype.constructor;
-}
+};
 
 module.exports = KLVPacket;

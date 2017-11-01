@@ -18,22 +18,22 @@ var fs = require('fs');
 var klv = require('../index.js');
 
 var base = H(fs.createReadStream(process.argv[2]))
-.through(klv.kelviniser())
-.through(klv.metatiser())
-.through(klv.stripTheFiller)
-.through(klv.detailing())
-.through(klv.puppeteer())
-.through(klv.trackCacher());
+  .through(klv.kelviniser())
+  .through(klv.metatiser())
+  .through(klv.stripTheFiller)
+  .through(klv.detailing())
+  .through(klv.puppeteer())
+  .through(klv.trackCacher());
 
 base.fork()
- .through(klv.essenceFilter('picture0'))
- .doto(H.log)
- .errors(function (e) { console.error(e); })
- .done(function () { console.log('Finished reading picture data.'); });
+  .through(klv.essenceFilter('picture0'))
+  .doto(H.log)
+  .errors(e => { console.error(e); })
+  .done(() => { console.log('Finished reading picture data.'); });
 
 base.fork()
   .through(klv.essenceFilter('sound0'))
   .doto(H.log)
-  .errors(function (e) { console.error(e); })
-  .done(function () { console.log('Finished reading sound data.') });
+  .errors(e => { console.error(e); })
+  .done(() => { console.log('Finished reading sound data.'); });
 base.resume();

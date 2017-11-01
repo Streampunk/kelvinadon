@@ -17,7 +17,7 @@ var H = require('highland');
 
 function essenceFilter(trackName) {
   var cachedTracks = { };
-  var numberToName = { };
+  // var numberToName = { };
   var nameToNumber = { };
   var filterator = function (err, x, push, next) {
     if (err) {
@@ -27,14 +27,14 @@ function essenceFilter(trackName) {
       push(null, H.nil);
     } else if (x.ObjectClass && x.ObjectClass === 'TrackCache') {
       cachedTracks = x.cachedTracks;
-      numberToName = x.numberToName;
+      // numberToName = x.numberToName;
       nameToNumber = x.nameToNumber;
       next();
     } else if (trackName) {
-        if (x.meta && x.meta.Symbol && x.meta.Symbol === 'EssenceElement' &&
+      if (x.meta && x.meta.Symbol && x.meta.Symbol === 'EssenceElement' &&
                 x.detail && x.detail.Track &&
                 nameToNumber[trackName] === parseInt(x.detail.Track, 16)) {
-        var track = cachedTracks[parseInt(x.detail.Track, 16)];
+        let track = cachedTracks[parseInt(x.detail.Track, 16)];
         if (track) {
           x.track = track.track;
           x.description = track.description;
@@ -46,7 +46,7 @@ function essenceFilter(trackName) {
         next();
       }
     } else if (x.meta && x.meta.Symbol && x.meta.Symbol === 'EssenceElement') {
-      var track = x.detail && x.detail.Track && cachedTracks[parseInt(x.detail.Track, 16)];
+      let track = x.detail && x.detail.Track && cachedTracks[parseInt(x.detail.Track, 16)];
       if (track) { // decorate if information is available
         x.track = track.track;
         x.description = track.description;
@@ -57,8 +57,8 @@ function essenceFilter(trackName) {
     } else {
       next(); // Filtering ... don't push
     }
-  }
+  };
   return H.pipeline(H.consume(filterator));
-};
+}
 
 module.exports = essenceFilter;

@@ -15,10 +15,5 @@
 
 var H = require('highland');
 
-function metadataFilter() {
-  return H.pipeline(H.filter(function (x) {
-    return x.ObjectClass && x.ObjectClass === 'Preface';
-  }));
-};
-
-module.exports = metadataFilter;
+module.exports =
+  () => H.pipeline(H.filter(x => x.ObjectClass && x.ObjectClass === 'Preface'));

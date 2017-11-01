@@ -15,10 +15,5 @@
 
 var H = require('highland');
 
-function indexFilter() {
-  return H.pipeline(H.filter(function (x) {
-    return x.meta.Symbol && x.meta.Symbol === 'IndexTableSegment';
-  }));
-};
-
-module.exports = indexFilter;
+module.exports =
+  () => H.pipeline(H.filter(x => x.meta.Symbol && x.meta.Symbol === 'IndexTableSegment'));

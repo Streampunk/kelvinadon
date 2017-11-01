@@ -13,33 +13,34 @@
   limitations under the License.
 */
 var H = require('highland');
-var fs = require('fs');
 var klv = require('../index.js');
 var http = require('http');
 
 var get = http.get(
-    'http://www.gvgdevelopers.com/K2DevGuide/Clips2/PAL_1080i_MPEG_XDCAM-HD422_colorbar.mxf',
-    function (res) {
-  var base = H(res)
-  .through(klv.kelviniser())
-  .through(klv.metatiser())
-  .through(klv.stripTheFiller)
-  .through(klv.detailing())
-  .through(klv.puppeteer())
-  .through(klv.trackCacher());
+  'http://www.gvgdevelopers.com/K2DevGuide/Clips2/PAL_1080i_MPEG_XDCAM-HD422_colorbar.mxf',
+  res => {
+    var base = H(res)
+      .through(klv.kelviniser())
+      .through(klv.metatiser())
+      .through(klv.stripTheFiller)
+      .through(klv.detailing())
+      .through(klv.puppeteer())
+      .through(klv.trackCacher());
 
-  base.fork()
-   .through(klv.essenceFilter('picture0'))
-   .doto(H.log)
-   .errors(function (e) { console.error(e); })
-   .done(function () { console.log('Finished reading picture data.'); });
+    base.fork()
+      .through(klv.essenceFilter('picture0'))
+      .doto(H.log)
+      .errors(e => { console.error(e); })
+      .done(() => { console.log('Finished reading picture data.'); });
 
-  base.fork()
-    .through(klv.essenceFilter('sound0'))
-    .doto(H.log)
-    .errors(function (e) { console.error(e); })
-    .done(function () { console.log('Finished reading sound data.') });
-  base.resume();
+    base.fork()
+      .through(klv.essenceFilter('sound0'))
+      .doto(H.log)
+      .errors(e => { console.error(e); })
+      .done(() => { console.log('Finished reading sound data.'); });
+    base.resume();
 
-  res.on('end', function () { console.log("End of the stream.")});
-});
+    res.on('end', () => { console.log('End of the stream.'); });
+  });
+
+get.on('error', e => console.error(e));

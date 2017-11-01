@@ -29,13 +29,13 @@ function emmyiser (emitter) {
     }
     if (klv.ObjectClass && klv.ObjectClass === 'Preface') {
       return emitter.emit('metadata', klv);
-    };
+    }
     if (klv.meta.Symbol.endsWith('PartitionPack')) {
       return emitter.emit('partition', klv);
-    };
+    }
     if (klv.meta.Symbol === 'IndexTableSegment') {
       return emitter.emit('index', klv);
-    };
+    }
     if (klv.meta.Symbol === 'EssenceElement') {
       var trackID = parseInt(klv.detail.Track, 16);
       var track = emmy.cachedTracks[trackID];
@@ -54,27 +54,27 @@ function emmyiser (emitter) {
         if (track.startTimecode) output.startTimecode = track.startTimecode;
         emitter.emit(numberToName[trackID], output);
         track.index++;
-      };
+      }
       return emitter.emit('essence', output);
-    };
+    }
   };
   emitter.getTrackList = function () {
     return Object.keys(nameToNumber);
   };
   emitter.getTrackDetails = function (name) {
     if (typeof name === 'number') {
-      return cachedTracks[trackID];
+      return emmy.cachedTracks[name];
     } else if (typeof name === 'string') {
       console.log(nameToNumber, name);
       if (isNaN(parseInt(name, 16)))
-        return cachedTracks[nameToNumber[name]];
+        return emmy.cachedTracks[nameToNumber[name]];
       else
-        return cachedTracks[parseInt(name, 16)];
+        return emmy.cachedTracks[parseInt(name, 16)];
     } else {
       return undefined;
     }
-  }
+  };
   return H.pipeline(H.doto(emmyPhone));
-};
+}
 
 module.exports = emmyiser;

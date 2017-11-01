@@ -21,7 +21,7 @@ var util = require('util');
 var mxfEvents = new klv.MXFEmitter(fs.createReadStream(process.argv[2]));
 
 // Listen for errors
-mxfEvents.on('error', function (e) { console.error(e); });
+mxfEvents.on('error', e => { console.error(e); });
 
 // Receive any header metadata sets (optional)
 // mxfEvents.on('metadata', function (preface) {
@@ -32,7 +32,7 @@ mxfEvents.on('error', function (e) { console.error(e); });
 var picCount = 0;
 
 // Listen for information on a pictire track
-mxfEvents.once('picture0', function (data) {
+mxfEvents.once('picture0', data => {
   console.log(`*** PICTURE ${picCount++} ***\n`);
   console.log(util.inspect(data, { depth : null }));
   fs.writeFile('frame0.h264', data.value, console.error);
@@ -46,4 +46,4 @@ mxfEvents.once('picture0', function (data) {
 // });
 
 // EVent called at the end of the stream
-mxfEvents.on('done', function () { console.log('Streaming complete.'); });
+mxfEvents.on('done', () => { console.log('Streaming complete.'); });

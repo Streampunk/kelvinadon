@@ -28,7 +28,7 @@ function ulToUUID (ul) {
 var metaDefsIDFile = (process.argv[2]) ? process.argv[2] : 'lib/baselineDefsByID.json';
 var metaDefsNameFile = (process.argv[3]) ? process.argv[3] : 'lib/baselineDefsByName.json';
 
-parser.parseString(initRead.toString(), function (err, data) {
+parser.parseString(initRead.toString(), (err, data) => {
   if (err) return console.log(err);
   var metaDefsByID = {};
   var metaDefsByName = {
@@ -39,20 +39,20 @@ parser.parseString(initRead.toString(), function (err, data) {
   };
   var metaDefs = data.Baseline.MetaDefinitions[0];
   var metaTypes = Object.keys(metaDefs);
-  metaTypes.forEach(function (type) {
+  metaTypes.forEach(type => {
     var metas = metaDefs[type];
-    metas.forEach(function (meta) {
-      Object.keys(meta).forEach(function (k) {
+    metas.forEach(meta => {
+      Object.keys(meta).forEach(k => {
         if (Array.isArray(meta[k]) && meta[k].length === 1) {
           meta[k] = meta[k][0];
-        };
+        }
         if (meta[k] === 'true') {
           meta[k] = true;
         } else if (meta[k] === 'false') {
           meta[k] = false;
         } else if (meta[k].length > 0 && !isNaN(+meta[k])) {
           meta[k] = +meta[k];
-        };
+        }
       });
       meta['MetaType'] = type;
       if (meta.Identification) {
@@ -67,10 +67,10 @@ parser.parseString(initRead.toString(), function (err, data) {
         metaDefsByName.ExtendibleEnumerationElement[meta.Name] = meta;
         if (meta.ElementOf && metaDefsByID[ulToUUID(meta.ElementOf)]) {
           meta.ExtendibleTypeName = metaDefsByID[ulToUUID(meta.ElementOf)].Symbol;
-        };
+        }
       } else {
         console.error('Not registerting value', meta);
-      };
+      }
     });
   });
 

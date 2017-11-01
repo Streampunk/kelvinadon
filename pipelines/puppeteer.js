@@ -14,7 +14,6 @@
 */
 
 var H = require('highland');
-var meta = require('../util/meta.js');
 
 function puppeteer() {
   var cache = { };
@@ -23,36 +22,36 @@ function puppeteer() {
   var headerEnd = -1;
   function resolveAll(item) {
     // console.log('Resolving', item.ObjectClass);
-    Object.keys(item).forEach(function (name) {
+    Object.keys(item).forEach(name => {
       if (name === 'InstanceUID' || name === 'PrimaryPackage') return;
       var value = item[name];
       if (typeof value === 'string' && value.match(
-          /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/)) {
+        /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/)) {
         var sub = cache[value];
         if (sub) {
           resolveAll(sub);
           item[name] = sub;
-        };
+        }
       } else if (Array.isArray(value)) {
         var subArray = [];
-        value.forEach(function (subElement) {
+        value.forEach(subElement => {
           if (typeof subElement === 'string' && subElement.match(
-              /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/)) {
+            /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/)) {
             var sub = cache[subElement];
             if (sub) {
               resolveAll(sub);
               subArray.push(sub);
             } else {
               subArray.push(subElement);
-            };
+            }
           } else {
             subArray.push(subElement);
-          };
+          }
         });
         item[name] = subArray;
-      };
+      }
     });
-  };
+  }
 
   var pullTheStrings = function (err, x, push, next) {
     if (err) {
@@ -70,7 +69,7 @@ function puppeteer() {
         cache = { };
         push(null, x);
         return next();
-      };
+      }
       if (x.meta.Symbol === 'PrimerPack') { // Beginning of header metaata
         headerEnd = x.filePos + headerByteCount;
         return next();// Don't send the primer pack on - used locally only
@@ -81,7 +80,7 @@ function puppeteer() {
       }
       if (x.meta.Symbol === 'Preface') {
         preface = x.detail;
-      };
+      }
       if (x.filePos >= headerEnd) { // We're done ... stop resolving
         resolveAll(preface);
         push(null, preface);
@@ -97,6 +96,6 @@ function puppeteer() {
     }
   };
   return H.pipeline(H.consume(pullTheStrings));
-};
+}
 
 module.exports = puppeteer;

@@ -57,7 +57,7 @@ var writeLength = function (buffer, position, length, lengthLength) {
   buffer.writeUInt8(0x80 | tailLength, position);
   buffer.writeUIntBE(length, position + 1, tailLength);
   return position + lengthLength;
-}
+};
 
 var writeKeyAndLength = function (klv, buffer) {
   if (!buffer)
@@ -71,7 +71,7 @@ var writeKeyAndLength = function (klv, buffer) {
   buffer.hexWrite(klv.key.slice(24, 36), 10);
   writeLength(buffer, 16, klv.length, klv.lengthLength);
   return buffer;
-}
+};
 
 module.exports = {
   getKeyAndLength: getKeyAndLength,

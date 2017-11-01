@@ -14,7 +14,7 @@
 */
 
 var H = require('highland');
-var tape = require("tape");
+var tape = require('tape');
 var detailing = require('../pipelines/detailing.js');
 var packetator = require('../pipelines/packetator.js');
 var KLVPacket = require('../model/KLVPacket.js');
@@ -53,7 +53,7 @@ tape('Convert JSON object to KLV for fixed length pack', t => {
         'value is a buffer of the correct length.');
       t.equal(klv.lengthLength, 4, 'header metadata sets have BER length of 4 bytes.');
       t.end();
-  }).done(() => { t.pass('pipeline ended.')});
+    }).done(() => { t.pass('pipeline ended.'); });
 });
 
 tape('Convert detail inside JSON object to KLV for fixed length pack', t => {
@@ -70,7 +70,7 @@ tape('Convert detail inside JSON object to KLV for fixed length pack', t => {
         'value is a buffer of the correct length.');
       t.equal(klv.lengthLength, 4, 'header metadata sets have BER length of 4 bytes.');
       t.end();
-  }).done(() => { t.pass('pipeline ended.')});
+    }).done(() => { t.pass('pipeline ended.'); });
 });
 
 tape('Roundtrip detail to and from bytes for fixed length pack', t => {
@@ -82,7 +82,7 @@ tape('Roundtrip detail to and from bytes for fixed length pack', t => {
       t.ok(KLVPacket.isKLVPacket(klv), 'creates a KLV packet.');
       t.deepEqual(klv.detail, footer, 'embeds the original object as detail.');
       t.end();
-    }).done(() => { t.pass('pipeline ended.')});
+    }).done(() => { t.pass('pipeline ended.'); });
 });
 
 var timecode = {
@@ -101,5 +101,5 @@ tape('Convert JSON object to KLV for local set', t => {
     .each(klv => {
       console.log(klv);
       t.end();
-    }).done(() => { t.pass('pipeline ended.')})
+    }).done(() => { t.pass('pipeline ended.'); });
 });

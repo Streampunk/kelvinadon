@@ -28,7 +28,7 @@ var metatiser = function () {
       push(null, H.nil);
     } else {
       meta.resolveByID(x.key)
-        .then(function (y) {
+        .then(y => {
           if (!y) {
             push(`Omitting unknown key ${x.key} in MXF KLV stream.`);
             push(null, x);
@@ -38,7 +38,7 @@ var metatiser = function () {
           }
           next();
         })
-        .catch(function (e) {
+        .catch(e => {
           push(e);
           next();
         });

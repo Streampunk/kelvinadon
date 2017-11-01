@@ -20,16 +20,13 @@ function trackCacher() {
   var numberToName = { };
   var nameToNumber = { };
   function buildTrackCache (preface) {
-    var essenceSources = preface.ContentStorageObject.Packages.filter(function (x) {
-      return x.ObjectClass === 'SourcePackage' &&
-          x.PackageTracks.some(function (y) {
-        return y.EssenceTrackNumber > 0;
-      })
-    });
-    essenceSources.forEach(function (src) {
+    var essenceSources = preface.ContentStorageObject.Packages.filter(x =>
+      x.ObjectClass === 'SourcePackage' &&
+          x.PackageTracks.some(y => y.EssenceTrackNumber > 0));
+    essenceSources.forEach(src => {
       var trackIDMap = { };
       var startTimecode = null;
-      src.PackageTracks.forEach(function (t) {
+      src.PackageTracks.forEach(t => {
         if (t.EssenceTrackNumber) {
           cachedTracks[t.EssenceTrackNumber] = { srcID: src.PackageID, track : t, index : 0 };
           trackIDMap[t.TrackID] = t.EssenceTrackNumber;
@@ -41,24 +38,24 @@ function trackCacher() {
         }
       });
       if (src.EssenceDescription.ObjectClass === 'MultipleDescriptor') {
-        Object.keys(src.EssenceDescription.FileDescriptors).forEach(function (key) {
+        Object.keys(src.EssenceDescription.FileDescriptors).forEach(key => {
           var descriptor = src.EssenceDescription.FileDescriptors[key];
           if (descriptor.LinkedTrackID) {
             cachedTracks[trackIDMap[descriptor.LinkedTrackID]].description = descriptor;
           }
         });
       } else {
-        Object.keys(trackIDMap).forEach(function (key) {
+        Object.keys(trackIDMap).forEach(key => {
           cachedTracks[trackIDMap[key]].push(src.EssenceDescription);
         });
       }
       if (startTimecode) {
-        Object.keys(cachedTracks).forEach(function (tid) {
+        Object.keys(cachedTracks).forEach(tid => {
           cachedTracks[tid].startTimecode = startTimecode;
         });
       }
     });
-    Object.keys(cachedTracks).forEach(function (t) {
+    Object.keys(cachedTracks).forEach(t => {
       switch (t >>> 24) {
       case 0x05:
       case 0x15:
@@ -73,12 +70,12 @@ function trackCacher() {
         numberToName[t] = `compound${t & 0xff}`; break;
       default:
         numberToName[t] = `unknown${t & 0xff}`; break;
-      };
+      }
     });
-    Object.keys(numberToName).forEach(function (x) {
+    Object.keys(numberToName).forEach(x => {
       nameToNumber[numberToName[x]] = +x;
     });
-  };
+  }
 
   var trackBasher = function (err, x, push, next) {
     if (err) {

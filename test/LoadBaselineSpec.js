@@ -19,15 +19,15 @@ var fs = require('fs');
 
 var readFile = Promise.denodeify(fs.readFile);
 
-tape('Parsing baseline defs by ID', function (t) {
+tape('Parsing baseline defs by ID', t => {
   var readTime = process.hrtime();
   readFile('lib/baselineDefsByID.json', 'utf8')
-    .then(function (json) {
+    .then(json => {
       t.ok(json.length > 0, 'reads a non empty file.');
       return json;
     })
     .then(JSON.parse)
-    .then(function (defs) {
+    .then(defs => {
       var totalTime = process.hrtime(readTime);
       t.ok(totalTime[0] === 0 && totalTime[1] <= 999999999,
         `is sub second at ${totalTime[1]/1000000}ms.`);
@@ -38,15 +38,15 @@ tape('Parsing baseline defs by ID', function (t) {
     .done(t.end);
 });
 
-tape('Parsing baseline defs by name', function (t) {
+tape('Parsing baseline defs by name', t => {
   var readTime = process.hrtime();
   readFile('lib/baselineDefsByName.json', 'utf8')
-    .then(function (json) {
+    .then(json => {
       t.ok(json.length > 0, 'reads a non empty file.');
       return json;
     })
     .then(JSON.parse)
-    .then(function (defs) {
+    .then(defs => {
       var totalTime = process.hrtime(readTime);
       t.ok(totalTime[0] === 0 && totalTime[1] <= 999999999,
         `is sub second at ${totalTime[1]/1000000}ms.`);
@@ -57,15 +57,15 @@ tape('Parsing baseline defs by name', function (t) {
     .done(t.end);
 });
 
-tape('Parsing MXF defs by ID', function (t) {
+tape('Parsing MXF defs by ID', t => {
   var readTime = process.hrtime();
   readFile('lib/mxfDefsByID.json', 'utf8')
-    .then(function (json) {
+    .then(json => {
       t.ok(json.length > 0, 'reads a non empty file.');
       return json;
     })
     .then(JSON.parse)
-    .then(function (defs) {
+    .then(defs => {
       var totalTime = process.hrtime(readTime);
       t.ok(totalTime[0] === 0 && totalTime[1] <= 999999999,
         `is sub second at ${totalTime[1]/1000000}ms.`);
@@ -76,15 +76,15 @@ tape('Parsing MXF defs by ID', function (t) {
     .done(t.end);
 });
 
-tape('Parsing MXF defs by name', function (t) {
+tape('Parsing MXF defs by name', t => {
   var readTime = process.hrtime();
   readFile('lib/mxfDefsByName.json', 'utf8')
-    .then(function (json) {
+    .then(json => {
       t.ok(json.length > 0, 'reads a non empty file.');
       return json;
     })
     .then(JSON.parse)
-    .then(function (defs) {
+    .then(defs => {
       var totalTime = process.hrtime(readTime);
       t.ok(totalTime[0] === 0 && totalTime[1] <= 999999999,
         `is sub second at ${totalTime[1]/1000000}ms.`);

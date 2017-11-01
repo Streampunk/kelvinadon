@@ -21,11 +21,11 @@ function kelviniser (errors) {
   var hangover = [];
   var remaining = 0;
   var filePos = 0;
-  var bufferCount = 0;
+  // var bufferCount = 0;
   var nextKLVToSend = null;
   var kelvinMapper = function (x) {
     var pos = 0;
-    bufferCount++;
+    // bufferCount++;
     var klvs = [];
     if (hangover.length > 0) {
       if (hangover.length === 1 && remaining === 0) {
@@ -73,7 +73,7 @@ function kelviniser (errors) {
     }
     filePos += x.length - ((hangover.length === 1 && remaining === 0) ? hangover[0].length : 0);
     return H(klvs);
-  }
+  };
   return H.pipeline(H.flatMap(kelvinMapper));
 }
 

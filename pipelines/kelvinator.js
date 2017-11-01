@@ -16,7 +16,6 @@
 var H = require('highland');
 var KLVPacket = require('../model/KLVPacket.js');
 var writeKeyAndLength = require('../util/klvUtil.js').writeKeyAndLength;
-var uuid = require('uuid');
 
 function kelvinator () {
   function mapper(x) {

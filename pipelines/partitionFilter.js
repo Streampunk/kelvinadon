@@ -15,10 +15,5 @@
 
 var H = require('highland');
 
-function partitionFilter() {
-  return H.pipeline(H.filter(function (x) {
-    return x.meta.Symbol && x.meta.Symbol.endsWith('PartitionPack');
-  }));
-};
-
-module.exports = partitionFilter;
+module.exports =
+  () => H.pipeline(H.filter(x => x.meta.Symbol && x.meta.Symbol.endsWith('PartitionPack')));

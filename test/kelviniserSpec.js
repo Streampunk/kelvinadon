@@ -13,7 +13,6 @@
   limitations under the License.
 */
 
-var klvUtil = require('../util/klvUtil.js');
 var tape = require('tape');
 var uuid = require('uuid');
 var H = require('highland');
@@ -27,7 +26,7 @@ tape('Test conversion of packet to bytes', t => {
   var b = [];
   t.ok(KLVPacket.isKLVPacket(testPacket), 'test packet shows up as a packet.');
   H([testPacket]).through(kelvinator()).errors(t.fail).each(x => { b.push(x); })
-    .done(() => { t.pass(`finished pipeline.`)});
+    .done(() => { t.pass('finished pipeline.'); });
   t.ok(Array.isArray(b) && b.length === 2, 'creates an array of length 2.');
   t.ok(b.every(x => Buffer.isBuffer(x)), 'every element of the array is a buffer.');
   var c = Buffer.concat(b);
@@ -81,7 +80,7 @@ tape('Roundtrip boundary testing - single buffer', t => {
   H([bigBuf])
     .through(kelviniser())
     .errors(t.fail)
-    .toArray(a => { result = a; t.pass('pipeline finished.')});
+    .toArray(a => { result = a; t.pass('pipeline finished.'); });
   t.ok(Array.isArray(result), 'result is an array.');
   t.equal(result.length, 3, 'array is of the expected length.');
   t.ok(result.every(x => KLVPacket.isKLVPacket(x)), 'every entry is a KLV packet.');
@@ -97,7 +96,7 @@ tape('Roundtrip boundary testing - split first value', t => {
   H([bigBuf.slice(0, 32), bigBuf.slice(32)])
     .through(kelviniser())
     .errors(t.fail)
-    .toArray(a => { result = a; t.pass('pipeline finished.')});
+    .toArray(a => { result = a; t.pass('pipeline finished.'); });
   t.ok(Array.isArray(result), 'result is an array.');
   t.equal(result.length, 3, 'array is of the expected length.');
   t.ok(result.every(x => KLVPacket.isKLVPacket(x)), 'every entry is a KLV packet.');
@@ -113,7 +112,7 @@ tape('Roundtrip boundary testing - split second key', t => {
   H([bigBuf.slice(0, 65), bigBuf.slice(65)])
     .through(kelviniser())
     .errors(t.fail)
-    .toArray(a => { result = a; t.pass('pipeline finished.')});
+    .toArray(a => { result = a; t.pass('pipeline finished.'); });
   t.ok(Array.isArray(result), 'result is an array.');
   t.equal(result.length, 3, 'array is of the expected length.');
   t.ok(result.every(x => KLVPacket.isKLVPacket(x)), 'every entry is a KLV packet.');
@@ -129,7 +128,7 @@ tape('Roundtrip boundary testing - split third large value', t => {
   H([bigBuf.slice(0, 12345), bigBuf.slice(12345)])
     .through(kelviniser())
     .errors(t.fail)
-    .toArray(a => { result = a; t.pass('pipeline finished.')});
+    .toArray(a => { result = a; t.pass('pipeline finished.'); });
   t.ok(Array.isArray(result), 'result is an array.');
   t.equal(result.length, 3, 'array is of the expected length.');
   t.ok(result.every(x => KLVPacket.isKLVPacket(x)), 'every entry is a KLV packet.');
@@ -153,7 +152,7 @@ tape('Roundtrip boundary testing - random buffers', t => {
   H(randomBufs)
     .through(kelviniser())
     .errors(t.fail)
-    .toArray(a => { result = a; t.pass('pipeline finished.')});
+    .toArray(a => { result = a; t.pass('pipeline finished.'); });
   t.ok(Array.isArray(result), 'result is an array.');
   t.equal(result.length, 3, 'array is of the expected length.');
   t.ok(result.every(x => KLVPacket.isKLVPacket(x)), 'every entry is a KLV packet.');

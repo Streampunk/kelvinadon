@@ -16,14 +16,10 @@
 
 var H = require('highland');
 var fs = require('fs');
-var uuid = require('uuid');
 var util = require('util');
-const EventEmitter = require('events');
-var stripTheFiller = require('./pipelines/stripTheFiller.js');
 var kelviniser = require('./pipelines/kelviniser.js');
 var metatiser = require('./pipelines/metatiser.js');
 var detailing = require('./pipelines/detailing.js');
-var puppeteer = require('./pipelines/puppeteer.js');
 
 // TODO add more command line paramters
 
@@ -34,8 +30,8 @@ H(fs.createReadStream(process.argv[2]))
   .through(metatiser())
   // .through(stripTheFiller)
   .through(detailing())
-  .errors(function (e) { console.error(e); })
-  .each(function (klv) {
+  .errors(e => { console.error(e); })
+  .each(klv => {
     console.log(util.inspect(klv, { depth : null}));
   })
-  .done(function () { console.log(`Completed dumping '${process.argv[2]}'.`)});
+  .done(() => { console.log(`Completed dumping '${process.argv[2]}'.`); });

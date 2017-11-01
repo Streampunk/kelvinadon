@@ -18,7 +18,7 @@ var meta = require('../util/meta.js');
 var KLVPacket = require('../model/KLVPacket.js');
 var uuid = require('uuid');
 
-function packetator (primer) {
+function packetator (/* primer */) {
   var packetMaker = (err, x, push, next) => {
     if (err) {
       push(err);
@@ -56,7 +56,7 @@ function packetator (primer) {
           case 0x05: // Fixed length pack
             meta.getPackOrder(cls.Symbol).then(po => {
               var resolve = po.map(item => {
-                return meta.resolveByName("PropertyDefinition", item).then(pd => {
+                return meta.resolveByName('PropertyDefinition', item).then(pd => {
                   return Promise.all([
                     pd.Symbol,
                     meta.writeType(pd.Type),
@@ -72,9 +72,9 @@ function packetator (primer) {
                 var pos = 0;
                 for (let prop of work) {
                   pos += prop[1](detail[prop[0]], buf, pos);
-                };
+                }
                 var klv = new KLVPacket(key, length, [buf], lengthLength, filePos);
-                klv.meta = cls
+                klv.meta = cls;
                 klv.detail = detail;
                 push(null, klv);
                 next();
@@ -94,25 +94,31 @@ function packetator (primer) {
                   meta.lengthFn(prop.Type),
                   meta.writeFn(prop.Type)
                 ]);
-              })
+              });
               return Promise.all(propAndTypes);
             }).then(work => {
-              var lengths = work.map(prop => prop[1](detail[k]));
-              var totalLen = lengths.reduce((x, y) => x + y + 4, 0);
+              work = work.map(job => { return {
+                localID : job[0].LocalIdentification,
+                symbol : job[0].Symbol,
+                lengthFn : job[1],
+                writeFn : job[2],
+                value : detail[this.symbol],
+                length : this.lengthFn(this.value)
+              }; });
+              var totalLen = work.reduce((x, y) => x + y.length + 4, 0);
               var buf = Buffer.allocUnsafe(totalLen);
               var pos = 0;
-              for ( var z = 0 ; z < work.length ; z++ ) {
-                var job = work[z];
-                pos += buf.writeUInt16BE(job[0].LocalIdentification);
-                pos += buf.writeUInt16BE(lengths[z]);
-                pos += job[2](detail[k], buf. pos);
+              for ( let job in work ) {
+                pos += buf.writeUInt16BE(job.LocalID, pos);
+                pos += buf.writeUInt16BE(job.length, pos);
+                pos += job.writeFn(job.value, buf, pos);
               }
               var klv = new KLVPacket(key, totalLen, [buf], lengthLength, filePos);
               klv.meta = cls;
               klv.detail = detail;
               push(null, klv);
               next();
-            })
+            });
             break;
           case 0x13: // Unxupported local set with BER property lengths
             push(`Encoding local sets with BER property lengths is not supported. Object class ${detail.ObjectClass}.`);
@@ -120,7 +126,8 @@ function packetator (primer) {
             break;
           case 0x02: // Most likely an essence element
             var trackStart = x.key.length - 8;
-            var itemType = (t => switch (t) {
+            var itemType = (t => {
+              switch (t) {
               case 'SDTI-CP Picture (SMPTE 326M)': return '05';
               case 'SDTI-CP Sound (SMPTE 326M)' : return '06';
               case 'SDTI-CP Data (SMPTE 326M)' : return '07';
@@ -129,7 +136,7 @@ function packetator (primer) {
               case 'GC Data' : return '17';
               case 'GC Compound' : return '18';
               default: return '00';
-            })(detail.ItemType);
+              }})(detail.ItemType);
             var elementType = detail.ElementType.slice(2);
             var elementCount = detail.ElementCount.toString(16);
             var elementNumber = detail.ElementNumber.toString(16);
@@ -154,10 +161,9 @@ function packetator (primer) {
           next();
         });
     }
-  }
+  };
 
   return H.pipeline(H.consume(packetMaker));
 }
 
 module.exports = packetator;
-;
