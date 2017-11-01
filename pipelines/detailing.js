@@ -34,11 +34,11 @@ function detailing() {
         x.detail = { ObjectClass: x.meta.Symbol };
         meta.getPackOrder(x.meta.Symbol).then(po => {
           var resolve = po.map(item => {
-            return meta.resolveByName("PropertyDefinition", item).then(pd => {
-               return Promise.all([
-                 pd.Symbol,
-                 meta.readType(pd.Type),
-                 meta.sizeType(pd.Type) ]);
+            return meta.resolveByName('PropertyDefinition', item).then(pd => {
+              return Promise.all([
+                pd.Symbol,
+                meta.readType(pd.Type),
+                meta.sizeType(pd.Type) ]);
             });
           });
           Promise.all(resolve).then(work => {
@@ -57,7 +57,7 @@ function detailing() {
           }).then(() => {
             push(null, x);
             next();
-          }).catch(e => { console.error(e.message, e.stack)});
+          }).catch(e => { console.error(e.message, e.stack); });
         });
         break;
       case 0x53: // Local sets with 2-byte keys and values
@@ -89,32 +89,32 @@ function detailing() {
           x.props = [];
           for ( var i = 0 ; i < work.length ; i++ ) {
             x.props.push({ tag: props[i][3], plen: props[i][2], name: work[i][0] });
-          };
+          }
         }).then(() => {
           push(null, x);
           next();
         }).catch(e => { push(e); next(); });
         break;
       case 0x13:
-        push("Decoding local sets with BER property lengths is not supported.");
+        push('Decoding local sets with BER property lengths is not supported.');
         next();
         break;
       case 0x02:
         // Probably an essence Element
         var trackStart = x.key.length - 8;
         x.detail = {
-          ObjectClass: "EssenceElement",
+          ObjectClass: 'EssenceElement',
           Track: x.key.slice(trackStart),
           ItemType: (itemType => {
             switch (itemType) {
-              case '05' : return 'SDTI-CP Picture (SMPTE 326M)';
-              case '06' : return 'SDTI-CP Sound (SMPTE 326M)';
-              case '07' : return 'SDTI-CP Data (SMPTE 326M)';
-              case '15' : return 'GC Picture';
-              case '16' : return 'GC Sound';
-              case '17' : return 'GC Data';
-              case '18' : return 'GC Compound';
-              default: return 'Unknown';
+            case '05' : return 'SDTI-CP Picture (SMPTE 326M)';
+            case '06' : return 'SDTI-CP Sound (SMPTE 326M)';
+            case '07' : return 'SDTI-CP Data (SMPTE 326M)';
+            case '15' : return 'GC Picture';
+            case '16' : return 'GC Sound';
+            case '17' : return 'GC Data';
+            case '18' : return 'GC Compound';
+            default: return 'Unknown';
             }
           })(x.key.slice(trackStart, trackStart + 2)),
           ElementType: '0x' + x.key.slice(trackStart + 4, trackStart + 6),
@@ -134,6 +134,6 @@ function detailing() {
   }; // detailChomper
 
   return H.pipeline(H.consume(detailChomper));
-};
+}
 
 module.exports = detailing;
