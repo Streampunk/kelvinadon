@@ -676,7 +676,7 @@ var resetPrimer = function (initPack) {
   };
   var base = { count : 0xffff };
   Object.keys(baseDefs).forEach(k => {
-    addPrimerTag(base, k, baseDefs[k]);
+    addPrimerTag(base, +k, baseDefs[k]);
   });
   if (initPack && initPack.ObjectClass === 'PrimerPack') {
     initPack.LocalTagEntryBatch.forEach(ppi => {

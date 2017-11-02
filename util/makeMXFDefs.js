@@ -425,7 +425,7 @@ var bodySIDPPProp = {
   MemberOf: 'PartitionPack',
   IsOptional: false,
   Type: 'UInt32',
-  LocalIdentification: 0,
+  LocalIdentification: 16135,
   MetaType: 'PropertyDefinition'
 };
 
@@ -449,7 +449,7 @@ var indexSIDPPProp = {
   MemberOf: 'PartitionPack',
   IsOptional: false,
   Type: 'UInt32',
-  LocalIdentification: 0,
+  LocalIdentification: 16134,
   MetaType: 'PropertyDefinition'
 };
 

@@ -213,7 +213,7 @@
     "MemberOf": "PartitionPack",
     "IsOptional": false,
     "Type": "UInt32",
-    "LocalIdentification": 0,
+    "LocalIdentification": 16135,
     "MetaType": "PropertyDefinition"
   },
   "060e2b34-0101-0104-0406-020100000000": {
@@ -246,7 +246,7 @@
     "MemberOf": "PartitionPack",
     "IsOptional": false,
     "Type": "UInt32",
-    "LocalIdentification": 0,
+    "LocalIdentification": 16134,
     "MetaType": "PropertyDefinition"
   },
   "060e2b34-0101-0104-0404-040101000000": {

@@ -120,7 +120,7 @@ function packetator () {
                 } else if (primer[job.propID]) {
                   pos = buf.writeUInt16BE(+primer[job.propID], pos);
                 } else {
-                  push(`For local set ${detail.ObjectClass}, property ${job.Sysmbol}, unalbe to resolve tag in primer pack.`);
+                  push(`For local set ${detail.ObjectClass}, property ${job.symbol}, unable to resolve tag in primer pack.`);
                   pos = buf.writeUInt16BE(0, pos);
                 }
                 pos = buf.writeUInt16BE(job.length, pos);

@@ -16,6 +16,7 @@
 var H = require('highland');
 var uuid = require('uuid');
 var meta = require('../util/meta.js');
+var KLVPacket = require('../model/KLVPacket.js');
 
 function pieceMaker() {
   var primerChain = Promise.resolve(meta.resetPrimer());
@@ -26,23 +27,24 @@ function pieceMaker() {
     if (Array.isArray(v)) {
       return v.map(i => splitItem(i));
     }
-    var u = { InstanceUID : uuid.v4 };
+    var u = { InstanceUID : uuid.v4() };
+    items.push(u);
     Object.keys(v).filter(k => k !== 'InstanceUID').forEach(k => {
       u[k] = splitItem(v[k]);
-      primerChain.then(primer => {
+      primerChain = primerChain.then(primer => {
         return meta.resolveByName('PropertyDefinition', k)
           .then(prop => {
             if (prop.LocalIdentification > 0) {
               meta.addPrimerTag(primer, prop.LocalIdentification,
                 meta.ulToUUID(prop.Identification));
             } else {
-              meta.addPrimerTag(primer, primer.count--, prop.LocalIdentification);
+              meta.addPrimerTag(primer, primer.count--,
+                meta.ulToUUID(prop.Identification));
             }
             return primer;
           }, () => primer);
       });
     });
-    items.push(u);
     return u.InstanceUID;
   }
 
@@ -53,14 +55,12 @@ function pieceMaker() {
     } else if (x == H.nil) {
       push(null, x);
     } else {
-      if (x.meta && x.meta.ObjectClass === 'Preface') {
-        var preface = { InstanceUID : uuid.v4() };
-        Object.keys(x).filter(k => k !== 'InstanceUID').forEach(k => {
-          preface[k] = splitItem(x[k]);
-        });
+      var detail = (KLVPacket.isKLVPacket(x)) ? x.detail : x;
+      if (detail.ObjectClass && detail.ObjectClass === 'Preface') {
+        splitItem(detail);
         primerChain.then(primer => {
-          push(null, meta.makePrimer(primer));
-          push(null, preface);
+          push(null, meta.makePrimerPack(primer));
+          // push(null, preface);
           items.forEach(i => push(null, i));
           next();
         }).catch(e => { push(e); next(); });
@@ -71,8 +71,8 @@ function pieceMaker() {
         next();
       }
     }
-    return H.pipeline(H.consume(splitter));
   };
+  return H.pipeline(H.consume(splitter));
 }
 
 module.exports = pieceMaker;

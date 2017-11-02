@@ -289,7 +289,7 @@
       "MemberOf": "PartitionPack",
       "IsOptional": false,
       "Type": "UInt32",
-      "LocalIdentification": 0,
+      "LocalIdentification": 16135,
       "MetaType": "PropertyDefinition"
     },
     "EditUnitByteCount": {
@@ -322,7 +322,7 @@
       "MemberOf": "PartitionPack",
       "IsOptional": false,
       "Type": "UInt32",
-      "LocalIdentification": 0,
+      "LocalIdentification": 16134,
       "MetaType": "PropertyDefinition"
     },
     "SliceCount": {
