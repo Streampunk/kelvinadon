@@ -18,7 +18,8 @@ var meta = require('../util/meta.js');
 var KLVPacket = require('../model/KLVPacket.js');
 var uuid = require('uuid');
 
-function packetator (/* primer */) {
+function packetator () {
+  var primer = meta.resetPrimer();
   var packetMaker = (err, x, push, next) => {
     if (err) {
       push(err);
@@ -47,6 +48,10 @@ function packetator (/* primer */) {
           push('Received object with insufficient detail to make a KLV packet.');
           return next();
         }
+      }
+      if (detail.ObjectClass === 'PrimerPack') {
+        primer = meta.resetPrimer(detail);
+        return next();
       }
       meta.resolveByName('ClassDefinition', detail.ObjectClass)
         .then(cls => {
@@ -98,6 +103,7 @@ function packetator (/* primer */) {
                 var j = {
                   localID : job[0].LocalIdentification,
                   symbol : job[0].Symbol,
+                  propID : meta.ulToUUID(job[0].Identification),
                   lengthFn : job[1],
                   writeFn : job[2]
                 };
@@ -109,7 +115,14 @@ function packetator (/* primer */) {
               var buf = Buffer.allocUnsafe(totalLen);
               var pos = 0;
               for ( let job of work ) {
-                pos = buf.writeUInt16BE(job.localID, pos);
+                if (job.localID > 0 && primer[job.localID]) {
+                  pos = buf.writeUInt16BE(job.localID, pos);
+                } else if (primer[job.propID]) {
+                  pos = buf.writeUInt16BE(+primer[job.propID], pos);
+                } else {
+                  push(`For local set ${detail.ObjectClass}, property ${job.Sysmbol}, unalbe to resolve tag in primer pack.`);
+                  pos = buf.writeUInt16BE(0, pos);
+                }
                 pos = buf.writeUInt16BE(job.length, pos);
                 pos += job.writeFn(job.value, buf, pos);
               }

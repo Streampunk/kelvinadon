@@ -656,8 +656,10 @@ function readIntBE(buf, pos, size) {
   }
 }
 
-var resetPrimer = function () {
-  return {
+var resetPrimer = function (initPack) {
+  var baseDefs = {
+    // Interchange object - masked by other logic
+    0x3c0a: '060e2b34-0101-0101-0101-150200000000', // InstanceUID
     // Index Table Segment
     0x3f0b: '060e2b34-0101-0105-0530-040600000000', // IndexEditRate
     0x3f0c: '060e2b34-0101-0105-0702-0103010a0000', // IndexStartPosition
@@ -672,10 +674,21 @@ var resetPrimer = function () {
     0x3f0f: '060e2b34-0101-010a-0406-020400000000', // ExtStartOffset
     0x3f10: '060e2b34-0101-010a-0406-020500000000', // VBEByteCount
   };
+  var base = { count : 0xffff };
+  Object.keys(baseDefs).forEach(k => {
+    addPrimerTag(base, k, baseDefs[k]);
+  });
+  if (initPack && initPack.ObjectClass === 'PrimerPack') {
+    initPack.LocalTagEntryBatch.forEach(ppi => {
+      addPrimerTag(base, ppi.LocalTag, ppi.UID);
+    });
+  }
+  return base;
 };
 
 var addPrimerTag = function (primer, localTag, uid) {
   primer[localTag] = uid;
+  primer[uid] = localTag;
 };
 
 var getPrimerUID = function (primer, localTag) {
@@ -692,6 +705,14 @@ var getPrimerUID = function (primer, localTag) {
     });
   }
   return shadowPrimer[localTag];
+};
+
+var makePrimerPack = function (items) {
+  var pack = { ObjectClass : 'PrimerPack', LocalTagEntryBatch : [] };
+  Object.keys(items).filter(k => !isNaN(+k)).forEach(k => {
+    pack.LocalTagEntryBatch.push({ LocalTag : k, UID : items[k] });
+  });
+  return pack;
 };
 
 function ulToUUID (ul) {
@@ -724,6 +745,7 @@ module.exports = {
   resetPrimer: resetPrimer,
   addPrimerTag: addPrimerTag,
   getPrimerUID: getPrimerUID,
+  makePrimerPack: makePrimerPack,
   ulToUUID: ulToUUID,
   writeUUID: writeUUID
 };

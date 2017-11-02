@@ -49,10 +49,7 @@ function detailing() {
               pos += job[2](x.value[0], pos);
             });
             if (x.meta.Symbol === 'PrimerPack') {
-              primer = meta.resetPrimer();
-              x.detail.LocalTagEntryBatch.forEach(ppi => {
-                meta.addPrimerTag(primer, ppi.LocalTag, ppi.UID);
-              });
+              primer = meta.resetPrimer(x.detail);
             }
           }).then(() => {
             push(null, x);
