@@ -14,24 +14,65 @@
   limitations under the License.
 */
 
-var H = require('highland');
-var fs = require('fs');
-var util = require('util');
-var kelviniser = require('./pipelines/kelviniser.js');
-var metatiser = require('./pipelines/metatiser.js');
-var detailing = require('./pipelines/detailing.js');
+const H = require('highland');
+const fs = require('fs');
+const util = require('util');
+const kelviniser = require('./pipelines/kelviniser.js');
+const stripTheFiller = require('./pipelines/stripTheFiller.js');
+const metatiser = require('./pipelines/metatiser.js');
+const detailing = require('./pipelines/detailing.js');
+const puppeteer = require('./pipelines/puppeteer.js');
 
-// TODO add more command line paramters
+var argv = require('yargs')
+  .help('help')
+  .default('metaclass', true)
+  .default('filler', false)
+  .default('detailing', true)
+  .default('nest', true)
+  .default('flatten', false)
+  .boolean(['filler', 'metaclass', 'detailing', 'nest', 'flatten'])
+  .string(['version'])
+  .usage('Dump an MXF file as a stream of JSON objects.\n' +
+    'Usage: $0 [options] <file.mxf>')
+  .describe('filler', 'include filler in the output')
+  .describe('metadata', 'resolves keys to meta classes')
+  .describe('detailing', 'decode bytes to JS objects')
+  .describe('nest', 'nest children within preface')
+  .describe('flatten', 'show only detail for each KLV packet')
+  .example('$0 --filler my_big_camera_file.mxf')
+  .check((argv) => {
+    fs.accessSync(argv._[0], fs.R_OK);
+    return true;
+  })
+  .argv;
 
-fs.accessSync(process.argv[2], fs.R_OK);
+if (argv.filler) argv.metaclass = true;
+if (argv.flatten) argv.detailing = true;
+if (argv.nest) argv.detailing = true;
+if (argv.detailing) argv.metaclass = true;
 
-H(fs.createReadStream(process.argv[2]))
-  .through(kelviniser())
-  .through(metatiser())
-  // .through(stripTheFiller)
-  .through(detailing())
+var klvs = H(fs.createReadStream(argv._[0])).through(kelviniser());
+if (argv.metaclass) klvs = klvs.through(metatiser());
+if (!argv.filler) klvs = klvs.through(stripTheFiller);
+if (argv.detailing) klvs = klvs.through(detailing());
+if (argv.nest) klvs = klvs.through(puppeteer());
+
+klvs
+  .flatMap(x => {
+    if (argv.flatten) {
+      if (x.detail) {
+        return H([x.detail]);
+      }
+      if (x.ObjectClass === 'Preface') { // following on from puppeteer
+        return H([x]);
+      } else {
+        return H([]);
+      }
+    }
+    return H([x]);
+  })
   .errors(e => { console.error(e); })
   .each(klv => {
     console.log(util.inspect(klv, { depth : null}));
   })
-  .done(() => { console.log(`Completed dumping '${process.argv[2]}'.`); });
+  .done(() => { console.log(`Completed dumping '${argv._[0]}'.`); });

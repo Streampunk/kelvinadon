@@ -2,7 +2,21 @@
 
 Kelvinadon is a cross-platform streaming library for working with [Material Exchange Format (MXF)](https://en.wikipedia.org/wiki/Material_Exchange_Format) files or streams in [Node.js](https://nodejs.org/en/). Kelvinadon works with [highland.js](http://highlandjs.org/) to provide a means to process MXF data in stream form with back pressure.
 
-Currently, the library supports reading from MXF streams. A means to write essence elements back to MXF streams and files will be provided in the future.
+The library supports reading _MXF data_ as a stream to a stream of Javascript objects - easy to format as JSON - and writing the same streams of Javascript objects back to MXF. The benefits of this approach are:
+
+* easy to examine and fix up and make small changes to MXF data from Javascript environments - streaming from and to files, object storage and even HTTP(S);
+* stream essence out of an MXF container for playing of transformation to other formats;
+* making MXF data accessible in large-scale artificial intelligence environments for machine learning and deep learning capabilities.
+
+An MXF file dumper CLI tool `kelvinadump` is provided. Reading part of a stream, say just a single partition, will also work subject to sufficient metadata being provided. Otherwise, this package is a low-level library and does not contain any of the following facilities:
+
+* from just raw essence payload(s) and limited technical description, create a correctly structured MXF file, files or data stream;
+* resolve index tables to byte offsets in the stream;
+* contain any logic for processing multi-file MXF formats such as AMWA AS-02 of SMPTE IMF.
+
+All of the above features can be built out of this package much more easily than starting from scratch and Streampunk Media will be considering how to build these as user requirements emerge. This implementation was created to allow MXF files to be used from the [_dynamorse_ file nodes](https://github.com/Streampunk/node-red-contrib-dynamorse-file-io) of an IoT framework for professional media processing.
+
+One particular feature of this application is that the metadata dictionaries are loaded on-the-fly and can be changed or updated. Facilities to allow use update of these dictionaries are being added.
 
 The name _kelvinadon_ is a play on the format of MXF files using a KLV structure and a nod to [Sir William Thomson, 1st Baron Kelvin](https://en.wikipedia.org/wiki/William_Thomson,_1st_Baron_Kelvin) - this library being developed in Scotland based on the highland library. This is an add on module for other Streampunk Media projects.
 
@@ -71,7 +85,7 @@ Each packet has:
 * `detail` application of the meta definition used to decode the buffer and interpret the data it contains;
 * `props` (not shown) for local sets, an array or arrays describing each local tag found in a local set.
 
-This application is in its simplest form at this time. Further options will be added in the future to make it more flexible.
+Some command line options have been provided to enable a user to configure the structure of the output. Run `kelvinadump --help` for more details.
 
 ## From another application
 
@@ -229,7 +243,9 @@ base.fork()
 base.resume();
 ```
 
-The highland pipeline stages available are described below and should be applied in the given order:
+#### Reading
+
+The highland pipeline reading stages available are described below and should be applied in the given order:
 
 1. `kelviniser` Turns a byte stream into a stream of raw KLV packets. The input stream is any node readable stream, including HTTP response objects. Also tried with [FTP streams](https://www.npmjs.com/package/ftp).
 2. `metatiser` Reads the keys of the KLV stream and adds meta definitions to the KLV packets. See the [lib](/lib) folder for the meta dictionaries in use.
@@ -243,13 +259,29 @@ If a consumer that is slower than the producer is added to the stream, the produ
 
 Also provided is `emmyiser`, the highland side-effect that is the basis of event emitter. This must be placed in the pipeline after the `trackCacher`.
 
+#### Writing
+
+Most highland pipeline reading stages have mirror writing stages that can be used to convert a stream of Javascript objects with embedded buffers back to binary KLV. For example, the `kelviniser` stage has a mirror state `kelvinator` that takes the key, length and value of a `KLVPacket` object and converts it to a Javascript `Buffer`. The writing stages are:
+
+1. `kelvinator` mirrors `kelviniser`: Convert a stream of KLVPacket objects into a stream of Javascript buffers that can be piped into a Node.JS stream, such as a file writing stream, HTTP response or streaming object store API.
+2. `packetator` mirrors `detailing`: Convert a stream of _detail_ objects representing local sets, fixed-length packs and essence elements into a stream of KLV packets, creating the key, length and value from the detail.
+3. `pieceMaker` mirrors `puppeteer`: Explode a nested preface-object-with-children into a primer pack, a flat preface with _instance uid_ references and a sequence of separate local sets.
+
+The aim is that a stream of MXF can be passed through `kelviniser` to `puppeteer` (without `stripTheFiller`) to make Javascript objects and back through `pieceMaker` to `kelvinator` and the same stream of MXF is produced. Minor tweaks could be made in the middle but note that at this time, no logic is provided to fix up fillers and calculate the impact of a change of offset values or index tables.
+
+Some reading functions have no mirror and that is because they don't need one. Also note that the writing functions are not currently setting the file position property (`filePos`) of KLV packets.
+
 ## Status, support and further development
 
 This is prototype software that is not yet suitable for production use. The software is being actively tested and developed.
 
-There is nothing preventing the use of this code in a browser to provide web-based analysis and processing of MXF files.
-
 Contributions can be made via pull requests and will be considered by the author on their merits. Enhancement requests and bug reports should be raised as github issues. For support, please contact [Streampunk Media](http://www.streampunk.media/). For updates follow [@StrmPunkd](https://twitter.com/StrmPunkd) on Twitter.
+
+### Tests
+
+Some basic tests are provided and can be run as follows:
+
+    npm test
 
 ## License
 

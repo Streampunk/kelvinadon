@@ -15,5 +15,5 @@
 
 var H = require('highland');
 
-module.exports = 
+module.exports =
   H.pipeline(H.filter(x => x.meta && !x.meta.Symbol.startsWith('KLVFill')));
