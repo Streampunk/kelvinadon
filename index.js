@@ -14,8 +14,6 @@
 */
 
 var H = require('highland');
-var fs = require('fs');
-var uuid = require('uuid');
 var util = require('util');
 const EventEmitter = require('events');
 var stripTheFiller = require('./pipelines/stripTheFiller.js');
@@ -29,23 +27,26 @@ var partitionFilter = require('./pipelines/partitionFilter.js');
 var indexFilter = require('./pipelines/indexFilter.js');
 var metadataFilter = require('./pipelines/metadataFilter.js');
 var essenceFilter = require('./pipelines/essenceFilter.js');
+var kelvinator = require('./pipelines/kelvinator.js');
+var packetator = require('./pipelines/packetator.js');
+var pieceMaker = require('./pipelines/pieceMaker.js');
 
 function MXFEmitter (stream) {
   EventEmitter.call(this);
-  this.getTrackList = function () { return []; }
-  this.getTrackDetails = function () { return undefined; }
+  this.getTrackList = function () { return []; };
+  this.getTrackDetails = function () { return undefined; };
   var emmy = this;
   this.highland = H(stream)
-  .through(kelviniser())
-  .through(metatiser())
-  .through(stripTheFiller)
-  .through(detailing())
-  .through(puppeteer())
-  .through(trackCacher())
-  .through(emmyiser(emmy))
-  .errors(function (e) { emmy.emit('error', e); })
-  .done(function () { emmy.emit('done'); });
-};
+    .through(kelviniser())
+    .through(metatiser())
+    .through(stripTheFiller)
+    .through(detailing())
+    .through(puppeteer())
+    .through(trackCacher())
+    .through(emmyiser(emmy))
+    .errors(e => { emmy.emit('error', e); })
+    .done(() => { emmy.emit('done'); });
+}
 util.inherits(MXFEmitter, EventEmitter);
 
 module.exports = {
@@ -60,5 +61,8 @@ module.exports = {
   partitionFilter: partitionFilter,
   indexFilter: indexFilter,
   metadataFilter: metadataFilter,
-  essenceFilter: essenceFilter
+  essenceFilter: essenceFilter,
+  kelvinator: kelvinator,
+  packetator: packetator,
+  pieceMaker: pieceMaker
 };

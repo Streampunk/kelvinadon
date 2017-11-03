@@ -115,7 +115,7 @@ function packetator () {
               var buf = Buffer.allocUnsafe(totalLen);
               var pos = 0;
               for ( let job of work ) {
-                if (job.localID > 0 && primer[job.localID]) {
+                if (job.localID > 0 && meta.getPrimerUID(primer, job.localID)) {
                   pos = buf.writeUInt16BE(job.localID, pos);
                 } else if (primer[job.propID]) {
                   pos = buf.writeUInt16BE(+primer[job.propID], pos);
