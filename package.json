@@ -25,8 +25,8 @@
   "homepage": "https://github.com/Streampunk/kelvinadon#readme",
   "dependencies": {
     "highland": "^2.8.1",
-    "promise": "^7.1.1",
     "tape": "^4.5.1",
+    "util.promisify": "^1.0.0",
     "uuid": "^2.0.2",
     "xml2js": "^0.4.16",
     "yargs": "^10.0.3"

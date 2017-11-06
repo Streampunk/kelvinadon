@@ -97,28 +97,30 @@ function detailing() {
         next();
         break;
       case 0x02:
-        // Probably an essence Element
-        var trackStart = x.key.length - 8;
-        x.detail = {
-          ObjectClass: 'EssenceElement',
-          Track: x.key.slice(trackStart),
-          ItemType: (itemType => {
-            switch (itemType) {
-            case '05' : return 'SDTI-CP Picture (SMPTE 326M)';
-            case '06' : return 'SDTI-CP Sound (SMPTE 326M)';
-            case '07' : return 'SDTI-CP Data (SMPTE 326M)';
-            case '15' : return 'GC Picture';
-            case '16' : return 'GC Sound';
-            case '17' : return 'GC Data';
-            case '18' : return 'GC Compound';
-            default: return 'Unknown';
-            }
-          })(x.key.slice(trackStart, trackStart + 2)),
-          ElementType: parseInt(x.key.slice(trackStart + 4, trackStart + 6), 16),
-          ElementCount: parseInt(x.key.slice(trackStart + 2, trackStart + 4), 16),
-          ElementNumber: parseInt(x.key.slice(trackStart + 6), 16),
-          Data: x.value
-        };
+        // Probably an essence element of filler
+        if (x.key.startsWith('060e2b34-0102-0101-0d01-0301')) { // essence
+          var trackStart = x.key.length - 8;
+          x.detail = {
+            ObjectClass: 'EssenceElement',
+            Track: x.key.slice(trackStart),
+            ItemType: (itemType => {
+              switch (itemType) {
+              case '05' : return 'SDTI-CP Picture (SMPTE 326M)';
+              case '06' : return 'SDTI-CP Sound (SMPTE 326M)';
+              case '07' : return 'SDTI-CP Data (SMPTE 326M)';
+              case '15' : return 'GC Picture';
+              case '16' : return 'GC Sound';
+              case '17' : return 'GC Data';
+              case '18' : return 'GC Compound';
+              default: return 'Unknown';
+              }
+            })(x.key.slice(trackStart, trackStart + 2)),
+            ElementType: parseInt(x.key.slice(trackStart + 4, trackStart + 6), 16),
+            ElementCount: parseInt(x.key.slice(trackStart + 2, trackStart + 4), 16),
+            ElementNumber: parseInt(x.key.slice(trackStart + 6), 16),
+            Data: x.value
+          };
+        }
         push(null, x);
         next();
         break;

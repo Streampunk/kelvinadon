@@ -13,30 +13,52 @@
   limitations under the License.
 */
 
-var Promise = require('promise');
-var fs = require('fs');
-var uuid = require('uuid');
+const fs = require('fs');
+const uuid = require('uuid');
+const zlib = require('zlib');
+const util = require('util');
+const promisify = util.promisify ? util.promisify : require('util.promisify');
 
-var metaDictByID = [];
-var metaDictByName = [];
+
+var metaDictByID = {};
+var metaDictByName = {
+  ClassDefinition: {},
+  TypeDefinition: {},
+  PropertyDefinition: {},
+  LabelDefinition: {}
+};
 var shadowPrimer = null;
 
-var readFile = Promise.denodeify(fs.readFile);
+const readFile = promisify(fs.readFile);
+const gunzip = promisify(zlib.gunzip);
 
 var dictFiles = [
-  `${__dirname}/../lib/baselineDefsByID.json`,
-  `${__dirname}/../lib/baselineDefsByName.json`,
-  `${__dirname}/../lib/mxfDefsByID.json`,
-  `${__dirname}/../lib/mxfDefsByName.json`];
-// TODO additional meta dictionaries via command licenses
+  `${__dirname}/../lib/RegDefs.json.gz`,
+  `${__dirname}/../lib/OverrideDefs.json`
+];
 
 var readDicts = Promise.all(dictFiles.map(dict => {
-  return readFile(dict, 'utf8').then(JSON.parse);
+  return readFile(dict)
+    .then(b => dict.endsWith('.gz') ? gunzip(b) : b)
+    .then(x => { return JSON.parse(x.toString('utf8')); });
 }));
 
-var readyDicts = readDicts.then(x => {
-  metaDictByID = [x[0], x[2]];
-  metaDictByName = [x[1], x[3]];
+var readyDicts = readDicts.then(dicts => {
+  for ( var dict of dicts ) {
+    for ( let def of dict ) {
+      // if (def.Symbol.startsWith('Random')) console.log(def);
+      metaDictByID[def.UUID] = def;
+      if (def.Symbol && def.MetaType) {
+        if (def.MetaType && def.MetaType.startsWith('TypeDefinition')) {
+          metaDictByName.TypeDefinition[def.Symbol] = def;
+        } else {
+          metaDictByName[def.MetaType][def.Symbol] = def;
+        }
+      } else {
+        console.error(`Found a definition ${def.Identification} without symbol and meta type.`);
+      }
+    }
+  }
 }, console.error.bind(null, 'Failed to read a meta dictionary:'));
 
 function makeEssenceElement(id) {
@@ -169,26 +191,33 @@ var readingFns = {
       };
     }
   },
-  'TypeDefinitionStrongObjectReference': () => {
+  'TypeDefinitionStrongReference': () => {
     return (buf, pos) => {
       return uuid.unparse(buf.slice(pos, pos + 16));
     };
   },
-  'TypeDefinitionWeakObjectReference': () => {
+  'TypeDefinitionWeakReference': () => {
     return (buf, pos) => {
       return uuid.unparse(buf.slice(pos, pos + 16));
     };
   },
-  'TypeDefinitionString': () => {
-    return (buf, pos, length) => {
-      var utf16be = buf.slice(pos, pos + length);
-      var utf16le = Buffer.allocUnsafe(length);
-      for ( var x = 0 ; x < length ; x += 2 ) {
-        utf16le.writeUInt16LE(utf16be.readUInt16BE(x)
-          , x);
-      }
-      return utf16le.toString('utf16le');
-    };
+  'TypeDefinitionString': def => {
+    switch (def.ElementType) {
+    case 'UTF8Character':
+      return (buf, pos, length) => {
+        return buf.slice(pos, pos+length).toString('utf8');
+      };
+    default:
+    case 'Character':
+      return (buf, pos, length) => {
+        var utf16be = buf.slice(pos, pos + length);
+        var utf16le = Buffer.allocUnsafe(utf16be.length);
+        for ( var x = 0 ; x < length ; x += 2 ) {
+          utf16le.writeUInt16LE(utf16be.readUInt16BE(x), x);
+        }
+        return utf16le.toString('utf16le');
+      };
+    }
   },
   'TypeDefinitionRename': def => {
     var elType = internalResolveByName('TypeDefinition', def.RenamedType);
@@ -343,24 +372,33 @@ var writingFns = {
       };
     }
   },
-  'TypeDefinitionStrongObjectReference': () => {
+  'TypeDefinitionStrongReference': () => {
     return (v, buf, pos) => {
       return writeUUID(v, buf, pos);
     };
   },
-  'TypeDefinitionWeakObjectReference': () => {
+  'TypeDefinitionWeakReference': () => {
     return (v, buf, pos) => {
       return writeUUID(v, buf, pos);
     };
   },
-  'TypeDefinitionString': () => {
-    return (v, buf, pos) => {
-      var utf16le = Buffer.from(v, 'utf16le');
-      for ( var i = 0 ; i < utf16le.length ; i += 2) {
-        buf.writeUInt16BE(utf16le.readUInt16LE(i), pos + i);
-      }
-      return utf16le.length;
-    };
+  'TypeDefinitionString': def => {
+    switch (def.ElementType) {
+    case 'UTF8Character':
+      return (v, buf, pos) => {
+        var utf8 = Buffer.from(v, 'utf8');
+        return utf8.copy(buf, pos);
+      };
+    default:
+    case 'Character':
+      return (v, buf, pos) => {
+        var utf16le = Buffer.from(v, 'utf16le');
+        for ( var i = 0 ; i < utf16le.length ; i += 2) {
+          buf.writeUInt16BE(utf16le.readUInt16LE(i), pos + i);
+        }
+        return utf16le.length;
+      };
+    }
   },
   'TypeDefinitionRename': def => {
     var elType = internalResolveByName('TypeDefinition', def.RenamedType);
@@ -436,10 +474,10 @@ var sizingFns = {
   'TypeDefinitionExtendibleEnumeration': () => {
     return () => 16;
   },
-  'TypeDefinitionStrongObjectReference': () => {
+  'TypeDefinitionStrongReference': () => {
     return () => 16;
   },
-  'TypeDefinitionWeakObjectReference': () => {
+  'TypeDefinitionWeakReference': () => {
     return () => 16;
   },
   'TypeDefinitionString': () => {
@@ -507,14 +545,20 @@ var lengthFns = {
   'TypeDefinitionExtendibleEnumeration': () => {
     return () => 16;
   },
-  'TypeDefinitionStrongObjectReference': () => {
+  'TypeDefinitionStrongReference': () => {
     return () => 16;
   },
-  'TypeDefinitionWeakObjectReference': () => {
+  'TypeDefinitionWeakReference': () => {
     return () => 16;
   },
-  'TypeDefinitionString': () => {
-    return (value) => value.length * 2;
+  'TypeDefinitionString': def => {
+    switch (def.ElementType) {
+    case 'UTF8Character':
+      return (value) => Buffer.from(value, 'utf8').length;
+    default:
+    case 'Character':
+      return (value) => Buffer.from(value, 'utf16le').length;
+    }
   },
   'TypeDefinitionRename': def => {
     var elType = internalResolveByName('TypeDefinition', def.RenamedType);
@@ -528,50 +572,34 @@ var lengthFns = {
 };
 
 var resolveByID = function (id) {
-  if (id.substring(11,13) === '53') {
-    id = id.substring(0, 11) + '06' + id.substring(13);
+  if (id.substring(9,11) === '02') {
+    id = id.substring(0, 11) + '7f' + id.substring(13);
   }
   if (id.startsWith('060e2b34-0102-0101-0d01-0301')) {
     return readyDicts.then(makeEssenceElement.bind(null, id));
   }
   return readyDicts.then(() => {
-    for ( var i = 0 ; i < metaDictByID.length ; i++ ) {
-      var def = metaDictByID[i][id];
-      if (def) return def;
-    }
-    return undefined;
+    return metaDictByID[id];
   });
 };
 
 var resolveByName = function (type, name) {
   return readyDicts.then(() => {
-    for ( var i = 0; i < metaDictByName.length ; i++ ) {
-      if (metaDictByName[i][type]) {
-        var def = metaDictByName[i][type][name];
-        if (def) {
-          return def;
-        } else if (name.endsWith('Type')) {
-          def = metaDictByName[i][type][name.slice(0, -4)];
-          if (def) return def;
-        }
-      }
+    var def = metaDictByName[type][name];
+    if (def) {
+      return def;
+    } else if (name.endsWith('Type')) {
+      return metaDictByName[type][name.slice(0, -4)];
     }
-    return undefined;
   });
 };
 
 // For use when already inside a promise
 var internalResolveByName = function (type, name) {
-  for ( var i = 0; i < metaDictByName.length ; i++ ) {
-    if (metaDictByName[i][type]) {
-      var def = metaDictByName[i][type][name];
-      if (def) {
-        return def;
-      } else if (name.endsWith('Type')) {
-        def = metaDictByName[i][type][name.slice(0, -4)];
-        if (def) return def;
-      }
-    }
+  if (metaDictByName[type][name]) {
+    return metaDictByName[type][name];
+  } else if (name.endsWith('Type')) {
+    return metaDictByName[type][name.slice(0, -4)];
   }
   return undefined;
 };
@@ -679,7 +707,7 @@ var resetPrimer = function (initPack) {
     addPrimerTag(base, +k, baseDefs[k]);
   });
   if (initPack && initPack.ObjectClass === 'PrimerPack') {
-    initPack.LocalTagEntryBatch.forEach(ppi => {
+    initPack.LocalTagEntries.forEach(ppi => {
       addPrimerTag(base, ppi.LocalTag, ppi.UID);
     });
   }

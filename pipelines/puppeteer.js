@@ -61,7 +61,8 @@ function puppeteer() {
       if (preface) push(null, preface); // Push partially constructed preface
       push(null, H.nil);
     } else {
-      if (x.meta.Symbol.endsWith('PartitionPack') &&
+      if (x.meta && x.meta.Symbol.indexOf('Partition') &&
+          x.detail && x.detail.HeaderByteCount &&
           x.detail.HeaderByteCount > 0) {
         headerByteCount = x.detail.HeaderByteCount;
         headerEnd = -1;
@@ -70,7 +71,7 @@ function puppeteer() {
         push(null, x);
         return next();
       }
-      if (x.meta.Symbol === 'PrimerPack') { // Beginning of header metaata
+      if (x.meta && x.meta.Symbol === 'PrimerPack') { // Beginning of header metaata
         headerEnd = x.filePos + headerByteCount;
         return next();// Don't send the primer pack on - used locally only
       }
@@ -78,10 +79,10 @@ function puppeteer() {
         push(null, x);
         return next();
       }
-      if (x.meta.Symbol === 'Preface') {
+      if (x.meta && x.meta.Symbol === 'Preface') {
         preface = x.detail;
       }
-      if (x.filePos >= headerEnd) { // We're done ... stop resolving
+      if (x.filePos >= headerEnd) { // We're done ... start resolving
         resolveAll(preface);
         push(null, preface);
         push(null, x);
@@ -91,7 +92,7 @@ function puppeteer() {
         cache = {};
         return next();
       }
-      if (x.detail.InstanceUID) cache[x.detail.InstanceUID] = x.detail;
+      if (x.detail && x.detail.InstanceUID) cache[x.detail.InstanceUID] = x.detail;
       next();
     }
   };

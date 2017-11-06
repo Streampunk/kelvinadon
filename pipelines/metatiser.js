@@ -30,7 +30,7 @@ var metatiser = function () {
       meta.resolveByID(x.key)
         .then(y => {
           if (!y) {
-            push(`Omitting unknown key ${x.key} in MXF KLV stream.`);
+            push(`Cannot add metadata for unknown key ${x.key} in MXF KLV stream.`);
             push(null, x);
           } else {
             x.meta = y;

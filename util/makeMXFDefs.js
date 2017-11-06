@@ -16,8 +16,8 @@
 var fs = require('fs');
 var ulToUUID = require('./meta.js').ulToUUID;
 
-var metaDefsIDFile = (process.argv[2]) ? process.argv[2] : 'lib/mxfDefsByID.json';
-var metaDefsNameFile = (process.argv[3]) ? process.argv[3] : 'lib/mxfDefsByName.json';
+var overrideDefsFile = (process.argv[2]) ? process.argv[2] :
+  __dirname + '/../lib/OverrideDefs.json';
 
 var primerPack = {
   Symbol: 'PrimerPack',
@@ -665,7 +665,7 @@ var instanceUID = {
 var systemMetadata = {
   Symbol: 'SystemMetadata',
   Name: 'SystemMetadata',
-  Identification: 'urn:smpte:ul:060e2b34.02050101.0d010301.04010100',
+  Identification: 'urn:smpte:ul:060e2b34.027f0101.0d010301.04010100',
   Description: '',
   IsConcrete: true,
   MetaType: 'ClassDefinition',
@@ -798,60 +798,46 @@ var ancDataDescriptor = {
 };
 
 var metaDefs = [ // Primer Pcak defs
-  localTagEntry, localTagEntryBatchProperty,
-  localTagEntryBatchType, primerPack,
+  //localTagEntry, localTagEntryBatchProperty,
+  //localTagEntryBatchType, primerPack,
   // RIP defs
   randomIndexItem, randomIndexItemArray, partitionIndex, ripLength,
   randomIndexPack,
   // Index Segment defs
   indexEntry, indexEntryArray, deltaEntry, deltaEntryArray,
-  vbeByteCount, extStartOffset, indexStartPosition, indexEditRate,
-  bodySIDProp, editUnitByteCount, indexEntryArrayProp, indexSIDProp,
-  sliceCount, posTableCount, deltaEntryArrayProp, indexDuration,
-  indexTableSegment,
+  //vbeByteCount, extStartOffset, indexStartPosition, indexEditRate,
+  //bodySIDProp, editUnitByteCount, indexEntryArrayProp, indexSIDProp,
+  //sliceCount, posTableCount, deltaEntryArrayProp, indexDuration,
+  //indexTableSegment,
   // PartitionPack
-  footerPartition, thisPartition, previousPartition, essenceContainers,
-  bodyOffset, bodySIDPPProp, headerByteCount, indexSIDPPProp, indexByteCount,
-  kagSize, operationalPattern, majorVersion, minorVersion,
-  partitionPack, headerOpenIncompletePartitionPack,
-  headerClosedIncompletePartitionPack, headerOpenCompletePartitionPack,
-  headerClosedCompletePartitionPack,
-  bodyOpenIncompletePartitionPack, bodyClosedIncompletePartitionPack,
-  bodyOpenCompletePartitionPack, bodyClosedCompletePartitionPack,
-  footerClosedIncompletePartitionPack, footerClosedCompletePartitionPack,
+  //footerPartition, thisPartition, previousPartition, essenceContainers,
+  //bodyOffset, bodySIDPPProp, headerByteCount, indexSIDPPProp, indexByteCount,
+  //kagSize, operationalPattern, majorVersion, minorVersion,
+  //partitionPack, headerOpenIncompletePartitionPack,
+  //headerClosedIncompletePartitionPack, headerOpenCompletePartitionPack,
+  //headerClosedCompletePartitionPack,
+  //bodyOpenIncompletePartitionPack, bodyClosedIncompletePartitionPack,
+  //bodyOpenCompletePartitionPack, bodyClosedCompletePartitionPack,
+  //footerClosedIncompletePartitionPack, footerClosedCompletePartitionPack,
   // System metadata
   system17byteValue, bitmap, rate, smType, channelHandle, contCount,
   smLabel, smCreationDate, smUserDate, systemMetadata,
   // Fill & missing
-  klvFill, klvFillOld, uint64, essenceElement, instanceUID,
-  vbiDataDescriptor, ancDataDescriptor
+  //klvFill, klvFillOld, uint64, essenceElement, instanceUID,
+  //vbiDataDescriptor, ancDataDescriptor
 ];
 
-var metaDefsByID = { };
-var metaDefsByName = {
-  ClassDefinition : {},
-  PropertyDefinition : {},
-  TypeDefinition : {},
-  ExtendibleEnumerationElement : {}
-};
+var metaDefsByID = [ ];
 
 metaDefs.forEach((def) => {
   if (def.Identification) {
-    metaDefsByID[ulToUUID(def.Identification)] = def;
+    def.UUID = ulToUUID(def.Identification);
   } else {
     console.error('Found definition without identification', def);
   }
-  if (def.MetaType && def.Symbol) {
-    var type = (def.MetaType.startsWith('TypeDefinition')) ? 'TypeDefinition' : def.MetaType;
-    if (metaDefsByName[type]) {
-      metaDefsByName[type][def.Symbol] = def;
-    } else {
-      console.error(`Definition has unknown meta type ${def.MetaType}`, def);
-    }
-  } else {
-    console.error('Found definition without MetaType and/or Symbol', def);
+  if (def.MemberOf && !Array.isArray(def.MemberOf)) {
+    def.MemberOf = [ def.MemberOf ];
   }
 });
 
-fs.writeFileSync(metaDefsIDFile, JSON.stringify(metaDefsByID, null, 2));
-fs.writeFileSync(metaDefsNameFile, JSON.stringify(metaDefsByName, null, 2));
+fs.writeFileSync(overrideDefsFile, JSON.stringify(metaDefs, null, 2));

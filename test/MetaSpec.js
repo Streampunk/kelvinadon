@@ -75,7 +75,7 @@ tape('Test each type', t => {
             t.equal(typeof def.Identification, 'string', `definition with ${id} has an identification.`);
           }
           if (def.MetaType === 'PropertyDefinition') {
-            return meta.resolveByName('ClassDefinition', def.MemberOf).then(mem => {
+            return meta.resolveByName('ClassDefinition', def.MemberOf[0]).then(mem => {
               t.ok(mem, `property ${def.Name} is a member of a known class.`);
             })
               .then(meta.resolveByName.bind(meta, 'TypeDefinition', def.Type))
