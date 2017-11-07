@@ -17,7 +17,7 @@ An MXF file dumper CLI tool `kelvinadump` is provided. Reading part of a stream,
 
 All of the above features can be built out of this package much more easily than starting from scratch and Streampunk Media will be considering how to build these as user requirements emerge. This implementation was created to allow MXF files to be used from the [_dynamorse_ file nodes](https://github.com/Streampunk/node-red-contrib-dynamorse-file-io) of an IoT framework for professional media processing.
 
-One particular feature of this application is that the metadata dictionaries are loaded on-the-fly and can be changed or updated. Facilities to allow use update of these dictionaries are being added.
+One particular feature of this application is that the metadata dictionaries are loaded on-the-fly and can be changed or updated. A utility script provided with kelvinadon can be used to update the metadata dictionaries from the [online sources](https://registry.smpte-ra.org/apps/pages/published/). This means that any recently added registered metadata, including updates to AS-11 metadata structures and descriptive frameworks such as EBU core, can be viewed as JSON without being dark.
 
 The name _kelvinadon_ is a play on the format of MXF files using a KLV structure and a nod to [Sir William Thomson, 1st Baron Kelvin](https://en.wikipedia.org/wiki/William_Thomson,_1st_Baron_Kelvin) - this library being developed in Scotland based on the highland library. This is an add on module for other Streampunk Media projects.
 
@@ -42,38 +42,41 @@ To dump an MXF File `myfile.mxf` and see all the KLV structures inside of it, in
 Here is an example output for one KLV packet:
 
 ```javascript
-{
-  key: '060e2b34-0205-0101-0d01-020101040400',
+KLVPacket {
+  key: '060e2b34-0205-0101-0d01-020101020400',
   length: 136,
-  value: [ <Buffer 00 01 00 02 00 00 02 00 00 00 00 00 04 d3 84 00 00 00 00 00 04 9d 64 00 00 00 00 00 04 d3 84 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 02 00 00 00 ... > ],
+  value: [ <Buffer 00 01 00 03 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 03 2a 7c 15 01 00 00 00 00 00 00 70 c3 00 00 00 00 00 00 00 00 00 00 ... > ],
   lengthLength: 4,
-  filePos: 80970752,
+  filePos: 0,
   meta:
-   { Symbol: 'FooterClosedCompletePartitionPack',
-     Name: 'Footer Closed Complete Partition Pack',
-     Identification: 'urn:smpte:ul:060e2b34.02050101.0d010201.01040400',
-     Description: '',
-     ParentClass: 'PartitionPack',
-     IsConcrete: true,
-     MetaType: 'ClassDefinition' },
+   { Symbol: 'HeaderPartitionClosedComplete',
+     Name: 'Header Partition Closed Complete',
+     Identification: 'urn:smpte:ul:060e2b34.027f0101.0d010201.01020400',
+     UUID: '060e2b34-027f-0101-0d01-020101020400',
+     Description: 'Header Partition Closed Complete',
+     Kind: 'LEAF',
+     NamespaceName: 'http://www.smpte-ra.org/reg/395/2014/13/1/aaf',
+     MetaType: 'ClassDefinition',
+     ParentClass: 'HeaderPartitionPack',
+     KLVSyntax: '05' },
   detail:
-   { ObjectClass: 'FooterClosedCompletePartitionPack',
+   { ObjectClass: 'HeaderPartitionClosedComplete',
      MajorVersion: 1,
-     MinorVersion: 2,
-     KAGSize: 512,
-     ThisPartition: 80970752,
-     PreviousPartition: 77423616,
-     FooterPartition: 80970752,
-     HeaderByteCount: 0,
-     IndexByteCount: 512,
-     IndexSID: 1,
+     MinorVersion: 3,
+     KAGSize: 1,
+     ThisPartition: 0,
+     PreviousPartition: 0,
+     FooterPartition: 13597676801,
+     HeaderByteCount: 28867,
+     IndexByteCount: 0,
+     IndexStreamID: 0,
      BodyOffset: 0,
-     BodySID: 0,
-     OperationalPattern: '060e2b34-0401-0101-0d01-020101010900',
+     EssenceStreamID: 0,
+     OperationalPattern: 'MXFOP1aSingleItemSinglePackageMultiTrackStreamInternal',
      EssenceContainers:
-      [ '060e2b34-0401-0102-0d01-030102046001',
-        '060e2b34-0401-0109-0d01-0301020e0000',
-        '060e2b34-0401-0101-0d01-030102060300' ] } }
+      [ 'MXFGCFrameWrappedBroadcastWaveAudioData',
+        'MXFGCGenericEssenceMultipleMappings',
+        'MXFGCAVCByteStreamWithVideoStream0SIDFrameWrapped' ] } }
 ```
 
 Each packet has:
@@ -138,80 +141,74 @@ The design is such that events are fairly self-contained, providing enough infor
 
 ```javascript
 { trackNumber: '15010500',
-  value: <Buffer 00 00 01 00 02 5a 48 4b b8 00 00 01 b5 85 45 2f 9c 00 00 00 01 01 0a 56 02 00 40 08 04 ca c0 00 00 01 02 0a 56 02 00 40 08 04 ca c0 00 00 01 03 0a 56 ... >,
-  length: 250112,
-  element: [ 0, 1 ], // First element (0-based) of one elements
-  sourcePackageID: // UMID split into two separate UUIDs
-  [ '060a2b34-0101-0105-0101-0f4313000000',
-    '2eef6798-5614-141e-7a31-00b00901b339' ],
-  count: 250,
+  value: <Buffer 00 00 00 01 09 10 00 00 00 01 67 7a 10 29 b6 cf 01 e0 11 3f 2e 03 c6 02 02 02 80 00 00 03 00 80 00 00 19 42 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ... >,
+  length: 568832,
+  element: [ 0, 1 ],
+  sourcePackageID:
+   [ '060a2b34-0101-0105-0101-0f2013000000',
+     '1831346c-5001-254c-a5b7-c5e06f674dde' ],
+  count: 0,
   track:
    { ObjectClass: 'TimelineTrack',
-     InstanceID: '2eef6aa4-5614-141e-25c2-00b00901b339',
-     TrackID: 2,
+     InstanceID: '52598e7a-ed47-7640-80f4-6e2e2edc789d',
+     TrackName: 'V1',
+     TrackID: 1001,
      EssenceTrackNumber: 352388352,
-     TrackName: 'Source Package: Video Track #2',
+     EditRate: [ 25, 1 ],
+     Origin: 0,
      TrackSegment:
       { ObjectClass: 'Sequence',
-        InstanceID: '2eef6db0-5614-141e-2f6d-00b00901b339',
-        ComponentDataDefinition: '060e2b34-0401-0101-0103-020201000000',
-        ComponentLength: 250,
+        InstanceID: '30a3d791-5bfb-6a47-aca1-0970ed3582ae',
+        ComponentDataDefinition: 'PictureEssenceTrack',
+        ComponentLength: 20561,
         ComponentObjects:
          [ { ObjectClass: 'SourceClip',
-             InstanceID: '2eef6e50-5614-141e-6b35-00b00901b339',
-             ComponentDataDefinition: '060e2b34-0401-0101-0103-020201000000',
-             ComponentLength: 250,
+             InstanceID: '761faa1f-3a79-cf4b-a527-1290027a91d8',
+             ComponentDataDefinition: 'PictureEssenceTrack',
+             ComponentLength: 20561,
              StartPosition: 0,
+             SourceTrackID: 0,
              SourcePackageID:
               [ '00000000-0000-0000-0000-000000000000',
-                '00000000-0000-0000-0000-000000000000' ],
-             SourceTrackID: 0 } ] },
-     EditRate: [ 25, 1 ],
-     Origin: 0 },
+                '00000000-0000-0000-0000-000000000000' ] } ] } },
   description:
    { ObjectClass: 'MPEGVideoDescriptor',
-     InstanceID: '2eef6d10-5614-141e-50f2-00b00901b339',
-     LinkedTrackID: 2,
+     InstanceID: 'fdbf8fda-54c5-9244-952f-bc1ac12261c4',
+     ContainerFormat: 'MXFGCAVCByteStreamWithVideoStream0SIDFrameWrapped',
      SampleRate: [ 25, 1 ],
-     ContainerFormat: '060e2b34-0401-0102-0d01-030102046001',
-     SignalStandard: 'SMPTE274',
-     FrameLayout: 'SeparateFields',
-     StoredWidth: 1920,
-     StoredHeight: 544,
-     StoredF2Offset: 0,
-     SampledWidth: 1920,
-     SampledHeight: 544,
-     SampledXOffset: 0,
-     SampledYOffset: 0,
-     DisplayHeight: 540,
-     DisplayWidth: 1920,
-     DisplayXOffset: 0,
-     DisplayYOffset: 0,
-     DisplayF2Offset: 0,
      ImageAspectRatio: [ 16, 9 ],
-     ActiveFormatDescriptor: 0,
+     ActiveFormatDescriptor: 84,
+     PictureCompression: 'H264MPEG4AVCHigh422IntraRP2027ConstrainedClass100108050iCoding',
+     SignalStandard: 'SignalStandard_SMPTE274M',
+     FrameLayout: 'SeparateFields',
+     ColorSiting: 'CoSiting',
+     ComponentDepth: 10,
+     BlackRefLevel: 64,
+     WhiteRefLevel: 940,
+     ColorRange: 897,
+     CodingEquations: 'CodingEquations_ITU709',
+     StoredWidth: 1920,
+     StoredHeight: 540,
      VideoLineMap: [ 21, 584 ],
-     PictureCompression: '060e2b34-0401-0103-0401-020201040300',
-     ComponentDepth: 8,
+     DisplayWidth: 1920,
+     DisplayHeight: 540,
+     SampledWidth: 1920,
+     SampledHeight: 540,
      HorizontalSubsampling: 2,
      VerticalSubsampling: 1,
-     LowDelay: false,
-     ClosedGOP: true,
-     MaxGOP: 12,
-     MaxBPictureCount: 2,
-     ProfileAndLevel: 130,
-     BitRate: 50000000 },
+     LinkedTrackID: 1001,
+     EssenceLength: 20561 },
   startTimecode:
    { ObjectClass: 'Timecode',
-     InstanceID: '2eef6a04-5614-141e-4daa-00b00901b339',
-     ComponentDataDefinition: '060e2b34-0401-0101-0103-020101000000',
-     ComponentLength: 250,
+     InstanceID: 'a2f8e74e-6008-3b4e-bc05-9dbcfe43b392',
+     ComponentDataDefinition: 'SMPTE12MTimecodeTrackInactiveUserBits',
+     ComponentLength: 20561,
      FramesPerSecond: 25,
-     StartTimecode: 0,
-     DropFrame: false } }
+     DropFrame: false,
+     StartTimecode: 899250 } }
 ```
 
-Details of the `ContainerFormat` and `PictureCompression` properties can be found via the [SMPTE metadata registry](https://smpte-ra.org/smpte-metadata-registry) for [labels](http://smpte-ra.org/sites/default/files/Labels.xml).
+Note that kelvinadon  looks up any [label definitions](http://smpte-ra.org/sites/default/files/Labels.xml), converting them to their more readable _symbols_.
 
 ### Deeper into the highlands
 
@@ -271,6 +268,33 @@ Most highland pipeline reading stages have mirror writing stages that can be use
 The aim is that a stream of MXF can be passed through `kelviniser` to `puppeteer` (without `stripTheFiller`) to make Javascript objects and back through `pieceMaker` to `kelvinator` and the same stream of MXF is produced. Minor tweaks could be made in the middle but note that at this time, no logic is provided to fix up fillers and calculate the impact of a change of offset values or index tables.
 
 Some reading functions have no mirror and that is because they don't need one. Also note that the writing functions are not currently setting the file position property (`filePos`) of KLV packets.
+
+## Meta dictionaries
+
+The dictionary used to read the files is stored in file `lib/RegDefs.json.gz`. This is generated automatically from the [published registers](https://registry.smpte-ra.org/apps/pages/published/) using script `util/updateRegisters.js`, e.g.:
+
+    node util/updateRegisters.js
+
+If you have a local clone of this repository, you can update this metadta.
+
+Some additional definitions are required to override some shortcomings in the published registers and enable full MXF data processing. These are stored in file `lib/OverrideDefs.json` which is in turn generated by script `util/makeMXFDefs.js`. A user may add their own extensions on file `lib/ExtensionDefs.json` following the patterns established in the other two files.
+
+With this approach, kelvinadump can encode and decode registered descriptive frameworks, for example:
+
+```Javascript
+{ ObjectClass: 'DM_AS_11_UKDPP_Framework',
+   InstanceID: 'b8743c4a-5ab4-5b41-af46-1b8b95c0e090',
+   UKDPP_Audio_Loudness_Standard: 'Loudness_EBU_R_128',
+   UKDPP_Textless_Elements_Exist: false,
+   UKDPP_Picture_Ratio: [ 16, 9 ],
+   UKDPP_Tertiary_Audio_Language: 'zxx',
+   UKDPP_PSE_Pass: 'PSE_Not_tested',
+   UKDPP_Total_Number_Of_Parts: 1,
+   UKDPP_Programme_Text_Language: 'eng',
+   UKDPP_Genre: 'Test Material',
+   ...
+}
+```
 
 ## Status, support and further development
 

@@ -57,7 +57,7 @@ var readyDicts = readDicts.then(dicts => {
   // var makeDictStart = process.hrtime();
   for ( var dict of dicts ) {
     for ( let def of dict ) {
-      if (def.Symbol.startsWith('EssenceElement')) console.log(def);
+      // if (def.Symbol.startsWith('EssenceElement')) console.log(def);
       metaDictByID[def.UUID] = def;
       if (def.Symbol && def.MetaType) {
         if (def.MetaType && def.MetaType.startsWith('TypeDefinition')) {
@@ -219,7 +219,9 @@ var readingFns = {
     switch (def.ElementType) {
     case 'UTF8Character':
       return (buf, pos, length) => {
-        return buf.slice(pos, pos+length).toString('utf8');
+        var result = buf.slice(pos, pos+length).toString('utf8');
+        var termCharIdx = result.indexOf('\u0000');
+        return termCharIdx >= 0 ? result.slice(0, termCharIdx) : result;        
       };
     default:
     case 'Character':
@@ -229,7 +231,9 @@ var readingFns = {
         for ( var x = 0 ; x < length ; x += 2 ) {
           utf16le.writeUInt16LE(utf16be.readUInt16BE(x), x);
         }
-        return utf16le.toString('utf16le');
+        var result = utf16le.toString('utf16le');
+        var termCharIdx = result.indexOf('\u0000');
+        return termCharIdx >= 0 ? result.slice(0, termCharIdx) : result;
       };
     }
   },
@@ -615,9 +619,7 @@ var lengthFns = {
 
 var resolveByID = function (id) {
   switch (id.substring(9,11)) {
-  case '05':
-  case '06':
-  case '53':
+  case '02':
     id = id.substring(0, 11) + '7f' + id.substring(13);
     break;
   default:
