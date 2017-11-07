@@ -22,16 +22,16 @@ const meta = require('../util/meta.js');
 
 var testPreface =  {
   ObjectClass: 'Preface',
-  InstanceUID: '10c49680-e6dc-11e5-b902-080046998cb7',
+  InstanceID: '10c49680-e6dc-11e5-b902-080046998cb7',
   FileLastModified: '2016-03-10T16:20:55.000Z',
   FormatVersion: [ 1, 3 ],
   IdentificationList: [ '10c4968a-e6dc-11e5-8005-080046998cb7' ],
   ContentStorageObject: {
     ObjectClass: 'ContentStorage',
-    InstanceUID: '10c4969e-e6dc-11e5-94cd-080046998cb7',
+    InstanceID: '10c4969e-e6dc-11e5-94cd-080046998cb7',
     Packages: [ {
       ObjectClass: 'MaterialPackage',
-      InstanceUID: '10c496b2-e6dc-11e5-956b-080046998cb7',
+      InstanceID: '10c496b2-e6dc-11e5-956b-080046998cb7',
       PackageID: [
         '060a2b34-0101-0105-0101-0d4313000000',
         '4dc362ae-5774-05c7-0800-460202998cb7' ],
@@ -41,7 +41,7 @@ var testPreface =  {
     } ],
     EssenceDataObjects: [ {
       ObjectClass: 'EssenceData',
-      InstanceUID: '10c496a8-e6dc-11e5-93b1-080046998cb7',
+      InstanceID: '10c496a8-e6dc-11e5-93b1-080046998cb7',
       LinkedPackageID: [
         '060a2b34-0101-0105-0101-0d4313000000',
         '4ec362ae-5774-05c7-0800-460202998cb7' ],

@@ -22,35 +22,36 @@ function puppeteer() {
   var headerEnd = -1;
   function resolveAll(item) {
     // console.log('Resolving', item.ObjectClass);
-    Object.keys(item).forEach(name => {
-      if (name === 'InstanceUID' || name === 'PrimaryPackage') return;
-      var value = item[name];
-      if (typeof value === 'string' && value.match(
-        /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/)) {
-        var sub = cache[value];
-        if (sub) {
-          resolveAll(sub);
-          item[name] = sub;
-        }
-      } else if (Array.isArray(value)) {
-        var subArray = [];
-        value.forEach(subElement => {
-          if (typeof subElement === 'string' && subElement.match(
-            /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/)) {
-            var sub = cache[subElement];
-            if (sub) {
-              resolveAll(sub);
-              subArray.push(sub);
+    Object.keys(item)
+      .filter(x => x !== 'InstanceID' && x !== 'PrimaryPackage')
+      .forEach(name => {
+        var value = item[name];
+        if (typeof value === 'string' && value.match(
+          /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/)) {
+          var sub = cache[value];
+          if (sub) {
+            resolveAll(sub);
+            item[name] = sub;
+          }
+        } else if (Array.isArray(value)) {
+          var subArray = [];
+          value.forEach(subElement => {
+            if (typeof subElement === 'string' && subElement.match(
+              /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/)) {
+              var sub = cache[subElement];
+              if (sub) {
+                resolveAll(sub);
+                subArray.push(sub);
+              } else {
+                subArray.push(subElement);
+              }
             } else {
               subArray.push(subElement);
             }
-          } else {
-            subArray.push(subElement);
-          }
-        });
-        item[name] = subArray;
-      }
-    });
+          });
+          item[name] = subArray;
+        }
+      });
   }
 
   var pullTheStrings = function (err, x, push, next) {
@@ -92,7 +93,7 @@ function puppeteer() {
         cache = {};
         return next();
       }
-      if (x.detail && x.detail.InstanceUID) cache[x.detail.InstanceUID] = x.detail;
+      if (x.detail && x.detail.InstanceID) cache[x.detail.InstanceID] = x.detail;
       next();
     }
   };

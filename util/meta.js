@@ -19,6 +19,8 @@ const zlib = require('zlib');
 const util = require('util');
 const promisify = util.promisify ? util.promisify : require('util.promisify');
 
+const uuidPattern = /(urn:uuid:)?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/;
+const nilUUID = '00000000-0000-0000-0000-000000000000';
 
 var metaDictByID = {};
 var metaDictByName = {
@@ -34,16 +36,23 @@ const gunzip = promisify(zlib.gunzip);
 
 var dictFiles = [
   `${__dirname}/../lib/RegDefs.json.gz`,
-  `${__dirname}/../lib/OverrideDefs.json`
+  `${__dirname}/../lib/OverrideDefs.json`,
+  `${__dirname}/../lib/ExtensionDefs.json`
 ];
 
 var readDicts = Promise.all(dictFiles.map(dict => {
+  // var readStart = process.hrtime();
   return readFile(dict)
     .then(b => dict.endsWith('.gz') ? gunzip(b) : b)
-    .then(x => { return JSON.parse(x.toString('utf8')); });
+    .then(x => {
+      var defs = JSON.parse(x.toString('utf8'));
+      // console.log(`Reading file ${dict} took ${process.hrtime(readStart)[1]/1000000}.`);
+      return defs;
+    });
 }));
 
 var readyDicts = readDicts.then(dicts => {
+  // var makeDictStart = process.hrtime();
   for ( var dict of dicts ) {
     for ( let def of dict ) {
       // if (def.Symbol.startsWith('Random')) console.log(def);
@@ -59,6 +68,7 @@ var readyDicts = readDicts.then(dicts => {
       }
     }
   }
+  // console.log(`Making dictionary lookup took ${process.hrtime(makeDictStart)[1]/1000000}.`);
 }, console.error.bind(null, 'Failed to read a meta dictionary:'));
 
 function makeEssenceElement(id) {
@@ -90,7 +100,9 @@ var readingFns = {
     switch (def.Symbol) {
     case 'AUID':
       return (buf, pos) => {
-        return uuid.unparse(buf.slice(pos, pos + 16));
+        var labelID = uuid.unparse(buf.slice(pos, pos + 16));
+        var label = internalResolveByID(labelID);
+        return label ? label.Symbol : label;
       };
     case 'LocalTagEntry':
       return (buf, pos) => {
@@ -198,7 +210,9 @@ var readingFns = {
   },
   'TypeDefinitionWeakReference': () => {
     return (buf, pos) => {
-      return uuid.unparse(buf.slice(pos, pos + 16));
+      var labelID = uuid.unparse(buf.slice(pos, pos + 16));
+      var label = internalResolveByID(labelID);
+      return label ? label.Symbol : labelID;
     };
   },
   'TypeDefinitionString': def => {
@@ -239,13 +253,22 @@ var readingFns = {
     };
   },
   'TypeDefinitionFixedArray': def => {
-    return (buf, pos) => {
-      return buf.slice(pos, pos + def.ElementCount);
-    }; // TODO improve for non UInt8 values
+    switch (def.Symbol) {
+    case 'UUID':
+      return (buf, pos) => {
+        return uuid.unparse(buf.slice(pos, pos + 16));
+      };
+    default:
+      return (buf, pos) => {
+        return buf.slice(pos, pos + def.ElementCount);
+      };
+    }
   },
   'TypeDefinitionExtendibleEnumeration': () => {
     return (buf, pos) => {
-      return uuid.unparse(buf.slice(pos, pos + 16));
+      var labelID = uuid.unparse(buf.slice(pos, pos + 16));
+      var label = internalResolveByID(labelID);
+      return label ? label.Symbol : labelID;
     };
   }
 };
@@ -265,6 +288,10 @@ var writingFns = {
     switch (def.Symbol) {
     case 'AUID':
       return (v, buf, pos) => {
+        if (!v.match(uuidPattern)) {
+          let label = internalResolveByName('LabelDefinition', v);
+          return writeUUID(label ? (label.UUID) : nilUUID);
+        }
         return writeUUID(v, buf, pos);
       };
     case 'LocalTagEntry':
@@ -379,6 +406,10 @@ var writingFns = {
   },
   'TypeDefinitionWeakReference': () => {
     return (v, buf, pos) => {
+      if (!v.match(uuidPattern)) {
+        let label = internalResolveByName('LabelDefinition', v);
+        return writeUUID(label ? (label.UUID) : nilUUID);
+      }
       return writeUUID(v, buf, pos);
     };
   },
@@ -420,13 +451,24 @@ var writingFns = {
       }
     };
   },
-  'TypeDefinitionFixedArray': () => {
-    return (v, buf, pos) => {
-      return v.copy(buf, pos);
-    };
+  'TypeDefinitionFixedArray': def => {
+    switch (def.Symbol) {
+    case 'UUID':
+      return (v, buf, pos) => {
+        return writeUUID(v, buf, pos);
+      };
+    default:
+      return (v, buf, pos) => {
+        return v.copy(buf, pos);
+      };
+    }
   },
   'TypeDefinitionExtendibleEnumeration': () => {
     return (v, buf, pos) => {
+      if (!v.match(uuidPattern)) {
+        let label = internalResolveByName('LabelDefinition', v);
+        return writeUUID(label ? (label.UUID) : nilUUID);
+      }
       return writeUUID(v, buf, pos);
     };
   }
@@ -604,6 +646,15 @@ var internalResolveByName = function (type, name) {
   return undefined;
 };
 
+// For use when already inside a promise
+var internalResolveByID = function (id) {
+  if (metaDictByID[id]) {
+    return metaDictByID[id];
+  } else {
+    return metaDictByID[ulToUUID(id)];
+  }
+};
+
 var readType = function (typeName) {
   return resolveByName('TypeDefinition', typeName).then(type => {
     if (!readingFns[type.MetaType])
@@ -687,7 +738,7 @@ function readIntBE(buf, pos, size) {
 var resetPrimer = function (initPack) {
   var baseDefs = {
     // Interchange object - masked by other logic
-    0x3c0a: '060e2b34-0101-0101-0101-150200000000', // InstanceUID
+    0x3c0a: '060e2b34-0101-0101-0101-150200000000', // InstanceID
     // Index Table Segment
     0x3f0b: '060e2b34-0101-0105-0530-040600000000', // IndexEditRate
     0x3f0c: '060e2b34-0101-0105-0702-0103010a0000', // IndexStartPosition

@@ -88,7 +88,7 @@ tape('Roundtrip detail to and from bytes for fixed length pack', t => {
 
 var timecode = {
   ObjectClass: 'Timecode',
-  InstanceUID: '2eef6a04-5614-141e-4daa-00b00901b339',
+  InstanceID: '2eef6a04-5614-141e-4daa-00b00901b339',
   ComponentDataDefinition: '060e2b34-0401-0101-0103-020101000000',
   ComponentLength: 250,
   FramesPerSecond: 25,
@@ -128,7 +128,7 @@ tape('Roundtrip JSON object to and from local set', t => {
 
 var essence = {
   ObjectClass: 'EssenceElement',
-  InstanceUID: uuid.v4(),
+  InstanceID: uuid.v4(),
   ItemType: 'GC Picture',
   ElementType: 0x42,
   ElementCount: 0x04,

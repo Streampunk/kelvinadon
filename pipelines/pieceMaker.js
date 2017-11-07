@@ -27,9 +27,9 @@ function pieceMaker() {
     if (Array.isArray(v)) {
       return v.map(i => splitItem(i));
     }
-    var u = { InstanceUID : uuid.v4() };
+    var u = { InstanceID : uuid.v4() };
     items.push(u);
-    Object.keys(v).filter(k => k !== 'InstanceUID').forEach(k => {
+    Object.keys(v).filter(k => k !== 'InstanceID').forEach(k => {
       u[k] = splitItem(v[k]);
       primerChain = primerChain.then(primer => {
         return meta.resolveByName('PropertyDefinition', k)
@@ -45,7 +45,7 @@ function pieceMaker() {
           }, () => primer);
       });
     });
-    return u.InstanceUID;
+    return u.InstanceID;
   }
 
   var splitter = function (err, x, push, next) {

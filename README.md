@@ -146,18 +146,18 @@ The design is such that events are fairly self-contained, providing enough infor
   count: 250,
   track:
    { ObjectClass: 'TimelineTrack',
-     InstanceUID: '2eef6aa4-5614-141e-25c2-00b00901b339',
+     InstanceID: '2eef6aa4-5614-141e-25c2-00b00901b339',
      TrackID: 2,
      EssenceTrackNumber: 352388352,
      TrackName: 'Source Package: Video Track #2',
      TrackSegment:
       { ObjectClass: 'Sequence',
-        InstanceUID: '2eef6db0-5614-141e-2f6d-00b00901b339',
+        InstanceID: '2eef6db0-5614-141e-2f6d-00b00901b339',
         ComponentDataDefinition: '060e2b34-0401-0101-0103-020201000000',
         ComponentLength: 250,
         ComponentObjects:
          [ { ObjectClass: 'SourceClip',
-             InstanceUID: '2eef6e50-5614-141e-6b35-00b00901b339',
+             InstanceID: '2eef6e50-5614-141e-6b35-00b00901b339',
              ComponentDataDefinition: '060e2b34-0401-0101-0103-020201000000',
              ComponentLength: 250,
              StartPosition: 0,
@@ -169,7 +169,7 @@ The design is such that events are fairly self-contained, providing enough infor
      Origin: 0 },
   description:
    { ObjectClass: 'MPEGVideoDescriptor',
-     InstanceUID: '2eef6d10-5614-141e-50f2-00b00901b339',
+     InstanceID: '2eef6d10-5614-141e-50f2-00b00901b339',
      LinkedTrackID: 2,
      SampleRate: [ 25, 1 ],
      ContainerFormat: '060e2b34-0401-0102-0d01-030102046001',
@@ -202,7 +202,7 @@ The design is such that events are fairly self-contained, providing enough infor
      BitRate: 50000000 },
   startTimecode:
    { ObjectClass: 'Timecode',
-     InstanceUID: '2eef6a04-5614-141e-4daa-00b00901b339',
+     InstanceID: '2eef6a04-5614-141e-4daa-00b00901b339',
      ComponentDataDefinition: '060e2b34-0401-0101-0103-020101000000',
      ComponentLength: 250,
      FramesPerSecond: 25,

@@ -31,6 +31,9 @@ const writeFile = H.wrapCallback(fs.writeFile);
 
 var ulCache = {};
 var memberOf = {};
+var isOptional = {};
+var localID = {};
+var isUniqueID = {};
 
 function ulToName (def, symbol, ul) {
   if (ulCache[ul]) { return ulCache[ul].Symbol; }
@@ -105,6 +108,33 @@ function convertGroups (groups) {
           memberOf[prop.UL] = [ x.Symbol ];
         } else {
           memberOf[prop.UL].push(x.Symbol);
+        }
+        if (Array.isArray(k.IsOptional)) {
+          if (!isOptional[prop.UL]) {
+            isOptional[prop.UL] = (k.IsOptional[0] === 'true');
+          } else {
+            if (isOptional[prop.UL] !== (k.IsOptional[0] === 'true')) {
+              console.error(`Warning: Changing is optional status for property ${prop.Symbol}.`);
+            }
+          }
+        }
+        if (Array.isArray(k.IsUniqueID)) {
+          if (!isUniqueID[prop.UL]) {
+            isUniqueID[prop.UL] = (k.IsUniqueID[0] === 'true');
+          } else {
+            if (isUniqueID[prop.UL] !== (k.IsUniqueID[0] === 'true')) {
+              console.error(`Warning: Changing unique ID status for property ${prop.Symbol}.`);
+            }
+          }
+        }
+        if (Array.isArray(k.LocalTag)) {
+          var tag = parseInt(k.LocalTag[0], 16);
+          if (!localID[prop.UL] || localID[prop.UL] <= 0) {
+            localID[prop.UL] = (!isNaN(tag) && tag > 0) ? tag : 0;
+          } else {
+            if (localID[prop.UL] !== tag)
+              console.error(`Warning: Replacing local property tag for ${prop.Symbol}, changing value from ${localID[prop.UL]} to ${tag}.`);
+          }
         }
       });
     }
@@ -189,7 +219,10 @@ function convertElements (elements) {
     NamespaceName: x.NamespaceName,
     MetaType: 'PropertyDefinition',
     Type: x.Type ? ulToName('PropertyDefinition', x.Symbol, x.Type) : undefined,
-    MemberOf: memberOf[x.UL]
+    MemberOf: memberOf[x.UL],
+    LocalIdentification: localID[x.UL],
+    IsOptional: isOptional[x.UL],
+    IsUniqueIdentifier: isUniqueID[x.UL]
   }) );
 }
 
