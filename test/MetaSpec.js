@@ -17,21 +17,37 @@ var meta = require('../util/meta.js');
 var tape = require('tape');
 var uuid = require('uuid');
 
+function knownMetatype (t) {
+  if (typeof t !== 'string') return false;
+  switch (t) {
+  case 'ClassDefinition':
+  case 'PropertyDefinition':
+  case 'LabelDefinition':
+    return true;
+  default:
+    return t.startsWith('TypeDefinition');
+  }
+}
+
 tape('Test resolve by ID', t => {
   meta.resolveByID('060e2b34-0101-0102-0601-010401030000').then(def => {
     t.ok(def, 'baseline def retrieved.');
-    t.equal(def.Name, 'Codec', 'baseline def has the expected name.');
+    t.equal(def.Name, 'Codec Definition', 'baseline def has the expected name.');
     t.equal(def.Identification, 'urn:smpte:ul:060e2b34.01010102.06010104.01030000',
       'baseline def has the expected identififation');
+    t.equal(def.UUID, '060e2b34-0101-0102-0601-010401030000',
+      'has expected local UUID.');
     t.equal(def.MetaType, 'PropertyDefinition',
       'baseline def has expected meta type.');
   })
     .then(meta.resolveByID.bind(meta, '060e2b34-0101-0105-0601-010715000000'))
     .then(def => {
       t.ok(def, 'mxf def retrieved.');
-      t.equal(def.Name, 'LocalTagEntry Batch', 'mxf def has the expected name.');
+      t.equal(def.Name, 'Local Tag Entries', 'mxf def has the expected name.');
       t.equal(def.Identification, 'urn:smpte:ul:060e2b34.01010105.06010107.15000000',
         'mxf def has the expected identification.');
+      t.equal(def.UUID, '060e2b34-0101-0105-0601-010715000000',
+        'has expected local UUID.');
       t.equal(def.MetaType, 'PropertyDefinition',
         'mxf def has expected meta type.');
       t.end();
@@ -42,16 +58,18 @@ tape('Test resolve by name', t => {
   meta.resolveByName('TypeDefinition', 'LocalTagEntryBatch').then(def => {
     t.ok(def, 'mxf def retrieved.');
     t.equal(def.Name, 'LocalTagEntryBatch', 'mxf def has expected name.');
-    t.equal(def.Identification, 'urn:smpte:ul:060e2b34.01010101.0f721102.03000000',
+    t.equal(def.Identification, 'urn:smpte:ul:060e2b34.01040101.04030300.00000000',
       'mxf def has expected id.');
+    t.equal(def.UUID, '060e2b34-0104-0101-0403-030000000000',
+      'has expected local UUID.');
     t.equal(def.MetaType, 'TypeDefinitionSet',
       'mxf def has expected meta type.');
   })
     .then(meta.resolveByName.bind(meta, 'ClassDefinition', 'PictureDescriptor'))
     .then(def => {
       t.ok(def, 'baseline def retrieved.');
-      t.equal(def.Name, 'PictureDescriptor', 'baseline def has expected name.');
-      t.equal(def.Identification, 'urn:smpte:ul:060e2b34.02060101.0d010101.01012700',
+      t.equal(def.Name, 'Picture Descriptor', 'baseline def has expected name.');
+      t.equal(def.Identification, 'urn:smpte:ul:060e2b34.027f0101.0d010101.01012700',
         'baseline def has expected id.');
       t.equal(def.MetaType, 'ClassDefinition',
         'baseline def has expected meta type.');
@@ -68,16 +86,16 @@ tape('Test each type', t => {
       var tests = ids.map(id => {
         return meta.resolveByID(id).then(def => {
           t.ok(def, `definition with ${id} exists.`);
-          t.equal(typeof def.MetaType, 'string', `definition with ${id} has a meta type.`);
-          if (def.MetaType !== 'ExtendibleEnumerationElement') {
-            t.equal(typeof def.Name, 'string', `definition with ${id} has a name.`);
-            t.equal(typeof def.Symbol, 'string', `definition with ${id} has a symbol.`);
-            t.equal(typeof def.Identification, 'string', `definition with ${id} has an identification.`);
-          }
+          t.equal(meta.ulToUUID(def.Identification), id, `Identification property ${def.Identification} is ${id}.`);
+          t.ok(knownMetatype(def.MetaType), `definition with ${id} has a meta type.`);
+          t.ok(def.Symbol && typeof def.Symbol === 'string' && def.Symbol.length > 0,
+            `definition with ${id} has symbol ${def.Symbol}.`);
+          t.equal(def.UUID, id, `hash key and UUID match for ${id}.`);
           if (def.MetaType === 'PropertyDefinition') {
-            return meta.resolveByName('ClassDefinition', def.MemberOf[0]).then(mem => {
-              t.ok(mem, `property ${def.Name} is a member of a known class.`);
-            })
+            return (def.MemberOf ?
+              meta.resolveByName('ClassDefinition', def.MemberOf[0]).then(mem => {
+                t.ok(mem, `property ${def.Name} is a member of a known class.`);
+              }) : Promise.resolve())
               .then(meta.resolveByName.bind(meta, 'TypeDefinition', def.Type))
               .then(ref => {
                 t.ok(ref, `property ${def.Name} references a known type.`);
@@ -95,7 +113,7 @@ tape('Test each type', t => {
     .then(() => { t.end(); }, t.fail);
 });
 
-tape('Test matching in by name and by ID', t => {
+tape('Test matching definitions by name and by ID', t => {
   meta.getAllIDs().then(ids => {
     t.ok(Array.isArray(ids) && ids.length > 0, 'list of IDs is an array with entries.');
     return ids;
@@ -108,7 +126,11 @@ tape('Test matching in by name and by ID', t => {
               (def.MetaType.startsWith('Type')) ? 'TypeDefinition' : def.MetaType,
               def.Symbol).then(res => {
               t.ok(res, `definition ${def.Identification} is in both.`);
-              t.deepEqual(res, def, `definitions for ${def.Identification} match.`);
+              if (res.NamespaceName === def.NamespaceName) {
+                t.deepEqual(res, def, `definitions for ${def.Identification} match.`);
+              } else {
+                console.error(`Found different definition of ${def.Symbol} in namspaces ${res.NamespaceName} and ${def.NamespaceName}.`);
+              }
             });
           }
         });
@@ -161,9 +183,9 @@ tape('Test get pack order', t => {
     t.ok(Array.isArray(po), 'pack order is defined in PartitionPack.');
     t.equal(po.length, 13, 'pack order is of expected length.');
     parentPO = po;
-  }).then(meta.getPackOrder.bind(null, 'HeaderClosedCompletePartitionPack'))
+  }).then(meta.getPackOrder.bind(null, 'HeaderPartitionClosedComplete'))
     .then(hop => {
-      t.ok(Array.isArray(hop), 'pack order is defined in HeaderClosedCompletePartitionPack.');
+      t.ok(Array.isArray(hop), 'pack order is defined in HeaderPartitionClosedComplete.');
       t.deepEqual(hop, parentPO, 'is the same in parent and empty child.');
     }).then(() => { t.end(); }, t.fail);
 });
@@ -188,6 +210,7 @@ var toTest = [
   { type: 'UInt64', value: 0x800203040506, length: 8},
   { type: 'Int64', value: -0x203040506070, length: 8},
   { type: 'AUID', value: uuid.v4(), length: 16},
+  { type: 'AUID', value: 'UncompressedPictureCodingInterleaved422YCbYCr8Bit', length: 16 },
   { type: 'LocalTagEntry', value: { LocalTag: 4321, UID: uuid.v4() }, length: 18},
   { type: 'TimeStamp', value: '2017-10-22T19:24:27.204Z', length: 8}, // force millis divide by 4
   { type: 'PackageIDType', value: [ uuid.v4(), uuid.v4() ], length: 32} ,
@@ -225,12 +248,14 @@ var toTest = [
   ], length: 8 + 6 * 4},
   { type: 'PackageStrongReference', value: uuid.v4(), length: 16},
   { type: 'DataDefinitionWeakReference', value: uuid.v4(), length: 16},
+  { type: 'DataDefinitionWeakReference', value: 'PictureEssenceTrack', length: 16 },
   { type: 'UTF16String', value: 'To be or not to be?', length: 19 * 2},
   { type: 'LengthType', value: 56785678, length: 8 },
   { type: 'LayoutType', value: 'SeparateFields', length: 1},
   { type: 'UInt8Array8', value: new Buffer([42, 43, 44, 45, 46, 47, 48, 49]),
     length: 8 },
-  { type: 'ColorPrimaries', value: uuid.v4(), length: 16 }
+  { type: 'ColorPrimariesType', value: uuid.v4(), length: 16 },
+  { type: 'ColorPrimariesType', value: 'ColorPrimaries_SMPTE170M', length: 16 }
 ];
 
 tape('Test roundtrip values', t => {

@@ -40,6 +40,8 @@ var dictFiles = [
   `${__dirname}/../lib/ExtensionDefs.json`
 ];
 
+// Measured load time approx 50ms, hash build time 14ms
+
 var readDicts = Promise.all(dictFiles.map(dict => {
   // var readStart = process.hrtime();
   return readFile(dict)
@@ -55,7 +57,7 @@ var readyDicts = readDicts.then(dicts => {
   // var makeDictStart = process.hrtime();
   for ( var dict of dicts ) {
     for ( let def of dict ) {
-      // if (def.Symbol.startsWith('Random')) console.log(def);
+      if (def.Symbol.startsWith('EssenceElement')) console.log(def);
       metaDictByID[def.UUID] = def;
       if (def.Symbol && def.MetaType) {
         if (def.MetaType && def.MetaType.startsWith('TypeDefinition')) {
@@ -72,19 +74,17 @@ var readyDicts = readDicts.then(dicts => {
 }, console.error.bind(null, 'Failed to read a meta dictionary:'));
 
 function makeEssenceElement(id) {
-  var trackStart = id.length - 8;
+  var idEnd = id.slice(-8);
   return {
     Symbol: 'EssenceElement',
     Name: 'Essence Element',
-    Identification: 'urn:smpte:ul:060e2b34.01020101.0d010301.' + id.slice(trackStart),
+    Identification: 'urn:smpte:ul:060e2b34.01020101.0d010301.' + idEnd,
     Description: '',
     IsConcrete: true,
-    MetaType: 'ClassDefinition'
-    // Track: id.slice(trackStart),
-    // ItemType: id.slice(trackStart, trackStart + 2),
-    // ElementType: id.slice(trackStart + 4, trackStart + 6),
-    // ElementCount: id.slice(trackStart + 2, trackStart + 4),
-    // ElementNumber: id.slice(trackStart + 6)
+    MetaType: 'ClassDefinition',
+    KLVSyntax: '02',
+    Kind: idEnd === '00000000' ? 'NODE' : 'LEAF',
+    UUID: '060e2b34-0102-0101-0d01-0301' + idEnd
   };
 }
 
@@ -102,7 +102,7 @@ var readingFns = {
       return (buf, pos) => {
         var labelID = uuid.unparse(buf.slice(pos, pos + 16));
         var label = internalResolveByID(labelID);
-        return label ? label.Symbol : label;
+        return label ? label.Symbol : labelID;
       };
     case 'LocalTagEntry':
       return (buf, pos) => {
@@ -290,7 +290,7 @@ var writingFns = {
       return (v, buf, pos) => {
         if (!v.match(uuidPattern)) {
           let label = internalResolveByName('LabelDefinition', v);
-          return writeUUID(label ? (label.UUID) : nilUUID);
+          return writeUUID(label ? label.UUID : nilUUID, buf, pos);
         }
         return writeUUID(v, buf, pos);
       };
@@ -408,7 +408,7 @@ var writingFns = {
     return (v, buf, pos) => {
       if (!v.match(uuidPattern)) {
         let label = internalResolveByName('LabelDefinition', v);
-        return writeUUID(label ? (label.UUID) : nilUUID);
+        return writeUUID(label ? label.UUID : nilUUID, buf, pos);
       }
       return writeUUID(v, buf, pos);
     };
@@ -467,7 +467,7 @@ var writingFns = {
     return (v, buf, pos) => {
       if (!v.match(uuidPattern)) {
         let label = internalResolveByName('LabelDefinition', v);
-        return writeUUID(label ? (label.UUID) : nilUUID);
+        return writeUUID(label ? label.UUID : nilUUID, buf, pos);
       }
       return writeUUID(v, buf, pos);
     };
@@ -614,8 +614,14 @@ var lengthFns = {
 };
 
 var resolveByID = function (id) {
-  if (id.substring(9,11) === '02') {
+  switch (id.substring(9,11)) {
+  case '05':
+  case '06':
+  case '53':
     id = id.substring(0, 11) + '7f' + id.substring(13);
+    break;
+  default:
+    break;
   }
   if (id.startsWith('060e2b34-0102-0101-0d01-0301')) {
     return readyDicts.then(makeEssenceElement.bind(null, id));
@@ -630,9 +636,10 @@ var resolveByName = function (type, name) {
     var def = metaDictByName[type][name];
     if (def) {
       return def;
-    } else if (name.endsWith('Type')) {
+    } else if (name && name.endsWith('Type')) {
       return metaDictByName[type][name.slice(0, -4)];
     }
+    return undefined;
   });
 };
 
@@ -775,21 +782,19 @@ var getPrimerUID = function (primer, localTag) {
   if (id) return id;
   if (!shadowPrimer) {
     shadowPrimer = { };
-    metaDictByID.forEach(dict => {
-      Object.keys(dict).forEach(k => {
-        var def = dict[k];
-        if (def.MetaType === 'PropertyDefinition' && def.LocalIdentification > 0)
-          shadowPrimer[def.LocalIdentification] = ulToUUID(def.Identification);
-      });
+    Object.keys(metaDictByID).forEach(k => {
+      var def = metaDictByID[k];
+      if (def.MetaType === 'PropertyDefinition' && def.LocalIdentification > 0)
+        shadowPrimer[def.LocalIdentification] = ulToUUID(def.Identification);
     });
   }
   return shadowPrimer[localTag];
 };
 
 var makePrimerPack = function (items) {
-  var pack = { ObjectClass : 'PrimerPack', LocalTagEntryBatch : [] };
+  var pack = { ObjectClass : 'PrimerPack', LocalTagEntries : [] };
   Object.keys(items).filter(k => !isNaN(+k)).forEach(k => {
-    pack.LocalTagEntryBatch.push({ LocalTag : k, UID : items[k] });
+    pack.LocalTagEntries.push({ LocalTag : k, UID : items[k] });
   });
   return pack;
 };
@@ -807,15 +812,7 @@ function writeUUID(u, b, pos) {
 module.exports = {
   resolveByID: resolveByID,
   resolveByName: resolveByName,
-  getAllIDs: function () {
-    return readyDicts.then(() => {
-      var ids = [];
-      metaDictByID.forEach(dict => {
-        ids = ids.concat(Object.keys(dict));
-      });
-      return ids;
-    });
-  },
+  getAllIDs: () => readDicts.then(() => Object.keys(metaDictByID)),
   readType: readType,
   sizeType: sizeType,
   writeType: writeType,

@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/Streampunk/kelvinadon.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/Streampunk/kelvinadon)
 # Kelvinadon
 
 Kelvinadon is a cross-platform streaming library for working with [Material Exchange Format (MXF)](https://en.wikipedia.org/wiki/Material_Exchange_Format) files or streams in [Node.js](https://nodejs.org/en/). Kelvinadon works with [highland.js](http://highlandjs.org/) to provide a means to process MXF data in stream form with back pressure.

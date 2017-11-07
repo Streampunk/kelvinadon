@@ -15,6 +15,7 @@
       ]
     },
     "MetaType": "TypeDefinitionRecord",
+    "Kind": "LEAF",
     "UUID": "060e2b34-0104-0101-0f72-110205000000"
   },
   {
@@ -24,6 +25,7 @@
     "Description": "",
     "ElementType": "RandomIndexItem",
     "MetaType": "TypeDefinitionVariableArray",
+    "Kind": "LEAF",
     "UUID": "060e2b34-0104-0101-0f72-110204000000"
   },
   {
@@ -38,6 +40,7 @@
     "IsOptional": false,
     "LocalIdentification": 0,
     "MetaType": "PropertyDefinition",
+    "Kind": "LEAF",
     "UUID": "060e2b34-0101-0101-0f72-11020a000000"
   },
   {
@@ -52,25 +55,28 @@
     "IsOptional": false,
     "LocalIdentification": 0,
     "MetaType": "PropertyDefinition",
+    "Kind": "LEAF",
     "UUID": "060e2b34-0101-0104-0406-100100000000"
   },
   {
     "Symbol": "RandomIndexPack",
     "Name": "RandomIndexPack",
-    "Identification": "urn:smpte:ul:060e2b34.02050101.0d010201.01110100",
+    "Identification": "urn:smpte:ul:060e2b34.027f0101.0d010201.01110100",
     "Description": "",
     "IsConcrete": true,
     "MetaType": "ClassDefinition",
+    "KLVSyntax": "05",
     "PackOrder": [
       "PartitionIndex",
       "Length"
     ],
-    "UUID": "060e2b34-0205-0101-0d01-020101110100"
+    "Kind": "LEAF",
+    "UUID": "060e2b34-027f-0101-0d01-020101110100"
   },
   {
     "Symbol": "IndexEntry",
     "Name": "IndexEntry",
-    "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.07000000",
+    "Identification": "urn:smpte:ul:060e2b34.01040101.04100600.00000000",
     "Description": "",
     "Members": {
       "Name": [
@@ -87,21 +93,23 @@
       ]
     },
     "MetaType": "TypeDefinitionRecord",
-    "UUID": "060e2b34-0104-0101-0f72-110207000000"
+    "Kind": "LEAF",
+    "UUID": "060e2b34-0104-0101-0410-060000000000"
   },
   {
     "Symbol": "IndexEntryArray",
     "Name": "IndexEntryArray",
-    "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.06000000",
+    "Identification": "urn:smpte:ul:060e2b34.01040101.04020700.00000000",
     "Description": "",
     "ElementType": "IndexEntry",
     "MetaType": "TypeDefinitionVariableArray",
-    "UUID": "060e2b34-0104-0101-0f72-110206000000"
+    "Kind": "LEAF",
+    "UUID": "060e2b34-0104-0101-0402-070000000000"
   },
   {
     "Symbol": "DeltaEntry",
     "Name": "DeltaEntry",
-    "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.09000000",
+    "Identification": "urn:smpte:ul:060e2b34.01040101.04100a00.00000000",
     "Description": "",
     "Members": {
       "Name": [
@@ -116,16 +124,18 @@
       ]
     },
     "MetaType": "TypeDefinitionRecord",
-    "UUID": "060e2b34-0104-0101-0f72-110209000000"
+    "Kind": "LEAF",
+    "UUID": "060e2b34-0104-0101-0410-0a0000000000"
   },
   {
     "Symbol": "DeltaEntryArray",
     "Name": "DeltaEntryArray",
-    "Identification": "urn:smpte:ul:060e2b34.01040101.0f721102.08000000",
+    "Identification": "urn:smpte:ul:060e2b34.01040101.04020800.00000000",
     "Description": "",
     "ElementType": "DeltaEntry",
     "MetaType": "TypeDefinitionVariableArray",
-    "UUID": "060e2b34-0104-0101-0f72-110208000000"
+    "Kind": "LEAF",
+    "UUID": "060e2b34-0104-0101-0402-080000000000"
   },
   {
     "Symbol": "UInt8Array17",
@@ -135,6 +145,7 @@
     "ElementCount": 17,
     "ElementType": "UInt8",
     "MetaType": "TypeDefinitionFixedArray",
+    "Kind": "LEAF",
     "UUID": "060e2b34-0104-0101-0f72-110204010000"
   },
   {
@@ -149,6 +160,7 @@
     "Type": "UInt8",
     "LocalIdentification": 0,
     "MetaType": "PropertyDefinition",
+    "Kind": "LEAF",
     "UUID": "060e2b34-0101-0101-0f72-110204020000"
   },
   {
@@ -163,6 +175,7 @@
     "Type": "UInt8",
     "LocalIdentification": 0,
     "MetaType": "PropertyDefinition",
+    "Kind": "LEAF",
     "UUID": "060e2b34-0101-0101-0f72-110204030000"
   },
   {
@@ -177,21 +190,8 @@
     "Type": "UInt8",
     "LocalIdentification": 0,
     "MetaType": "PropertyDefinition",
+    "Kind": "LEAF",
     "UUID": "060e2b34-0101-0101-0f72-110204040000"
-  },
-  {
-    "Symbol": "ChannelHandle",
-    "Name": "Channel Handle",
-    "Identification": "urn:smpte:ul:060e2b34.01010101.0f721102.04050000",
-    "Description": "",
-    "MemberOf": [
-      "SystemMetadata"
-    ],
-    "IsOptional": false,
-    "Type": "UInt16",
-    "LocalIdentification": 0,
-    "MetaType": "PropertyDefinition",
-    "UUID": "060e2b34-0101-0101-0f72-110204050000"
   },
   {
     "Symbol": "ContinuityCount",
@@ -205,6 +205,7 @@
     "Type": "UInt16",
     "LocalIdentification": 0,
     "MetaType": "PropertyDefinition",
+    "Kind": "LEAF",
     "UUID": "060e2b34-0101-0101-0f72-110204060000"
   },
   {
@@ -219,6 +220,7 @@
     "Type": "AUID",
     "LocalIdentification": 0,
     "MetaType": "PropertyDefinition",
+    "Kind": "LEAF",
     "UUID": "060e2b34-0101-0101-0f72-110204070000"
   },
   {
@@ -233,6 +235,7 @@
     "Type": "UInt8Array17",
     "LocalIdentification": 0,
     "MetaType": "PropertyDefinition",
+    "Kind": "LEAF",
     "UUID": "060e2b34-0101-0101-0f72-110204080000"
   },
   {
@@ -247,6 +250,7 @@
     "Type": "UInt8Array17",
     "LocalIdentification": 0,
     "MetaType": "PropertyDefinition",
+    "Kind": "LEAF",
     "UUID": "060e2b34-0101-0101-0f72-110204090000"
   },
   {
@@ -256,6 +260,7 @@
     "Description": "",
     "IsConcrete": true,
     "MetaType": "ClassDefinition",
+    "KLVSyntax": "05",
     "PackOrder": [
       "Bitmap",
       "Rate",
@@ -266,6 +271,18 @@
       "CreationDate",
       "UserDate"
     ],
+    "Kind": "LEAF",
     "UUID": "060e2b34-027f-0101-0d01-030104010100"
+  },
+  {
+    "Symbol": "EssenceElement",
+    "Name": "Essence Element",
+    "Identification": "urn:smpte:ul:060e2b34.01020101.0d010301.00000000",
+    "Description": "",
+    "IsConcrete": true,
+    "MetaType": "ClassDefinition",
+    "Kind": "NODE",
+    "KLVSyntax": "02",
+    "UUID": "060e2b34-0102-0101-0d01-030100000000"
   }
 ]

@@ -22,7 +22,7 @@ var meta = require('../util/meta.js');
 var uuid = require('uuid');
 
 const footer = {
-  ObjectClass: 'FooterClosedCompletePartitionPack',
+  ObjectClass: 'FooterPartitionClosedComplete',
   MajorVersion: 1,
   MinorVersion: 2,
   KAGSize: 512,
@@ -31,14 +31,14 @@ const footer = {
   FooterPartition: 80970752,
   HeaderByteCount: 0,
   IndexByteCount: 512,
-  IndexSID: 1,
+  IndexStreamID: 1,
   BodyOffset: 0,
-  BodySID: 0,
-  OperationalPattern: '060e2b34-0401-0101-0d01-020101010900',
+  EssenceStreamID: 0,
+  OperationalPattern: 'MXFOP1aSingleItemSinglePackageMultiTrackStreamInternal',
   EssenceContainers: [
-    '060e2b34-0401-0102-0d01-030102046001',
-    '060e2b34-0401-0109-0d01-0301020e0000',
-    '060e2b34-0401-0101-0d01-030102060300' ] };
+    'MXFGCFrameWrappedMPEGESVideoStream0SID',
+    'MXFGCGenericANCDataMappingUndefinedPayload',
+    'MXFGCFrameWrappedAES3AudioData' ] };
 
 tape('Convert JSON object to KLV for fixed length pack', t => {
   H([footer])
@@ -49,7 +49,8 @@ tape('Convert JSON object to KLV for fixed length pack', t => {
       t.deepEqual(klv.detail, footer, 'embeds the original object as detail.');
       t.ok(klv.meta && klv.meta.Symbol === footer.ObjectClass,
         'embeds the meta definition of the object class.');
-      t.equal(klv.key, meta.ulToUUID(klv.meta.Identification), 'class key and KLV key match.');
+      t.equal(klv.key.slice(0, 11) + '7f' + klv.key.slice(13),
+        meta.ulToUUID(klv.meta.Identification), 'class key and KLV key match.');
       t.ok(Buffer.isBuffer(klv.value[0]) && klv.value[0].length === klv.length,
         'value is a buffer of the correct length.');
       t.equal(klv.lengthLength, 4, 'header metadata sets have BER length of 4 bytes.');
@@ -66,7 +67,8 @@ tape('Convert detail inside JSON object to KLV for fixed length pack', t => {
       t.deepEqual(klv.detail, footer, 'embeds the original object as detail.');
       t.ok(klv.meta && klv.meta.Symbol === footer.ObjectClass,
         'embeds the meta definition of the object class.');
-      t.equal(klv.key, meta.ulToUUID(klv.meta.Identification), 'class key and KLV key match.');
+      t.equal(klv.key.slice(0, 11) + '7f' + klv.key.slice(13),
+        meta.ulToUUID(klv.meta.Identification), 'class key and KLV key match.');
       t.ok(Buffer.isBuffer(klv.value[0]) && klv.value[0].length === klv.length,
         'value is a buffer of the correct length.');
       t.equal(klv.lengthLength, 4, 'header metadata sets have BER length of 4 bytes.');
@@ -89,7 +91,7 @@ tape('Roundtrip detail to and from bytes for fixed length pack', t => {
 var timecode = {
   ObjectClass: 'Timecode',
   InstanceID: '2eef6a04-5614-141e-4daa-00b00901b339',
-  ComponentDataDefinition: '060e2b34-0401-0101-0103-020101000000',
+  ComponentDataDefinition: 'SMPTE12MTimecodeTrackInactiveUserBits',
   ComponentLength: 250,
   FramesPerSecond: 25,
   StartTimecode: 0,

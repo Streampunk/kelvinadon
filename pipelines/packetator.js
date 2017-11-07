@@ -56,8 +56,8 @@ function packetator () {
       meta.resolveByName('ClassDefinition', detail.ObjectClass)
         .then(cls => {
           var key = meta.ulToUUID(cls.Identification);
-          switch (uuid.parse(key)[5]) {
-          case 0x05: // Fixed length pack
+          switch (cls.KLVSyntax) {
+          case '05': // Fixed length pack
             return meta.getPackOrder(cls.Symbol).then(po => {
               var resolve = po.map(item => {
                 return meta.resolveByName('PropertyDefinition', item).then(pd => {
@@ -77,6 +77,7 @@ function packetator () {
                 for (let prop of work) {
                   pos += prop[1](detail[prop[0]], buf, pos);
                 }
+                key = key.slice(0, 11) + '05' + key.slice(13);
                 var klv = new KLVPacket(key, length, [buf], lengthLength, filePos);
                 klv.meta = cls;
                 klv.detail = detail;
@@ -84,8 +85,9 @@ function packetator () {
                 next();
               });
             });
-          case 0x06:
-          case 0x53: // local sets with 2-byte keys and values
+          case '06':
+          case '53':
+          case '06 53': // local sets with 2-byte keys and values
             var propProm = Object.keys(detail).filter(k => k != 'ObjectClass').map(k => {
               return meta.resolveByName('PropertyDefinition', k);
             });
@@ -136,11 +138,11 @@ function packetator () {
               push(null, klv);
               next();
             });
-          case 0x13: // Unxupported local set with BER property lengths
+          case '13': // Unxupported local set with BER property lengths
             push(`Encoding local sets with BER property lengths is not supported. Object class ${detail.ObjectClass}.`);
             next();
             break;
-          case 0x02: // Most likely an essence element
+          case '02': // Most likely an essence element
             var trackStart = key.length - 8;
             var itemType = (t => {
               switch (t) {

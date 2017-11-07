@@ -95,7 +95,8 @@ function convertGroups (groups) {
       NamespaceName: x.NamespaceName,
       MetaType: 'ClassDefinition',
       ParentClass: x.Parent ? ulToName('ClassDefinition', x.Symbol, x.Parent) : undefined,
-      IsConcrete: x.IsConcrete ? (x.IsConcrete === 'true') : undefined
+      IsConcrete: x.IsConcrete ? (x.IsConcrete === 'true') : undefined,
+      KLVSyntax: x.KLVSyntax
     };
     if (x.KLVSyntax === '05' && x.Contents) { // fixed length pack
       base.PackOrder = x.Contents.Record.map(k => ulToName('ClassDefinition', x.Symbol, k.UL));
@@ -218,7 +219,7 @@ function convertElements (elements) {
     Kind: x.Kind,
     NamespaceName: x.NamespaceName,
     MetaType: 'PropertyDefinition',
-    Type: x.Type ? ulToName('PropertyDefinition', x.Symbol, x.Type) : undefined,
+    Type: x.Type ? ulToName('PropertyDefinition', x.Symbol, x.Type) : 'UInt8Array',
     MemberOf: memberOf[x.UL],
     LocalIdentification: localID[x.UL],
     IsOptional: isOptional[x.UL],

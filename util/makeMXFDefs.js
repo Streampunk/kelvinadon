@@ -98,7 +98,7 @@ var randomIndexItem = {
 var indexEntryArray = {
   Symbol: 'IndexEntryArray',
   Name: 'IndexEntryArray',
-  Identification: 'urn:smpte:ul:060e2b34.01040101.0f721102.06000000',
+  Identification: 'urn:smpte:ul:060e2b34.01040101.04020700.00000000',
   Description: '',
   ElementType: 'IndexEntry',
   MetaType: 'TypeDefinitionVariableArray'
@@ -107,7 +107,7 @@ var indexEntryArray = {
 var indexEntry = {
   Symbol: 'IndexEntry',
   Name: 'IndexEntry',
-  Identification: 'urn:smpte:ul:060e2b34.01040101.0f721102.07000000',
+  Identification: 'urn:smpte:ul:060e2b34.01040101.04100600.00000000',
   Description: '',
   Members: {
     Name: [
@@ -129,7 +129,7 @@ var indexEntry = {
 var deltaEntryArray = {
   Symbol: 'DeltaEntryArray',
   Name: 'DeltaEntryArray',
-  Identification: 'urn:smpte:ul:060e2b34.01040101.0f721102.08000000',
+  Identification: 'urn:smpte:ul:060e2b34.01040101.04020800.00000000',
   Description: '',
   ElementType: 'DeltaEntry',
   MetaType: 'TypeDefinitionVariableArray'
@@ -138,7 +138,7 @@ var deltaEntryArray = {
 var deltaEntry = {
   Symbol: 'DeltaEntry',
   Name: 'DeltaEntry',
-  Identification: 'urn:smpte:ul:060e2b34.01040101.0f721102.09000000',
+  Identification: 'urn:smpte:ul:060e2b34.01040101.04100a00.00000000',
   Description: '',
   Members: {
     Name: [
@@ -158,10 +158,11 @@ var deltaEntry = {
 var randomIndexPack = {
   Symbol: 'RandomIndexPack',
   Name: 'RandomIndexPack',
-  Identification: 'urn:smpte:ul:060e2b34.02050101.0d010201.01110100',
+  Identification: 'urn:smpte:ul:060e2b34.027f0101.0d010201.01110100',
   Description: '',
   IsConcrete: true,
   MetaType: 'ClassDefinition',
+  KLVSyntax: '05',
   PackOrder: [ 'PartitionIndex', 'Length' ]
 };
 
@@ -641,14 +642,16 @@ var partitionIndex = {
 //   MetaType: 'TypeDefinitionInteger'
 // };
 //
-// var essenceElement = {
-//   Symbol: 'EssenceElement',
-//   Name: 'Essence Element',
-//   Identification: 'urn:smpte:ul:060e2b34.01020101.0d010301.00000000',
-//   Description: '',
-//   IsConcrete: true,
-//   MetaType: 'ClassDefinition'
-// };
+var essenceElement = {
+  Symbol: 'EssenceElement',
+  Name: 'Essence Element',
+  Identification: 'urn:smpte:ul:060e2b34.01020101.0d010301.00000000',
+  Description: '',
+  IsConcrete: true,
+  MetaType: 'ClassDefinition',
+  Kind: 'NODE',
+  KLVSyntax: '02'
+};
 //
 // var instanceID = {
 //   Symbol: 'InstanceID',
@@ -669,6 +672,7 @@ var systemMetadata = {
   Description: '',
   IsConcrete: true,
   MetaType: 'ClassDefinition',
+  KLVSyntax: '05', // Fixed lenght pack
   PackOrder: [ 'Bitmap', 'Rate', 'Type', 'ChannelHandle', 'ContinuityCount',
     'Label', 'CreationDate', 'UserDate' ]
 };
@@ -719,17 +723,17 @@ var smType = {
   MetaType: 'PropertyDefinition'
 };
 
-var channelHandle = {
-  Symbol: 'ChannelHandle',
-  Name: 'Channel Handle',
-  Identification: 'urn:smpte:ul:060e2b34.01010101.0f721102.04050000',
-  Description: '',
-  MemberOf: 'SystemMetadata',
-  IsOptional: false,
-  Type: 'UInt16',
-  LocalIdentification: 0,
-  MetaType: 'PropertyDefinition'
-};
+// var channelHandle = {
+//   Symbol: 'ChannelHandle',
+//   Name: 'Channel Handle',
+//   Identification: 'urn:smpte:ul:060e2b34.01010101.0f721102.04050000',
+//   Description: '',
+//   MemberOf: 'SystemMetadata',
+//   IsOptional: false,
+//   Type: 'UInt16',
+//   LocalIdentification: 0,
+//   MetaType: 'PropertyDefinition'
+// };
 
 var contCount = {
   Symbol: 'ContinuityCount',
@@ -820,14 +824,16 @@ var metaDefs = [ // Primer Pcak defs
   //bodyOpenCompletePartitionPack, bodyClosedCompletePartitionPack,
   //footerClosedIncompletePartitionPack, footerClosedCompletePartitionPack,
   // System metadata
-  system17byteValue, bitmap, rate, smType, channelHandle, contCount,
+  system17byteValue, bitmap, rate, smType, /* channelHandle, */contCount,
   smLabel, smCreationDate, smUserDate, systemMetadata,
   // Fill & missing
-  //klvFill, klvFillOld, uint64, essenceElement, InstanceID,
+  //klvFill, klvFillOld, uint64, InstanceID,
   //vbiDataDescriptor, ancDataDescriptor
+  essenceElement
 ];
 
 metaDefs.forEach((def) => {
+  if (!def.Kind) { def.Kind = 'LEAF'; }
   if (def.Identification) {
     def.UUID = ulToUUID(def.Identification);
   } else {

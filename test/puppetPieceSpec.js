@@ -45,8 +45,8 @@ var testPreface =  {
       LinkedPackageID: [
         '060a2b34-0101-0105-0101-0d4313000000',
         '4ec362ae-5774-05c7-0800-460202998cb7' ],
-      IndexSID: 1,
-      BodySID: 2 } ]
+      IndexStreamID: 1,
+      EssenceStreamID: 2 } ]
   },
   OperationalPattern: '060e2b34-0401-0101-0d01-020101010900',
   EssenceContainers: [
