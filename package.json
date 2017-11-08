@@ -1,10 +1,13 @@
 {
   "name": "kelvinadon",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Streaming MXF library for Node.js.",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "tape test/*.js",
+    "lint": "eslint **/*.js",
+    "lint-fix": "eslint --fix **/*.js",
+    "update-dicts": "node util/updateRegisters.js; node util/makeMXFDefs.js"
   },
   "repository": {
     "type": "git",
@@ -25,11 +28,15 @@
   "homepage": "https://github.com/Streampunk/kelvinadon#readme",
   "dependencies": {
     "highland": "^2.8.1",
-    "tape": "^4.5.1",
     "util.promisify": "^1.0.0",
     "uuid": "^2.0.2",
     "xml2js": "^0.4.16",
     "yargs": "^10.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-google": "^0.9.1",
+    "tape": "^4.8.0"
   },
   "bin": {
     "kelvinadump": "./kelvinadump.js"

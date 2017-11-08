@@ -16,7 +16,6 @@
 var H = require('highland');
 var meta = require('../util/meta.js');
 var KLVPacket = require('../model/KLVPacket.js');
-var uuid = require('uuid');
 
 function packetator () {
   var primer = meta.resetPrimer();
