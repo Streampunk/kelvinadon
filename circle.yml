@@ -4,6 +4,7 @@ machine:
 
 test:
   override:
+    - npm run lint
     - npm install -g tap-xunit
     - mkdir $CIRCLE_TEST_REPORTS/xunit
     - npm test | tap-xunit > $CIRCLE_TEST_REPORTS/xunit/results.xml

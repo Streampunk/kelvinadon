@@ -27,7 +27,7 @@ Kelvinadon is intended for use with the latest long term support (LTS) version o
 
     npm install -g kelvinadon
 
-Uses or Mac or Linux platforms may need to prepend `sudo` to the above.
+Users or Mac or Linux platforms may need to prepend `sudo` to the above.
 
 To install locally for use in your own project:
 

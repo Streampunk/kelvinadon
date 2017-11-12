@@ -39,6 +39,7 @@ function essenceFilter(trackName) {
           x.track = track.track;
           x.description = track.description;
           x.startTimecode = track.startTimecode;
+          x.sourcePackageID = track.srcID;
         }
         push(null, x);
         next();
@@ -51,6 +52,7 @@ function essenceFilter(trackName) {
         x.track = track.track;
         x.description = track.description;
         x.startTimecode = track.startTimecode;
+        x.sourcePackageID = track.srcID;
       }
       push(null, x);
       next();
