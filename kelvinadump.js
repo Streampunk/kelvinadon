@@ -35,7 +35,7 @@ var argv = require('yargs')
   .usage('Dump an MXF file as a stream of JSON objects.\n' +
     'Usage: $0 [options] <file.mxf>')
   .describe('filler', 'include filler in the output')
-  .describe('metadata', 'resolves keys to meta classes')
+  .describe('metaclass', 'resolves keys to meta classes')
   .describe('detailing', 'decode bytes to JS objects')
   .describe('nest', 'nest children within preface')
   .describe('flatten', 'show only detail for each KLV packet')

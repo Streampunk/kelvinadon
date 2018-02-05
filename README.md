@@ -15,7 +15,7 @@ An MXF file dumper CLI tool `kelvinadump` is provided. Reading part of a stream,
 * resolve index tables to byte offsets in the stream;
 * contain any logic for processing multi-file MXF formats such as AMWA AS-02 of SMPTE IMF.
 
-All of the above features can be built out of this package much more easily than starting from scratch and Streampunk Media will be considering how to build these as user requirements emerge. This implementation was created to allow MXF files to be used from the [_dynamorse_ file nodes](https://github.com/Streampunk/node-red-contrib-dynamorse-file-io) of an IoT framework for professional media processing.
+All of the above features can be built out of this package much more easily than starting from scratch and Streampunk Media will be considering how to build these as user requirements emerge. This implementation was created to allow MXF files to be used from the [_dynamorse_ file nodes](https://github.com/Streampunk/node-red-contrib-dynamorse-file-io) of an IoT framework for professional media processing. Another appliation is an example byte-to-time API (byzantime)[https://github.com/Streampunk/byzantime] that provides RESTful access to the contents of an MXF file using PTP timestamps.
 
 One particular feature of this application is that the metadata dictionaries are loaded on-the-fly and can be changed or updated. A utility script provided with kelvinadon can be used to update the metadata dictionaries from the [online sources](https://registry.smpte-ra.org/apps/pages/published/). This means that any recently added registered metadata, including updates to AS-11 metadata structures and descriptive frameworks such as EBU core, can be viewed as JSON without being dark.
 
