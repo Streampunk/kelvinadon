@@ -1,6 +1,6 @@
 {
   "name": "kelvinadon",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Streaming MXF library for Node.js.",
   "main": "index.js",
   "scripts": {
