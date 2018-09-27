@@ -19,7 +19,7 @@ All of the above features can be built out of this package much more easily than
 
 One particular feature of this application is that the metadata dictionaries are loaded on-the-fly and can be changed or updated. A utility script provided with kelvinadon can be used to update the metadata dictionaries from the [online sources](https://registry.smpte-ra.org/apps/pages/published/). This means that any recently added registered metadata, including updates to AS-11 metadata structures and descriptive frameworks such as EBU core, can be viewed as JSON without being dark.
 
-The name _kelvinadon_ is a play on the format of MXF files using a KLV structure and a nod to [Sir William Thomson, 1st Baron Kelvin](https://en.wikipedia.org/wiki/William_Thomson,_1st_Baron_Kelvin) - this library being developed in Scotland based on the highland library. This is an add on module for other Streampunk Media projects.
+The name _kelvinadon_ is a play on the format of MXF files using a KLV structure and a nod to [Sir William Thomson, 1st Baron Kelvin](https://en.wikipedia.org/wiki/William_Thomson,_1st_Baron_Kelvin) - this library being developed in Scotland and Northern Ireland based on the highland library. This is an add on module for other Streampunk Media projects.
 
 ## Installation
 
