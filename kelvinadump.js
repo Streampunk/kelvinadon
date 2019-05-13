@@ -53,7 +53,7 @@ if (argv.detailing) argv.metaclass = true;
 
 var klvs = H(fs.createReadStream(argv._[0])).through(kelviniser());
 if (argv.metaclass) klvs = klvs.through(metatiser());
-if (!argv.filler) klvs = klvs.through(stripTheFiller);
+if (!argv.filler) klvs = klvs.through(stripTheFiller());
 if (argv.detailing) klvs = klvs.through(detailing());
 if (argv.nest) klvs = klvs.through(puppeteer());
 

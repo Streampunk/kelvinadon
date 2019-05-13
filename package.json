@@ -1,6 +1,6 @@
 {
   "name": "kelvinadon",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Streaming MXF library for Node.js.",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "yargs": "^11.0.0"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
+    "eslint": "^5.16.0",
     "eslint-config-google": "^0.9.1",
     "tape": "^4.9.0"
   },

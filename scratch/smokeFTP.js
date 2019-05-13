@@ -25,7 +25,7 @@ c.on('ready', () => {
       var base = H(stream)
         .through(klv.kelviniser())
         .through(klv.metatiser())
-        .through(klv.stripTheFiller)
+        .through(klv.stripTheFiller())
         .through(klv.detailing())
         .through(klv.puppeteer())
         .through(klv.trackCacher());

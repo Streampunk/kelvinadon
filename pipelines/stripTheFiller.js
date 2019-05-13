@@ -13,7 +13,13 @@
   limitations under the License.
 */
 
-var H = require('highland');
+const H = require('highland');
 
-module.exports =
-  H.pipeline(H.filter(x => x.meta && x.meta.Symbol.indexOf('FillerData') < 0));
+const strip = function () {
+  let fillerStripper = function (x) {
+    return x.meta && (x.meta.Symbol.indexOf('FillerData') < 0);
+  };
+  return H.pipeline(H.filter(fillerStripper));
+};
+
+module.exports = strip;

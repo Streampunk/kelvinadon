@@ -222,7 +222,7 @@ var klv = require('klevinadon');
 var base = H(fs.createReadStream(process.argv[2]))
 .through(klv.kelviniser())
 .through(klv.metatiser())
-.through(klv.stripTheFiller)
+.through(klv.stripTheFiller())
 .through(klv.detailing())
 .through(klv.puppeteer())
 .through(klv.trackCacher());

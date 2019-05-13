@@ -22,7 +22,7 @@ var get = http.get(
     var base = H(res)
       .through(klv.kelviniser())
       .through(klv.metatiser())
-      .through(klv.stripTheFiller)
+      .through(klv.stripTheFiller())
       .through(klv.detailing())
       .through(klv.puppeteer())
       .through(klv.trackCacher());

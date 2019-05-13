@@ -39,7 +39,7 @@ function MXFEmitter (stream) {
   this.highland = H(stream)
     .through(kelviniser())
     .through(metatiser())
-    .through(stripTheFiller)
+    .through(stripTheFiller())
     .through(detailing())
     .through(puppeteer())
     .through(trackCacher())
