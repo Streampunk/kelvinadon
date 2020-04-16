@@ -27,16 +27,16 @@
   },
   "homepage": "https://github.com/Streampunk/kelvinadon#readme",
   "dependencies": {
-    "highland": "^2.13.0",
-    "util.promisify": "^1.0.0",
+    "highland": "^2.13.5",
+    "util.promisify": "^1.0.1",
     "uuid": "^2.0.2",
-    "xml2js": "^0.4.19",
-    "yargs": "^11.0.0"
+    "xml2js": "^0.4.23",
+    "yargs": "^11.1.1"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
     "eslint-config-google": "^0.9.1",
-    "tape": "^4.9.0"
+    "tape": "^4.13.2"
   },
   "bin": {
     "kelvinadump": "./kelvinadump.js"
