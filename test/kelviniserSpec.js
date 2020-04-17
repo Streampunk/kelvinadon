@@ -69,7 +69,7 @@ tape('Test packet roundtrip with collected buffers', t => {
 
 var tp1 = new KLVPacket(uuid.v4(), 42, Buffer.allocUnsafe(42), 1, 0);
 var tp2 = new KLVPacket(uuid.v4(), 1000, Buffer.allocUnsafe(1000), 4, tp1.size());
-var tp3 = new KLVPacket(uuid.v4(), 4200000, Buffer.allocUnsafe(4200000), 9, tp2.filePos + tp2.size());
+var tp3 = new KLVPacket(uuid.v4(), 4200000, Buffer.allocUnsafe(4200000), 7, tp2.filePos + tp2.size());
 
 var bigBuf = null;
 H([tp1, tp2, tp3]).through(kelvinator())

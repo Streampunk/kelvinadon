@@ -142,7 +142,7 @@ var readingFns = {
           TemporalOffset: buf.readInt8(pos),
           KeyFrameOffset: buf.readInt8(pos + 1),
           Flags: buf.readUInt8(pos + 2),
-          StreamOffset: buf.readUIntBE(pos + 3, 8)
+          StreamOffset: buf.readUIntBE(pos + 3, 6)
         };
       };
     case 'DeltaEntry':
@@ -157,7 +157,7 @@ var readingFns = {
       return (buf, pos) => {
         return {
           BodySID: buf.readUInt32BE(pos),
-          ByteOffset: buf.readUIntBE(pos + 4, 8)
+          ByteOffset: buf.readUIntBE(pos + 4, 6)
         };
       };
     default:
@@ -339,7 +339,7 @@ var writingFns = {
         buf.writeInt8(v.TemporalOffset, pos + 0);
         buf.writeInt8(v.KeyFrameOffset, pos + 1);
         buf.writeUInt8(v.Flags, pos + 2);
-        buf.writeUIntBE(v.StreamOffset, pos + 3, 8);
+        buf.writeUIntBE(v.StreamOffset, pos + 3, 6);
         return 11;
       };
     case 'DeltaEntry':
@@ -352,7 +352,7 @@ var writingFns = {
     case 'RandomIndexItem':
       return (v, buf, pos) => {
         buf.writeUInt32BE(v.BodySID, pos + 0),
-        buf.writeUIntBE(v.ByteOffset, pos + 4, 8);
+        buf.writeUIntBE(v.ByteOffset, pos + 4, 6);
         return 12;
       };
     default:
@@ -803,7 +803,7 @@ var makePrimerPack = function (items) {
 
 function ulToUUID (ul) {
   if (ul.startsWith('urn:smpte:ul:')) ul = ul.slice(13);
-  return uuid.unparse(new Buffer(ul.replace(/\./g, ''), 'hex'));
+  return uuid.unparse(new Buffer.from(ul.replace(/\./g, ''), 'hex'));
 }
 
 function writeUUID(u, b, pos) {

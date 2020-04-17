@@ -74,7 +74,7 @@ function kelviniser (errors) {
     filePos += x.length - ((hangover.length === 1 && remaining === 0) ? hangover[0].length : 0);
     return H(klvs);
   };
-  return H.pipeline(H.flatMap(kelvinMapper));
+  return H.flatMap(kelvinMapper);
 }
 
 module.exports = kelviniser;

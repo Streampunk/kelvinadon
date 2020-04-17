@@ -24,7 +24,7 @@ function kelvinator () {
     x.lengthFromValue();
     return H([ writeKeyAndLength(x) ].concat(x.value));
   }
-  return H.pipeline(H.flatMap(mapper));
+  return H.flatMap(mapper);
 }
 
 module.exports = kelvinator;

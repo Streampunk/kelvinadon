@@ -40,7 +40,7 @@ const sizes = [0, 0, 256, 65536, 16777216, 4294967296, 1099511627776,
 function testXBytes (s) {
   var l = Math.random() * sizes[s];
   l = l - l % 1;
-  tape(`Reading and writing a ${s} byte value with lenth ${l}`, t => {
+  tape(`Reading and writing ${s} byte value with length ${l}`, t => {
     var id = uuid.v4();
     var b = klvUtil.writeKeyAndLength({ key : id, lengthLength: s, length: l });
     t.ok(b, 'buffer is created.');
@@ -59,7 +59,7 @@ function testXBytes (s) {
   });
 }
 
-for ( var s = 2 ; s <= 9; s++ )
+for ( var s = 2 ; s <= 7; s++ )
   testXBytes(s);
 
 tape('Testing write length error conditions', t => {
