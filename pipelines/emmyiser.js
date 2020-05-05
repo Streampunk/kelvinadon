@@ -36,6 +36,9 @@ function emmyiser (emitter) {
     if (klv.meta.Symbol === 'IndexTableSegment') {
       return emitter.emit('index', klv);
     }
+    if (klv.meta.Symbol === 'RandomIndexPack') {
+      return emitter.emit('rip', klv);
+    }
     if (klv.meta.Symbol === 'EssenceElement') {
       var trackID = parseInt(klv.detail.Track, 16);
       var track = emmy.cachedTracks[trackID];

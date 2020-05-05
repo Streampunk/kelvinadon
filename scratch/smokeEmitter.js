@@ -45,5 +45,10 @@ mxfEvents.once('picture0', data => {
 //   console.log(util.inspect(data, { depth : null }));
 // });
 
+mxfEvents.once('rip', data => {
+  console.log(`*** RIP ***\n`);
+  console.log(util.inspect(data, { depth : null }));
+});
+
 // EVent called at the end of the stream
 mxfEvents.on('done', () => { console.log('Streaming complete.'); });
